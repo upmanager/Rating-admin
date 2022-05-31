@@ -1,0 +1,13 @@
+.facilities tr {
+    cursor: pointer;
+}
+.facilities tr span:first-child {
+    float: left;
+}
+.facilities tr span:nth-child(2) {
+    float: right;
+}
+.facilities .active {
+    background-color: #007bff;
+    color: white;
+}
