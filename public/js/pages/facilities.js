@@ -8,7 +8,7 @@ $(function () {
         "responsive": true,
     });
     $(".add-facility").on('click', e => {
-        editItem({ id: 0, name: '', managerid:0 });
+        editItem({ id: 0, name: '', managerid: 0, qty: 0, license_number: '', record_number: '', content: '' });
     })
 });
 
@@ -28,7 +28,7 @@ const deleteItem = (ele) => {
     })
 }
 const editItem = (data) => {
-    if(data.id > 0) {
+    if (data.id > 0) {
         $(".default-password").addClass("hide");
         $(".reset-password").removeClass("hide");
     } else {
@@ -38,5 +38,11 @@ const editItem = (data) => {
     $("#id").val(data.id);
     $("#name").val(data.name);
     $("#managerid").val(data.managerid);
+
+    $("#qty").val(data.qty || 0);
+    $("#license_number").val(data.license_number);
+    $("#record_number").val(data.record_number);
+    $("#content").val(data.content);
+
     $("#update-form").modal('show');
 }

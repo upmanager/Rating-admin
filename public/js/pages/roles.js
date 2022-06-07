@@ -13,6 +13,22 @@ $(function () {
     })
 });
 
+const userAction = (id, approve) => {
+    $.ajax({
+        url: UPDATEPATH,
+        data: { id, approve },
+        method: 'put',
+        success: function (result) {
+            toastr.success('update success')
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        },
+        error: function (xhr, status, error) {
+            toastr.error('Update error' + error.toString());
+        }
+    });
+}
 const deleteItem = (ele) => {
     Swal.fire({
         title: 'Are you sure?',

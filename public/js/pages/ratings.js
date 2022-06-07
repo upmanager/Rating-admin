@@ -11,14 +11,6 @@ $(function () {
     $(".add-facility").on('click', e => {
         editItem({ id: 0, name: '', managerid: 0 });
     })
-    $(".block-rating").on('click', e => {
-        const id = $(e.target).attr('tag');
-        ratingAction(id, false);
-    });
-    $(".approve-rating").on('click', e => {
-        const id = $(e.target).attr('tag');
-        ratingAction(id, true);
-    });
 });
 const ratingAction = (id, approve) => {
     $.ajax({

@@ -25,10 +25,24 @@
         <div class="login-logo">
             {{config('app.name')}}
         </div>
-        
+
         @yield('content')
     </div>
     <!-- /.login-box -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
+
+    <script>
+        $(function () {
+		var phones = [{ "mask": "## #######"}];
+		$('.phonenumber').inputmask({ 
+				mask: phones, 
+				greedy: false, 
+				definitions: { '#': { validator: "[0-9]", cardinality: 1}}
+		});
+	})
+    </script>
 </body>
 
 </html>

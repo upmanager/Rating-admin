@@ -2,15 +2,24 @@
 
 @section('content')
 <!-- /.login-logo -->
+<style>
+    .invalid-feedback {
+        display: block
+    }
+</style>
 <div class="card">
     <div class="card-body login-card-body">
         <p class="login-box-msg">{{ __('Login') }}</p>
-
+        @if (session('errors'))
+        <span class="invalid-feedback" role="alert">
+            <strong> {{session('errors')->first('error')}} </strong>
+        </span>
+        @endif
         <form action="{{route('login')}}" method="post">
             @csrf
             <div class="input-group mb-3">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                    value="{{old('email')}}" placeholder="Email" required autocomplete="email" autofocus>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" placeholder="Email" required
+                    autocomplete="email" autofocus>
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-envelope"></span>
                 </div>
@@ -22,8 +31,8 @@
             @enderror
 
             <div class="input-group mb-3">
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                    placeholder="Password" name="password" required autocomplete="current-password">
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required
+                    autocomplete="current-password">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-lock"></span>
                 </div>
@@ -37,8 +46,7 @@
             <div class="row">
                 <div class="col-8">
                     {{-- <div class="icheck-primary">
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                        {{ old('remember') ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember">
                             Remember Me
                         </label>
@@ -56,12 +64,12 @@
 
         @if (Route::has('password.request'))
         <p class="mb-0">
-            <a href="{{ route('password.request') }}">{{ __('Lupa Password?') }}</a>
+            <a href="{{ route('password.request') }}">{{ __('Forgot Password?') }}</a>
         </p>
         @endif
         @if (Route::has('register'))
         <p class="mb-0">
-            <a href="{{ route('register') }}" class="text-center">{{ __('Belum punya akun? Daftar sekarang') }}</a>
+            <a href="{{ route('register') }}" class="text-center">{{ __('Create a new account >') }}</a>
         </p>
         @endif
     </div>

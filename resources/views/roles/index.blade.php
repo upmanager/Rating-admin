@@ -30,6 +30,8 @@
 					<th>Phone</th>
 					<th>Role</th>
 					<th>Create date</th>
+					<th style="width: 60px">Status</th>
+					<th>Approve/Block</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -41,7 +43,26 @@
 					<td>{{$user->email}}</td>
 					<td>{{$user->phonenumber}}</td>
 					<td>{{$user->role == 1 ? "Client" : "Worker"}}</td>
-					<td>{{date('H:i d M Y', strtotime($user->created_at))}}</td>
+					<td>{{$user->status == 1 ? "Client" : "Worker"}}</td>
+					<td>
+						@if($user->status == 0)
+						Pending
+						@elseif($user->status == 1)
+						Approved
+						@else
+						Blocked
+						@endif
+					</td>
+					<td>
+						@if($user->status == 0)
+						<input type="button" value="Approve" class="btn btn-sm btn-success" onclick="userAction({{$user->id}}, true)">
+						<input type="button" value="Block" class="btn btn-sm btn-danger" tag="{{$user->id}}" onclick="userAction({{$user->id}}, false)">
+						@elseif($user->status == 1)
+						<input type="button" value="Block" class="btn btn-sm btn-danger"  onclick="userAction({{$user->id}}, false)">
+						@else
+						<input type="button" value="Approve" class="btn btn-sm btn-success"  onclick="userAction({{$user->id}}, true)">
+						@endif
+					</td>
 					<td>
 						<form action="{{ route('roles.destroy', $user) }}" method="post">
 							@csrf
@@ -90,6 +111,7 @@
 						</div>
 						<p style="color: red;" class="default-password">* default password is 12345</p>
 						{{-- <a href="#" style="color: red" class="reset-password">* reset password to 12345</a> --}}
+
 					</div>
 					<div class="modal-footer justify-content-between">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
@@ -103,5 +125,8 @@
 <!-- /.content -->
 @endsection
 @section('addJavascript')
+<script>
+	const UPDATEPATH = "{!! route('roles.update', 0) !!}";
+</script>
 <script src="{{asset('js/pages/roles.js')}}"></script>
 @endsection

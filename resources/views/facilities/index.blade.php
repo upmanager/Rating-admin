@@ -29,6 +29,12 @@
 					<th style="width: 50px">No</th>
 					<th>Name</th>
 					<th>Manager</th>
+					<th>Email</th>
+					<th>Phone Number</th>
+					<th>Qty</th>
+					<th>Record number</th>
+					<th>License number</th>
+					<th style="max-width: 50px">Content</th>
 					<th style="width: 140px">Create date</th>
 					<th style="width: 160px">Action</th>
 				</tr>
@@ -39,6 +45,13 @@
 					<td>{{$index + 1}}</td>
 					<td>{{$facility->name}}</td>
 					<td>{{$facility->Manager->name}}</td>
+					<td>{{$facility->Manager->email}}</td>
+					<td>{{$facility->Manager->phonenumber}}</td>
+					<td>{{$facility->qty}}</td>
+					<td>{{$facility->record_number}}</td>
+					<td>{{$facility->license_number}}</td>
+					<td>{{$facility->content}}</td>
+
 					<td>{{date('H:i d M Y', strtotime($facility->created_at))}}</td>
 					<td>
 						@if (Auth::user()->role == 0)
@@ -86,6 +99,22 @@
 								<option value="{{$user->id}}">{{$user->name}}</option>
 								@endforeach
 							</select>
+						</div>
+						<div class="form-group">
+							<label for="name">Quantity of branches</label>
+							<input type="number" min="0" class="form-control" id="qty" name="qty" placeholder="Quantity of branches" required>
+						</div>
+						<div class="form-group">
+							<label for="name">Commercial Record number</label>
+							<input type="text" class="form-control" id="record_number" name="record_number" placeholder="Commercial Record number" required>
+						</div>
+						<div class="form-group">
+							<label for="name">Facility license number</label>
+							<input type="text" class="form-control" id="license_number" name="license_number" placeholder="Facility license number" required>
+						</div>
+						<div class="form-group">
+							<label for="name">Facilities page content</label>
+							<textarea name="content" id="content" class="form-control" rows="6"></textarea>
 						</div>
 					</div>
 					<div class="modal-footer justify-content-between">

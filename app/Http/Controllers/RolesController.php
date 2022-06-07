@@ -96,7 +96,14 @@ class RolesController extends Controller
      */
     public function update(Request $request, User $users)
     {
-        //
+        $status = 0;
+        if($request->approve === true || $request->approve === 'true') {
+            $status = 1;
+        } else {
+            $status = 2;
+        }
+        User::find($request->id)->update(['status' => $status]);
+        return 1;
     }
 
     /**

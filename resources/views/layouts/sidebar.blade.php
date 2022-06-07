@@ -32,12 +32,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->role != 2)
                 <li class="nav-item">
                     <a href="{{route('facilities.index')}}" class="nav-link {{  request()->routeIs('facilities.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-building"></i>
                         <p>Manage Facilities</p>
                     </a>
                 </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{route('ratings.index')}}" class="nav-link {{  request()->routeIs('ratings.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-star"></i>

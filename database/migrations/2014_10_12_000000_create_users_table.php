@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('role')->default(2)->comment('0: admin 1: clients 2: workers');
             $table->string('fcm_token')->nullable();
+            $table->integer('status')->default(0)->comment('0: pending 1: approved 2: blocked');
             $table->rememberToken();
             $table->timestamps();
         });

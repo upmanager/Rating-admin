@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => false, 'reset' => false]);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'StatusCheck'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect(route('dashboard.index'));
     });

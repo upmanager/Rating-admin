@@ -83,12 +83,12 @@ return '';
 						</td>
 						<td>
 							@if($rating->status == 0)
-							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" tag="{{$rating->id}}">
-							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" tag="{{$rating->id}}">
+							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating"  onclick="ratingAction({{$rating->id}}, true)">
+							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
 							@elseif($rating->status == 1)
-							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" tag="{{$rating->id}}">
+							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating"  onclick="ratingAction({{$rating->id}}, false)">
 							@else
-							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" tag="{{$rating->id}}">
+							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating"  onclick="ratingAction({{$rating->id}}, true)">
 							@endif
 						</td>
 						<td>
