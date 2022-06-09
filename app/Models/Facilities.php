@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Facilities extends Model
 {
     //
-    protected $fillable = ['name', 'etc', 'managerid', 'license_number', 'record_number', 'qty', 'content'];
+    protected $fillable = ['name', 'etc', 'managerid', 'license_number', 'record_number', 'qty', 'content', 'pdf'];
     public function Manager(){
         return $this->hasOne('App\Models\User', 'id', 'managerid');
     }

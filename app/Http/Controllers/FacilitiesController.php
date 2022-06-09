@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\RatingDetail;
 use Illuminate\Http\Request;
 use Auth;
-
+use Illuminate\Support\Facades\Storage;
 
 class FacilitiesController extends Controller
 {
@@ -46,11 +46,18 @@ class FacilitiesController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->file('paper')->getClientOriginalName());
+        $file = "";
+        if($request->file('paper')) {
+            $file = $request->file('paper')->store('facilities','public');
+        } else if($request->id > 0) {
+            $file = Facilities::find($request->id)->value('pdf');
+        }
         Facilities::updateOrCreate(
             [
                 'id' => $request->id
             ],
-            $request->all()
+            $request->merge(['pdf' => $file])->all()
         );
         return redirect()->route('facilities.index')->withStatus(__('Successfully created.'));
     }

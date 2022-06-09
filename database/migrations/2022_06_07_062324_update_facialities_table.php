@@ -18,7 +18,8 @@ class UpdateFacialitiesTable extends Migration
             $table->integer('qty')->after('managerid')->default(0)->comment('quantity of the branches of the facility,');
             $table->string('record_number')->after('qty');
             $table->string('license_number')->after('record_number');
-            $table->text('content')->after('license_number')->comment('Facilities page content');
+            $table->text('content')->after('license_number')->nullable()->comment('Facilities page content');
+            $table->string('pdf')->after('content')->nullable();
         });
     }
 

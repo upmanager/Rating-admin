@@ -34,6 +34,7 @@
 					<th>Qty</th>
 					<th>Record number</th>
 					<th>License number</th>
+					<th>PDF</th>
 					<th style="max-width: 50px">Content</th>
 					<th style="width: 140px">Create date</th>
 					<th style="width: 160px">Action</th>
@@ -50,6 +51,13 @@
 					<td>{{$facility->qty}}</td>
 					<td>{{$facility->record_number}}</td>
 					<td>{{$facility->license_number}}</td>
+					<td>
+						@if($facility->pdf)
+						<a href="{{asset('storage/'.$facility->pdf)}}" download="{{$facility->name}}">
+							<i class="nav-icon fa fa-download" style="font-size: 30px"></i>
+						</a>
+						@endif
+					</td>
 					<td>{{$facility->content}}</td>
 
 					<td>{{date('H:i d M Y', strtotime($facility->created_at))}}</td>
@@ -83,7 +91,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="{{route('facilities.store')}}" method="post">
+			<form action="{{route('facilities.store')}}" method="post" enctype="multipart/form-data">
 				@csrf
 				<input type="hidden" name="id" id="id">
 				<div class="modal-body">
@@ -111,6 +119,15 @@
 						<div class="form-group">
 							<label for="name">Facility license number</label>
 							<input type="text" class="form-control" id="license_number" name="license_number" placeholder="Facility license number" required>
+						</div>
+						<div class="input-group">
+							<div class="input-group-append">
+								<span class="input-group-text">PDF paper</span>
+							</div>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="paper" id="paper" accept="application/pdf">
+								<label class="custom-file-label" for="paper">Choose file</label>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="name">Facilities page content</label>
