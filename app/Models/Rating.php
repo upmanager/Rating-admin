@@ -15,6 +15,6 @@ class Rating extends Model
         return $this->hasOne('App\Models\Facilities', 'id', 'facilityid');
     }
     public function Details(){
-        return $this->hasOne('App\Models\RatingDetail', 'ratingid');
+        return $this->hasMany('App\Models\RatingDetail', 'ratingid');
     }
 }

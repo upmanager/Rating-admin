@@ -40,6 +40,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->role == 0)
+                <li class="nav-item">
+                    <a href="{{route('questions.index')}}" class="nav-link {{  request()->routeIs('questions.*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-building"></i>
+                        <p>Manage Questions</p>
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{route('ratings.index')}}" class="nav-link {{  request()->routeIs('ratings.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-star"></i>
