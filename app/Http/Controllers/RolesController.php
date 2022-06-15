@@ -56,11 +56,14 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request;
+        if($request->id <= 0 || ($request->has('update_password') && $request->update_password == "on")) {
+            $data = $request->merge(['password' => bcrypt($request->user_password)]);
+        }
+        $data = $data->all();
         User::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            $request->merge(['password' => bcrypt('12345')])->all()
+            ['id' => $request->id],
+            $request->merge($data)->all()
         );
         return redirect()->route('roles.index')->withStatus(__('Successfully created.'));
     }

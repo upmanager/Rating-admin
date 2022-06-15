@@ -30,7 +30,7 @@
                 <i class="fa fa-cog"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                <a href="#" class="dropdown-item">Settings</a>
+                <a href="{{route('settings.index')}}" class="dropdown-item">Settings</a>
                 <div class="dropdown-divider"></div>
                 <form id="logout-form" action="{{route('logout')}}" method="post">
                     @csrf

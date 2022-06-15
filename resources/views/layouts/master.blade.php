@@ -53,13 +53,23 @@
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	{{-- Toast --}}
 	<script src="{{asset('js/toastr.min.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
 
 	<script>
-		$.ajaxSetup({
+		$(function () {
+			$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
 		});
+		var phones = [{ "mask": "## #######"}];
+		$('.phonenumber').inputmask({ 
+				mask: phones,
+				greedy: false, 
+				definitions: { '#': { validator: "[0-9]", cardinality: 1}}
+		});
+	})
 	</script>
 	@yield('addJavascript')
 </body>

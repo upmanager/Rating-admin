@@ -101,7 +101,7 @@
 							<label for="useremail">Email address</label>
 							<input type="email" class="form-control" id="useremail" name="email" placeholder="Enter email" required>
 						</div>
-						<div class="form-group">
+						<div class="form-group mb-5">
 							<label for="useremail">Role</label>
 							<select class="form-control" id="userrole" name="role" required>
 								<option value="0">Admin</option>
@@ -109,9 +109,16 @@
 								<option value="2">Worker</option>
 							</select>
 						</div>
-						<p style="color: red;" class="default-password">* default password is 12345</p>
-						{{-- <a href="#" style="color: red" class="reset-password">* reset password to 12345</a> --}}
-
+						<div class="form-group update-password">
+							<div class="custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" id="update_password" name="update_password">
+								<label class="custom-control-label" for="update_password">Update password</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="user_password" placeholder="Enter password" required>
+						</div>
 					</div>
 					<div class="modal-footer justify-content-between">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />

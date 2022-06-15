@@ -7,7 +7,15 @@ $(function () {
         "autoWidth": false,
         "responsive": true,
     });
-
+    $("#update_password").on('change', e => {
+		$( "#password" ).val('');
+		$( "#password" ).prop("disabled", !e.target.checked);
+        if(e.target.checked) {
+            $('#password').prop('required',true);
+        } else {
+            $('#password').removeAttr('required');
+        }
+	})
     $(".add-user").on('click', e => {
         editItem({ id: 0, role: 0 });
     })
@@ -45,12 +53,14 @@ const deleteItem = (ele) => {
     })
 }
 const editItem = (user) => {
+    $( "#password" ).prop("disabled", user.id > 0);
+    $("#update-password").prop('checked', user.id <= 0);
     if(user.id > 0) {
-        $(".default-password").addClass("hide");
-        $(".reset-password").removeClass("hide");
+        $('#password').removeAttr('required');
+        $(".update-password").removeClass("hide");
     } else {
-        $(".default-password").removeClass("hide");
-        $(".reset-password").addClass("hide");
+        $(".update-password").addClass("hide");
+        $('#password').prop('required',true);
     }
     $("#userid").val(user.id);
     $("#username").val(user.name);
