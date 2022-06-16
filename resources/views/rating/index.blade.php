@@ -170,7 +170,7 @@ return '';
 										@if ($detail->res_key == 'location')
 										<div class="form-group">
 											<label for="name">Location</label>
-											<label class="form-control">{{$detail->res_value}}</label>
+											<label style="width: 100%">{{$detail->res_value}}</label>
 										</div>
 										@endif
 										@if ($detail->res_key == 'ratings')
@@ -182,7 +182,7 @@ return '';
 												$data = explode(",", $detail->res_value);
 											@endphp
 											<div class="col-md-2">
-												@if ($data && count($data) <= 0)
+												@if (!$data || count($data) <= 0)
 												<h6>Match</h6>
 												@else
 												<h6>Non Match</h6>
