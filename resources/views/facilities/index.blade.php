@@ -101,13 +101,14 @@
 						<div class="form-group">
 							<label for="useremail">Manager</label>
 							@if (Auth::user()->role == 0)
-							@endif
-
-							<select class="form-control" id="managerid" name="managerid" required {{Auth::user()->role == 0 : '' : "disabled"}}>
+							<select class="form-control" id="managerid" name="managerid" required>
 								@foreach ($users as $user)
-								<option value="{{$user->id}}" {{Auth::user()->role != 0 && $user->id == Auth::user()->id ? "selected" : '' }}>{{$user->name}}</option>
+								<option value="{{$user->id}}">{{$user->name}}</option>
 								@endforeach
 							</select>
+							@else
+							<input type="text" name="" id="" value="{{Auth::user()->name}}" disabled>
+							@endif
 						</div>
 						<div class="form-group">
 							<label for="name">Quantity of branches</label>

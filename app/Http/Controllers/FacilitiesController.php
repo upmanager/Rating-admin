@@ -53,6 +53,10 @@ class FacilitiesController extends Controller
         } else if($request->id > 0) {
             $file = Facilities::find($request->id)->value('pdf');
         }
+        $data = $request->merge(['pdf' => $file])->all();
+        if(Auth::user()->role == 1) {
+            $data['managerid'] = Auth::user()->id;
+        }
         Facilities::updateOrCreate(
             [
                 'id' => $request->id
