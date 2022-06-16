@@ -57,12 +57,7 @@ class FacilitiesController extends Controller
         if(Auth::user()->role != 0) {
             $data['managerid'] = Auth::user()->id;
         }
-        Facilities::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            $request->merge(['pdf' => $file])->all()
-        );
+        Facilities::updateOrCreate(['id' => $request->id], $data);
         return redirect()->route('facilities.index')->withStatus(__('Successfully created.'));
     }
 
