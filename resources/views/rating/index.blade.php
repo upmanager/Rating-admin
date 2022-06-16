@@ -170,23 +170,25 @@ return '';
 										@if ($detail->res_key == 'location')
 										<div class="form-group">
 											<label for="name">Location</label>
-											<label style="width: 100%">{{$detail->res_value}}</label>
+											<p style="width: 100%">{{$detail->res_value}}</p>
 										</div>
 										@endif
 										@if ($detail->res_key == 'ratings')
-										<h5 style="margin-top: 40px">Question: {{$detail->Question ? $detail->Question->question : ''}}</h5>
+										<h5 style="margin-top: 40px">Question:</h5>
+										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->question : ''}}</h6>
+										<br>
 										<div class="row">
 											@php
 											$data = [];
 											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1"))
-												$data = explode(",", $detail->res_value);
+											$data = explode(",", $detail->res_value);
 											@endphp
 											<div class="col-md-2">
-												@if (!$data || count($data) <= 0)
-												<h6>Match</h6>
-												@else
-												<h6>Non Match</h6>
-												@endif
+												dd(!!$data);
+												@if (!$data || count($data) <= 0) <h4>Match</h4>
+													@else
+													<h4>Non Match</h4>
+													@endif
 											</div>
 											<div class="col-md-10 row">
 												@foreach ($data as $item)
