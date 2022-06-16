@@ -60,7 +60,6 @@
 
 					<td>{{date('H:i d M Y', strtotime($facility->created_at))}}</td>
 					<td>
-						@if (Auth::user()->role == 0)
 						<form action="{{ route('facilities.destroy', $facility) }}" method="post">
 							@csrf
 							@method('delete')
@@ -69,9 +68,6 @@
 							<button rel="tooltip" type="button" class="btn btn-sm btn-danger" data-original-title="Delete comment" title="Delete comment"
 								onclick="deleteItem(this)">Delete</button>
 						</form>
-						@else
-						<a href="/ratings?facility={{$facility->id}}" class="btn btn-sm btn-success">Ratings</a>
-						@endif
 					</td>
 				</tr>
 				@endforeach
@@ -108,6 +104,7 @@
 							</select>
 							@else
 							<input type="text" class="form-control" value="{{Auth::user()->name}}" disabled>
+							<input type="hidden" name="" id="managerid">
 							@endif
 						</div>
 						<div class="form-group">
