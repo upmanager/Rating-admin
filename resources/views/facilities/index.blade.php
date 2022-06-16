@@ -107,7 +107,7 @@
 								@endforeach
 							</select>
 							@else
-							<input type="text" name="" id="" value="{{Auth::user()->name}}" disabled>
+							<input type="text" class="form-control" value="{{Auth::user()->name}}" disabled>
 							@endif
 						</div>
 						<div class="form-group">
