@@ -184,11 +184,11 @@ return '';
 											$data = explode(",", $detail->res_value);
 											@endphp
 											<div class="col-md-2">
-												dd(!!$data);
-												@if (!$data || count($data) <= 0) <h4>Match</h4>
-													@else
-													<h4>Non Match</h4>
-													@endif
+												@if (!$data || count($data) <= 0) 
+												<h4>Match</h4>
+												@else
+												<h4>Non Match</h4>
+												@endif
 											</div>
 											<div class="col-md-10 row">
 												@foreach ($data as $item)
