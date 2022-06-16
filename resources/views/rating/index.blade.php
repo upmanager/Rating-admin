@@ -177,10 +177,9 @@ return '';
 										<h5 style="margin-top: 40px">Question: {{$detail->Question ? $detail->Question->question : ''}}</h5>
 										<div class="row">
 											@php
-											$data = []
-											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1")) {
+											$data = [];
+											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1"))
 												$data = explode(",", $detail->res_value);
-											}
 											@endphp
 											<div class="col-md-2">
 												@if ($data && count($data) <= 0)
