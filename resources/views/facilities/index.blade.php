@@ -10,9 +10,7 @@
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					@if (Auth::user()->role == 0)
 					<button type="button" class="btn btn-success add-facility"> Add Facility</button>
-					@endif
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -102,9 +100,12 @@
 						</div>
 						<div class="form-group">
 							<label for="useremail">Manager</label>
-							<select class="form-control" id="managerid" name="managerid" required>
+							@if (Auth::user()->role == 0)
+							@endif
+
+							<select class="form-control" id="managerid" name="managerid" required {{Auth::user()->role == 0 : '' : "disabled"}}>
 								@foreach ($users as $user)
-								<option value="{{$user->id}}">{{$user->name}}</option>
+								<option value="{{$user->id}}" {{Auth::user()->role != 0 && $user->id == Auth::user()->id ? "selected" : '' }}>{{$user->name}}</option>
 								@endforeach
 							</select>
 						</div>
