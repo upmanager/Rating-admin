@@ -68,7 +68,7 @@ return '';
 					@foreach ($ratings as $index => $rating)
 					<tr data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">
 						<td>{{$index + 1}}</td>
-						<td>{{$rating->Worker->name}}</td>
+						<td>{{$rating->Worker ? $rating->Worker->name : ''}}</td>
 						<td>{{$rating->rating}}</td>
 						<td>{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
 						@if (Auth::user()->role == 0)
@@ -114,7 +114,7 @@ return '';
 								</div>
 								<div class="modal-body">
 									<div class="card-body">
-										@if ($rating->Worker)
+										@if ($rating->Worker && $rating->Worker != null)
 										<h3>Worker</h3>
 										<div class="row">
 											<div class="form-group col-md-4">
@@ -133,7 +133,7 @@ return '';
 										<hr>
 										@endif
 
-										@if ($rating->Facility)
+										@if ($rating->Facility && $rating->Facility != null)
 										<h3>Facility</h3>
 										<div class="row">
 											<div class="form-group col-md-4">
@@ -177,10 +177,13 @@ return '';
 										<h5 style="margin-top: 40px">Question: {{$detail->Question ? $detail->Question->question : ''}}</h5>
 										<div class="row">
 											@php
-											$data = explode(",", $detail->res_value);
+											$data = []
+											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1")) {
+												$data = explode(",", $detail->res_value);
+											}
 											@endphp
 											<div class="col-md-2">
-												@if ($data && count($data) > 0)
+												@if ($data && count($data) <= 0)
 												<h6>Match</h6>
 												@else
 												<h6>Non Match</h6>
