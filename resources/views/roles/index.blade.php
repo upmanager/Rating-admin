@@ -58,17 +58,17 @@
 						<input type="button" value="Approve" class="btn btn-sm btn-success" onclick="userAction({{$user->id}}, true)">
 						<input type="button" value="Block" class="btn btn-sm btn-danger" tag="{{$user->id}}" onclick="userAction({{$user->id}}, false)">
 						@elseif($user->status == 1)
-						<input type="button" value="Block" class="btn btn-sm btn-danger"  onclick="userAction({{$user->id}}, false)">
+						<input type="button" value="Block" class="btn btn-sm btn-danger" onclick="userAction({{$user->id}}, false)">
 						@else
-						<input type="button" value="Approve" class="btn btn-sm btn-success"  onclick="userAction({{$user->id}}, true)">
+						<input type="button" value="Approve" class="btn btn-sm btn-success" onclick="userAction({{$user->id}}, true)">
 						@endif
 					</td>
 					<td>
 						<form action="{{ route('roles.destroy', $user) }}" method="post">
 							@csrf
 							@method('delete')
-							<input type="button" class="btn btn-primary" onclick="editItem({{$user}})" value="Edit">
-							<button rel="tooltip" type="button" class="btn btn-danger" data-original-title="Delete comment" title="Delete comment"
+							<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$user}})" value="Edit">
+							<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
 								onclick="deleteItem(this)">Delete</button>
 						</form>
 					</td>
@@ -79,8 +79,8 @@
 	</div><!-- /.container-fluid -->
 </div>
 
-<div class="modal fade" id="update-form" aria-hidden="true">
-	<div class="modal-dialog">
+<div class="modal fade" id="update-form" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">User</h4>
@@ -92,16 +92,16 @@
 				@csrf
 				<input type="hidden" name="id" id="userid">
 				<div class="modal-body">
-					<div class="card-body">
-						<div class="form-group">
+					<div class="card-body row">
+						<div class="form-group col-md-6">
 							<label for="username">User Name</label>
 							<input type="text" class="form-control" id="username" name="name" placeholder="Enter user name" required>
 						</div>
-						<div class="form-group">
+						<div class="form-group col-md-6">
 							<label for="useremail">Email address</label>
 							<input type="email" class="form-control" id="useremail" name="email" placeholder="Enter email" required>
 						</div>
-						<div class="form-group mb-5">
+						<div class="form-group mb-5  col-md-6">
 							<label for="useremail">Role</label>
 							<select class="form-control" id="userrole" name="role" required>
 								<option value="0">Admin</option>
@@ -109,15 +109,15 @@
 								<option value="2">Worker</option>
 							</select>
 						</div>
-						<div class="form-group update-password">
-							<div class="custom-control custom-switch">
-								<input type="checkbox" class="custom-control-input" id="update_password" name="update_password">
-								<label class="custom-control-label" for="update_password">Update password</label>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="update-password custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" id="update_password" name="update_password">
+									<label class="custom-control-label" for="update_password">Update Password</label>
+								</label>
+								<label for="user_password" class="new-password">New Password</label>
+								<input type="password" class="form-control" id="password" name="user_password" placeholder="Enter password" required>
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" class="form-control" id="password" name="user_password" placeholder="Enter password" required>
 						</div>
 					</div>
 					<div class="modal-footer justify-content-between">

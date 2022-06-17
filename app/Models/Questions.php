@@ -12,4 +12,7 @@ class Questions extends Model
     {
         return $this->hasOne('App\Models\Categories', 'id', 'categoryid');
     }
+    public function UserDetails(){
+        return $this->hasMany('App\Models\UserDetails', 'typeid')->where('user_details.type', '2');
+    }
 }

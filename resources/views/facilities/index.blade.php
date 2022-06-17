@@ -108,10 +108,6 @@
 							@endif
 						</div>
 						<div class="form-group">
-							<label for="name">Quantity of branches</label>
-							<input type="number" min="0" class="form-control" id="qty" name="qty" placeholder="Quantity of branches" required>
-						</div>
-						<div class="form-group">
 							<label for="name">Commercial Record number</label>
 							<input type="text" class="form-control" id="record_number" name="record_number" placeholder="Commercial Record number" required>
 						</div>

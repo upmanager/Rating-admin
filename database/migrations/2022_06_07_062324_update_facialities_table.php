@@ -15,7 +15,7 @@ class UpdateFacialitiesTable extends Migration
     {
         Schema::table('facilities', function (Blueprint $table) {
             //
-            $table->integer('qty')->after('managerid')->default(0)->comment('quantity of the branches of the facility,');
+            $table->text('offices')->nullable()->after('managerid')->default()->comment('');
             $table->string('record_number')->after('qty');
             $table->string('license_number')->after('record_number');
             $table->text('content')->after('license_number')->nullable()->comment('Facilities page content');

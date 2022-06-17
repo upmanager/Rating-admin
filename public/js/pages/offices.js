@@ -8,25 +8,25 @@ $(function () {
         "responsive": true,
     });
 
-    $(".add-question").on('click', e => {
+    $(".add-office").on('click', e => {
         editItem({ id: 0, name: '', managerid: 0 });
     })
     $(".checkbox-users").on('change', e => {
         const checked = e.target.checked;
         const id = e.target.getAttribute('data-id');
-        const questionid = e.target.getAttribute('data-questionid');
+        const facilityid = e.target.getAttribute('data-facilityid');
         if (id == 0) {
-            $(`.checkbox-users-${questionid}`).prop('checked', checked);
+            $(`.checkbox-users-${facilityid}`).prop('checked', checked);
         } else {
             var all_checked = true;
-            $(`.checkbox-users-${questionid}`).each((idx, chk) => {
-                if ($(chk).prop('checked') == false) {
-                    all_checked = false;
-                    return
-                }
-            });
-
-            $(`#all_users_${questionid}`).prop('checked', all_checked);
+            $(`.checkbox-users-${facilityid}`)
+                .each((idx, chk) => {
+                    if ($(chk).prop('checked') == false) {
+                        all_checked = false;
+                        return
+                    }
+                });
+            $(`#all_users_${facilityid}`).prop('checked', all_checked);
         }
     })
 });
@@ -42,10 +42,16 @@ function updateUrlParams(obj) {
     return url;
 }
 const onChangeFacility = (id) => {
-    const url = updateUrlParams({ category: id });
+    const url = updateUrlParams({ facility: id });
     if (url != window.location.href) {
         window.location.href = url;
     }
+}
+const editItem = (data) => {
+    $("#office_id").val(data.id);
+    $("#facilityid").val(data.facilityid);
+    $("#office").val(data.name);
+    $("#update-form").modal('show');
 }
 const deleteItem = (ele) => {
     Swal.fire({
@@ -61,10 +67,4 @@ const deleteItem = (ele) => {
             ele.parentElement.submit()
         }
     })
-}
-const editItem = (data) => {
-    $("#question_id").val(data.id);
-    $("#categoryid").val(data.categoryid);
-    $("#question").val(data.question);
-    $("#update-form").modal('show');
 }

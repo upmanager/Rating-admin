@@ -38,4 +38,20 @@ class User extends Authenticatable
     public function Facilities(){
         return $this->hasMany('App\Models\Facilities', 'managerid');
     }
+    public function userDetail()
+    {
+        return $this->hasMany('App\Models\UserDetails', 'userid');
+    }
+    public function userOffice()
+    {
+        return $this->hasMany('App\Models\UserDetails', 'userid')->where('user_details.type', '0');
+    }
+    public function userFacility()
+    {
+        return $this->hasMany('App\Models\UserDetails', 'userid')->where('user_details.type', '1');
+    }
+    public function userQuestion()
+    {
+        return $this->hasMany('App\Models\UserDetails', 'userid')->where('user_details.type', '2');
+    }
 }

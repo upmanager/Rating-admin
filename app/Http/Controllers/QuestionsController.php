@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Questions;
 use App\Models\Categories;
+use App\Models\User;
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller
@@ -27,8 +29,8 @@ class QuestionsController extends Controller
             $questions = $questions->where('categoryid', $category);
         }
         $questions = $questions->where('deleted', 0)->orderby('question')->get();
-
-        return view('questions.index', compact('categories', 'questions'));
+        $users = User::orderby('name')->get();
+        return view('questions.index', compact('categories', 'questions', 'users'));
     }
 
     /**
@@ -83,15 +85,24 @@ class QuestionsController extends Controller
      * @param  \App\Models\Questions  $questions
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Questions $questions)
+    public function update(Request $request, $id)
     {
         //
-        Questions::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            $request->all()
-        );
+        if ($id > 0) {
+            $users = $request->users;
+            if ($request->has('all_users') && $request->all_users == -1) {
+                UserDetails::where('type', 2)->where('typeid', $id)->delete();
+            } else {
+                UserDetails::where('type', 2)->where('typeid', $id)->whereNotIn('userid', $users)->delete();
+                foreach ($users as $key => $userid) {
+                    if (UserDetails::where(['type' => 2, 'typeid' => $id, 'userid' => $userid])->count() <= 0) {
+                        UserDetails::create(['type' => 2, 'typeid' => $id, 'userid' => $userid]);
+                    }
+                }
+            }
+        } else {
+            Questions::updateOrCreate(['id' => $request->id], $request->all());
+        }
         return redirect()->route('questions.index')->withStatus(__('Successfully created.'));
     }
 

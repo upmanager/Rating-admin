@@ -35,7 +35,8 @@ class RolesController extends Controller
         // }
         // dd("success");
         $users = User::where('id', '!=', Auth::user()->id)->orderby('name')->get();
-        return view('roles.index', compact('users'));
+        $facilities = Facilities::select('*')->orderby('name')->get();
+        return view('roles.index', compact('users', 'facilities'));
     }
 
     /**
@@ -57,7 +58,7 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request;
-        if($request->id <= 0 || ($request->has('update_password') && $request->update_password == "on")) {
+        if ($request->id <= 0 || ($request->has('update_password') && $request->update_password == "on")) {
             $data = $request->merge(['password' => bcrypt($request->user_password)]);
         }
         $data = $data->all();
@@ -100,7 +101,7 @@ class RolesController extends Controller
     public function update(Request $request, User $users)
     {
         $status = 0;
-        if($request->approve === true || $request->approve === 'true') {
+        if ($request->approve === true || $request->approve === 'true') {
             $status = 1;
         } else {
             $status = 2;
