@@ -28,7 +28,7 @@ class QuestionsController extends Controller
         if ($category > 0) {
             $questions = $questions->where('categoryid', $category);
         }
-        $questions = $questions->where('deleted', 0)->orderby('question')->get();
+        $questions = $questions->where('deleted', 0)->get();
         $users = User::where('role', 2)->orderby('name')->get();
         return view('questions.index', compact('categories', 'questions', 'users'));
     }
