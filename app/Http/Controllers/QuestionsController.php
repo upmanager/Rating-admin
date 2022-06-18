@@ -19,7 +19,7 @@ class QuestionsController extends Controller
     {
         //
         $category = 0;
-        if ($request->has('category')) {
+        if ($request->has('category') && $request->category != null) {
             $category = intval($request->category);
         }
         // category
