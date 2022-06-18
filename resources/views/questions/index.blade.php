@@ -30,56 +30,33 @@ return '';
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid row">
-		<div class="col-md-3 form-group" style="max-height: 80vh; overflow-y:scroll">
+		<div class="col-md-6 form-group" style="max-height: 80vh; overflow-y:scroll">
 			<table class="table table-bordered table-hover facilities">
-				<tbody>
-					<tr tag="0">
-						<td class="{{getParams('category') == 0 ? 'active' : ''}}" onclick="onChangeFacility(0)">
-							<span>Show All</span>
-						</td>
-					</tr>
-					@foreach ($categories as $index => $item)
-					<tr tag="{{$item->id}}">
-						<td class="{{getParams('category') == $item->id ? 'active' : ''}}" onclick="onChangeFacility({{$item->id}})">
-							<form action="{{ route('questions.destroy', $item) }}" method="post">
-								<span>{{$item->title}}</span>
-								<span class="btn btn-danger btn-sm" onclick="deleteItem(this)">Delete</span>
-								@csrf
-								<input type="hidden" value="category" name="type">
-								@method('delete')
-							</form>
-						</td>
-					</tr>
-					@endforeach
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-9">
-			<table class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th style="width:30px">No</th>
-						<th>Question</th>
+						<th>Category</th>
 						<th>Users</th>
-						<th style="width: 180px">Action</th>
+						<th style="width:140px">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach ($questions as $index => $question)
+					<tr tag="0" class="{{getParams('category') == 0 ? 'active' : ''}}" onclick="onChangeFacility(0)">
+						<td colspan="3" style="text-align: center">Show All</td>
+					</tr>
+					@foreach ($categories as $index => $item)
 					@php
-
 					$all_checked = false;
-					if(!$question->UserDetails || count($question->UserDetails) <= 0) { $all_checked=false; } else if(count($question->UserDetails) == 1 &&
-						$question->UserDetails[0]->userid == -1)
+					if(!$item->UserDetails || count($item->UserDetails) <= 0) { $all_checked=false; } else if(count($item->UserDetails) == 1 &&
+						$item->UserDetails[0]->userid == -1)
 						{
 						$all_checked = true;
 						}
-						$count=count($question->UserDetails);
+						$count=count($item->UserDetails);
 						@endphp
-						<tr>
-							<td>{{$index + 1}}</td>
-							<td>{{$question->question}}</td>
-							<td>
+
+						<tr tag="{{$item->id}}" class="{{getParams('category') == $item->id ? 'active' : ''}}">
+							<td onclick="onChangeFacility({{$item->id}})">{{$item->title}}</td>
+							<td onclick="onChangeFacility({{$item->id}})">
 								@if ($all_checked)
 								All users
 								@else
@@ -87,13 +64,12 @@ return '';
 								@endif
 							</td>
 							<td>
-								<form action="{{ route('questions.destroy', $question) }}" method="post">
-									@csrf
-									@method('delete')
+								<form action="{{ route('questions.destroy', $item) }}" method="post">
 									<input type="button" class="btn btn-success btn-sm" value="Users" data-toggle="modal" data-target="#members_form_{{$index}}">
-									<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$question}})" value="Edit">
-									<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
-										onclick="deleteItem(this)">Delete</button>
+									<input type="button" class="btn btn-danger btn-sm" onclick="deleteItem(this)" value="Delete">
+									@csrf
+									<input type="hidden" value="category" name="type">
+									@method('delete')
 								</form>
 							</td>
 						</tr>
@@ -106,15 +82,15 @@ return '';
 											<span aria-hidden="true">×</span>
 										</button>
 									</div>
-									<form action="{{route('questions.update', $question)}}" method="post" enctype="multipart/form-data">
+									<form action="{{route('questions.update', $item)}}" method="post" enctype="multipart/form-data">
 										@csrf
 										@method('put')
 
 										<div class="modal-body">
 											<div class="form-group icheck-primary" style="margin-left: 40px">
 
-												<input class="form-check-input checkbox-lg checkbox-users" data-questionid="{{$question->id}}" data-id="0" type="checkbox"
-													name="all_users" id="all_users_{{$question->id}}" value="-1" {{$all_checked ? "checked" : "" }}>
+												<input class="form-check-input checkbox-lg checkbox-users" data-questionid="{{$item->id}}" data-id="0" type="checkbox"
+													name="all_users" id="all_users_{{$item->id}}" value="-1" {{$all_checked ? "checked" : "" }}>
 												<label for="all_users" style="margin-left: 20px; font-size:24px;">All Users</label>
 											</div>
 											<div class="card-body row">
@@ -123,8 +99,8 @@ return '';
 												$checked = false;
 												if($all_checked) {
 												$checked = true;
-												} else if($question->UserDetails) {
-												foreach ($question->UserDetails as $dt => $value) {
+												} else if($item->UserDetails) {
+												foreach ($item->UserDetails as $dt => $value) {
 												if($value->userid == $user->id) {
 												$checked = true;
 												break;
@@ -133,7 +109,7 @@ return '';
 												}
 												@endphp
 												<div class="form-group col-md-3 icheck-primary" style="overflow: hidden; padding:10px;">
-													<input class="form-check-input checkbox-lg checkbox-users checkbox-users-{{$question->id}}" data-questionid="{{$question->id}}"
+													<input class="form-check-input checkbox-lg checkbox-users checkbox-users-{{$item->id}}" data-questionid="{{$item->id}}"
 														data-id="{{$user->id}}" style="width: 50px" type="checkbox" name="users[]" id="users_{{$index}}{{$userIdx}}"
 														value="{{$user->id}}" {{$checked ? "checked" : "" }}>
 													<label for="users_{{$index}}{{$userIdx}}" style="margin-left: 20px">
@@ -154,6 +130,36 @@ return '';
 							</div>
 						</div>
 						@endforeach
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-6">
+			<table class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th style="width:30px">No</th>
+						<th>Question</th>
+						<th>Score</th>
+						<th style="width: 100px">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($questions as $index => $question)
+					<tr>
+						<td>{{$index + 1}}</td>
+						<td>{{$question->question}}</td>
+						<td>{{$question->score}}</td>
+						<td>
+							<form action="{{ route('questions.destroy', $question) }}" method="post">
+								@csrf
+								@method('delete')
+								<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$question}})" value="Edit">
+								<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
+									onclick="deleteItem(this)">Delete</button>
+							</form>
+						</td>
+					</tr>
+					@endforeach
 				</tbody>
 			</table>
 		</div>
@@ -210,6 +216,10 @@ return '';
 								<option value="{{$category->id}}">{{$category->title}}</option>
 								@endforeach
 							</select>
+						</div>
+						<div class="form-group">
+							<label for="categoryid">Score</label>
+							<input type="number" name="score" id="score" value="1" class="form-control" min="1" max="5">
 						</div>
 						<textarea name="question" id="question" class="form-control" rows="10" required></textarea>
 					</div>

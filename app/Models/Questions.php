@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Questions extends Model
 {
     //
-    protected $fillable = ['categoryid', 'question', 'deleted'];
+    protected $fillable = ['categoryid', 'question', 'score', 'deleted'];
     public function Category()
     {
         return $this->hasOne('App\Models\Categories', 'id', 'categoryid');

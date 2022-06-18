@@ -9,7 +9,7 @@ $(function () {
     });
 
     $(".add-question").on('click', e => {
-        editItem({ id: 0, name: '', managerid: 0 });
+        editItem({ id: 0, name: '', score:0, managerid: 0 });
     })
     $(".checkbox-users").on('change', e => {
         const checked = e.target.checked;
@@ -66,5 +66,6 @@ const editItem = (data) => {
     $("#question_id").val(data.id);
     $("#categoryid").val(data.categoryid);
     $("#question").val(data.question);
+    $("#score").val(data.score);
     $("#update-form").modal('show');
 }

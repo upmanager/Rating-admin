@@ -17,6 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('categoryid');
             $table->text('question')->nullable();
+            $table->integer('score')->default(0);
             $table->integer('deleted')->default(0)->comment('1 deleted');
             $table->timestamps();
         });

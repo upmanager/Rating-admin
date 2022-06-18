@@ -59,12 +59,11 @@ return '';
 				</thead>
 				<tbody>
 					@foreach ($offices as $index => $item)
-						@php
-						$all_checked = false; 
-						if(!$item->UserDetails || count($item->UserDetails) <= 0) {
-							$all_checked = false;
-						} else if(count($item->UserDetails) == 1 && $item->UserDetails[0]->userid == -1) {
-							$all_checked = true;
+					@php
+					$all_checked = false;
+					if(!$item->UserDetails || count($item->UserDetails) <= 0) { $all_checked=false; } else if(count($item->UserDetails) == 1 && $item->UserDetails[0]->userid == -1)
+						{
+						$all_checked = true;
 						}
 						$count=count($item->UserDetails);
 						@endphp
