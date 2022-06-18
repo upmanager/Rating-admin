@@ -29,7 +29,7 @@ class QuestionsController extends Controller
             $questions = $questions->where('categoryid', $category);
         }
         $questions = $questions->where('deleted', 0)->orderby('question')->get();
-        $users = User::orderby('name')->get();
+        $users = User::where('role', '!=', 0)->orderby('name')->get();
         return view('questions.index', compact('categories', 'questions', 'users'));
     }
 
