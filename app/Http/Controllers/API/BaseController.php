@@ -32,7 +32,7 @@ class BaseController extends Controller
                     else if (count($users) == 1 && $users[0]->userid == -1) $ismatch = true;
                     else {
                         foreach ($users as $key => $item) {
-                            if ($item->useridid == $userid) {
+                            if ($item->userid == $userid) {
                                 $ismatch = true;
                                 break;
                             }
