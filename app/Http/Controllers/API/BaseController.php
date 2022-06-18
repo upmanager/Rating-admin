@@ -25,9 +25,9 @@ class BaseController extends Controller
             $offices = $value->Offices;
             if ($offices == null || count($offices) <= 0) $ismatch = false;
             else {
-                return $offices;
                 foreach ($offices as $office) {
                     $users = $office->UserDetails;
+                    return $users;
                     if ($users == null || count($users) <= 0) $ismatch = false;
                     else if (count($users) == 1 && $users[0]->userid == -1) $ismatch = true;
                     else {
@@ -53,7 +53,7 @@ class BaseController extends Controller
         $userid = $request->userid;
         $data = Categories::select('*')->orderby('order')->get();
 
-        $res_data = []; 
+        $res_data = [];
         foreach ($data as $key => $value) {
             $value->Questions;
 
