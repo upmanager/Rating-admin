@@ -59,33 +59,35 @@ return '';
 				</thead>
 				<tbody>
 					@foreach ($offices as $index => $item)
-					@php 
-					$all_checked = (!$item->UserDetails || count($item->UserDetails) <= 0);
-					$count = count($item->UserDetails);
-					if($count == 1 && $item->UserDetails[0]->userid == -1) {
-						$count = 0;
-					}
-					@endphp 
-					<tr>
-						<td>{{$index + 1}}</td>
-						<td>{{$item->name}}</td>
-						<td>
-							@if ($all_checked)
-							All users
-							@else
-							{{$count == 0 ? "No users" : $count}}
-							@endif
-						</td>
-						<td>
-							<form action="{{ route('offices.destroy', $item) }}" method="post">
-								@csrf
-								@method('delete')
-								<input type="button" class="btn btn-success btn-sm" value="Members" data-toggle="modal" data-target="#members_form_{{$index}}">
-								<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$item}})" value="Edit">
-								<button rel="tooltip" type="button" class="btn  btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
-									onclick="deleteItem(this)">Delete</button>
-							</form>
-						</td>
+						@php
+						$all_checked = false; 
+						if(!$item->UserDetails || count($item->UserDetails) <= 0) {
+							$all_checked = false;
+						} else if(count($item->UserDetails) == 1 && $item->UserDetails[0]->userid == -1) {
+							$all_checked = true;
+						}
+						$count=count($item->UserDetails);
+						@endphp
+						<tr>
+							<td>{{$index + 1}}</td>
+							<td>{{$item->name}}</td>
+							<td>
+								@if ($all_checked)
+								All users
+								@else
+								{{$count == 0 ? "No users" : $count}}
+								@endif
+							</td>
+							<td>
+								<form action="{{ route('offices.destroy', $item) }}" method="post">
+									@csrf
+									@method('delete')
+									<input type="button" class="btn btn-success btn-sm" value="Members" data-toggle="modal" data-target="#members_form_{{$index}}">
+									<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$item}})" value="Edit">
+									<button rel="tooltip" type="button" class="btn  btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
+										onclick="deleteItem(this)">Delete</button>
+								</form>
+							</td>
 						</tr>
 						<div class="modal fade" id="members_form_{{$index}}" aria-hidden="true">
 							<div class="modal-dialog modal-lg">

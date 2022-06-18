@@ -28,7 +28,7 @@ class OfficesController extends Controller
             $offices = $offices->where('facilityid', $facility);
         }
         $offices = $offices->orderby('name')->get();
-        $users = User::where('role', '!=', 0)->orderby('name')->get();
+        $users = User::where('role', '==', 2)->orderby('name')->get();
 
         return view('offices.index', compact('facilities', 'offices', 'users'));
     }
@@ -88,17 +88,16 @@ class OfficesController extends Controller
     public function update(Request $request, $id)
     {
         $users = $request->users;
-        if($users == null) {
+        if ($users == null) {
+            $users = [];
+        } else if ($request->has('all_users') && $request->all_users == -1) {
             $users = [-1];
         }
-        if ($request->has('all_users') && $request->all_users == -1) {
-            UserDetails::where('type', 0)->where('typeid', $id)->delete();
-        } else {
-            UserDetails::where('type', 0)->where('typeid', $id)->whereNotIn('userid', $users)->delete();
-            foreach ($users as $key => $userid) {
-                if (UserDetails::where(['type' => 0, 'typeid' => $id, 'userid' => $userid])->count() <= 0) {
-                    UserDetails::create(['type' => 0, 'typeid' => $id, 'userid' => $userid]);
-                }
+
+        UserDetails::where('type', 0)->where('typeid', $id)->whereNotIn('userid', $users)->delete();
+        foreach ($users as $key => $userid) {
+            if (UserDetails::where(['type' => 0, 'typeid' => $id, 'userid' => $userid])->count() <= 0) {
+                UserDetails::create(['type' => 0, 'typeid' => $id, 'userid' => $userid]);
             }
         }
         return redirect()->route('offices.index')->withStatus(__('Successfully updated.'));

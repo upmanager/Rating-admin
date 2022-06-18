@@ -23,11 +23,12 @@ class BaseController extends Controller
 
             $ismatch = false;
             $offices = $value->Offices;
-            if ($offices == null || count($offices) <= 0) $ismatch = true;
+            if ($offices == null || count($offices) <= 0) $ismatch = false;
             else {
                 foreach ($offices as $office) {
                     $users = $office->UserDetails;
-                    if ($users == null || count($users) <= 0) $ismatch = true;
+                    if ($users == null || count($users) <= 0) $ismatch = false;
+                    else if (count($users) == 1 && $users[0]->userid == -1) $ismatch = true;
                     else {
                         foreach ($users as $key => $item) {
                             if ($item->useridid == $userid) {
@@ -36,7 +37,6 @@ class BaseController extends Controller
                             }
                         }
                     }
-                    
                     if ($ismatch) break;
                 }
             }
@@ -58,7 +58,8 @@ class BaseController extends Controller
 
             $ismatch = false;
             $details = $value->UserDetails;
-            if ($details == null || count($details) <= 0) $ismatch = true;
+            if ($details == null || count($details) <= 0) $ismatch = false;
+            else if (count($details) == 1 && $details[0]->userid == -1) $ismatch = true;
             else {
                 foreach ($details as $detail) {
                     if ($detail->user != null && $detail->user->id == $userid) {

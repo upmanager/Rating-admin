@@ -29,7 +29,7 @@ class QuestionsController extends Controller
             $questions = $questions->where('categoryid', $category);
         }
         $questions = $questions->where('deleted', 0)->orderby('question')->get();
-        $users = User::where('role', '!=', 0)->orderby('name')->get();
+        $users = User::where('role', '==', 1)->orderby('name')->get();
         return view('questions.index', compact('categories', 'questions', 'users'));
     }
 
@@ -90,17 +90,15 @@ class QuestionsController extends Controller
         //
         if ($id > 0) {
             $users = $request->users;
-            if($users == null) {
+            if ($users == null) {
+                $users = [];
+            } else if ($request->has('all_users') && $request->all_users == -1) {
                 $users = [-1];
             }
-            if ($request->has('all_users') && $request->all_users == -1) {
-                UserDetails::where('type', 2)->where('typeid', $id)->delete();
-            } else {
-                UserDetails::where('type', 2)->where('typeid', $id)->whereNotIn('userid', $users)->delete();
-                foreach ($users as $key => $userid) {
-                    if (UserDetails::where(['type' => 2, 'typeid' => $id, 'userid' => $userid])->count() <= 0) {
-                        UserDetails::create(['type' => 2, 'typeid' => $id, 'userid' => $userid]);
-                    }
+            UserDetails::where('type', 2)->where('typeid', $id)->whereNotIn('userid', $users)->delete();
+            foreach ($users as $key => $userid) {
+                if (UserDetails::where(['type' => 2, 'typeid' => $id, 'userid' => $userid])->count() <= 0) {
+                    UserDetails::create(['type' => 2, 'typeid' => $id, 'userid' => $userid]);
                 }
             }
         } else {

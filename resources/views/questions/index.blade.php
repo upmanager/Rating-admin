@@ -67,10 +67,14 @@ return '';
 				<tbody>
 					@foreach ($questions as $index => $question)
 					@php
-					$all_checked = (!$question->UserDetails || count($question->UserDetails) <= 0); $count=count($question->UserDetails);
-						if($count == 1 && $question->UserDetails[0]->userid == -1) {
-						$count = 0;
+
+					$all_checked = false;
+					if(!$questions->UserDetails || count($questions->UserDetails) <= 0) { $all_checked=false; } else if(count($questions->UserDetails) == 1 &&
+						$questions->UserDetails[0]->userid == -1)
+						{
+						$all_checked = true;
 						}
+						$count=count($questions->UserDetails);
 						@endphp
 						<tr>
 							<td>{{$index + 1}}</td>
