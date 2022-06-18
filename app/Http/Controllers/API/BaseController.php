@@ -58,6 +58,7 @@ class BaseController extends Controller
 
             $ismatch = false;
             $details = $value->UserDetails;
+            return ($details);
             if ($details == null || count($details) <= 0) $ismatch = false;
             else if (count($details) == 1 && $details[0]->userid == -1) $ismatch = true;
             else {
@@ -71,10 +72,6 @@ class BaseController extends Controller
             if ($ismatch) {
                 array_push($res_data, $value);
             }
-        }
-
-        foreach ($data as $key => $value) {
-            $value->Questions;
         }
         return response()->json(['success' => true, "data" => $res_data], 200);
     }
