@@ -69,12 +69,12 @@ return '';
 					@php
 
 					$all_checked = false;
-					if(!$questions->UserDetails || count($questions->UserDetails) <= 0) { $all_checked=false; } else if(count($questions->UserDetails) == 1 &&
-						$questions->UserDetails[0]->userid == -1)
+					if(!$question->UserDetails || count($question->UserDetails) <= 0) { $all_checked=false; } else if(count($question->UserDetails) == 1 &&
+						$question->UserDetails[0]->userid == -1)
 						{
 						$all_checked = true;
 						}
-						$count=count($questions->UserDetails);
+						$count=count($question->UserDetails);
 						@endphp
 						<tr>
 							<td>{{$index + 1}}</td>
