@@ -90,6 +90,9 @@ class QuestionsController extends Controller
         //
         if ($id > 0) {
             $users = $request->users;
+            if($users == null) {
+                $users = [-1];
+            }
             if ($request->has('all_users') && $request->all_users == -1) {
                 UserDetails::where('type', 2)->where('typeid', $id)->delete();
             } else {

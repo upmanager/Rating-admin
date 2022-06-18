@@ -59,14 +59,21 @@ return '';
 				</thead>
 				<tbody>
 					@foreach ($offices as $index => $item)
-					@php $all_checked = (!$item->UserDetails || count($item->UserDetails) <= 0); @endphp <tr>
+					@php 
+					$all_checked = (!$item->UserDetails || count($item->UserDetails) <= 0);
+					$count = count($item->UserDetails);
+					if($count == 1 && $item->UserDetails[0]->userid == -1) {
+						$count = 0;
+					}
+					@endphp 
+					<tr>
 						<td>{{$index + 1}}</td>
 						<td>{{$item->name}}</td>
 						<td>
 							@if ($all_checked)
 							All users
 							@else
-							{{count($item->UserDetails)}}
+							{{$count == 0 ? "No users" : $count}}
 							@endif
 						</td>
 						<td>

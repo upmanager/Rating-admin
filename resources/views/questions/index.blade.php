@@ -66,26 +66,32 @@ return '';
 				</thead>
 				<tbody>
 					@foreach ($questions as $index => $question)
-					@php $all_checked = (!$question->UserDetails || count($question->UserDetails) <= 0); @endphp <tr>
-						<td>{{$index + 1}}</td>
-						<td>{{$question->question}}</td>
-						<td>
-							@if ($all_checked)
-							All users
-							@else
-							{{count($question->UserDetails)}}
-							@endif
-						</td>
-						<td>
-							<form action="{{ route('questions.destroy', $question) }}" method="post">
-								@csrf
-								@method('delete')
-								<input type="button" class="btn btn-success btn-sm" value="Users" data-toggle="modal" data-target="#members_form_{{$index}}">
-								<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$question}})" value="Edit">
-								<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
-									onclick="deleteItem(this)">Delete</button>
-							</form>
-						</td>
+					@php
+					$all_checked = (!$question->UserDetails || count($question->UserDetails) <= 0); $count=count($question->UserDetails);
+						if($count == 1 && $question->UserDetails[0]->userid == -1) {
+						$count = 0;
+						}
+						@endphp
+						<tr>
+							<td>{{$index + 1}}</td>
+							<td>{{$question->question}}</td>
+							<td>
+								@if ($all_checked)
+								All users
+								@else
+								{{$count == 0 ? "No users" : $count}}
+								@endif
+							</td>
+							<td>
+								<form action="{{ route('questions.destroy', $question) }}" method="post">
+									@csrf
+									@method('delete')
+									<input type="button" class="btn btn-success btn-sm" value="Users" data-toggle="modal" data-target="#members_form_{{$index}}">
+									<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$question}})" value="Edit">
+									<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
+										onclick="deleteItem(this)">Delete</button>
+								</form>
+							</td>
 						</tr>
 						<div class="modal fade" id="members_form_{{$index}}" aria-hidden="true">
 							<div class="modal-dialog modal-lg">
@@ -103,8 +109,8 @@ return '';
 										<div class="modal-body">
 											<div class="form-group icheck-primary" style="margin-left: 40px">
 
-												<input class="form-check-input checkbox-lg checkbox-users" data-questionid="{{$question->id}}"  data-id="0" type="checkbox" name="all_users" id="all_users_{{$question->id}}" value="-1"
-													{{$all_checked ? "checked" : "" }}>
+												<input class="form-check-input checkbox-lg checkbox-users" data-questionid="{{$question->id}}" data-id="0" type="checkbox"
+													name="all_users" id="all_users_{{$question->id}}" value="-1" {{$all_checked ? "checked" : "" }}>
 												<label for="all_users" style="margin-left: 20px; font-size:24px;">All Users</label>
 											</div>
 											<div class="card-body row">
@@ -123,8 +129,9 @@ return '';
 												}
 												@endphp
 												<div class="form-group col-md-3 icheck-primary" style="overflow: hidden; padding:10px;">
-													<input class="form-check-input checkbox-lg checkbox-users checkbox-users-{{$question->id}}" data-questionid="{{$question->id}}"  data-id="{{$user->id}}" style="width: 50px" type="checkbox"
-														name="users[]" id="users_{{$index}}{{$userIdx}}" value="{{$user->id}}" {{$checked ? "checked" : "" }}>
+													<input class="form-check-input checkbox-lg checkbox-users checkbox-users-{{$question->id}}" data-questionid="{{$question->id}}"
+														data-id="{{$user->id}}" style="width: 50px" type="checkbox" name="users[]" id="users_{{$index}}{{$userIdx}}"
+														value="{{$user->id}}" {{$checked ? "checked" : "" }}>
 													<label for="users_{{$index}}{{$userIdx}}" style="margin-left: 20px">
 														{{$user->name}}
 														<br>

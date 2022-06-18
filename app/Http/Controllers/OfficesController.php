@@ -88,6 +88,9 @@ class OfficesController extends Controller
     public function update(Request $request, $id)
     {
         $users = $request->users;
+        if($users == null) {
+            $users = [-1];
+        }
         if ($request->has('all_users') && $request->all_users == -1) {
             UserDetails::where('type', 0)->where('typeid', $id)->delete();
         } else {

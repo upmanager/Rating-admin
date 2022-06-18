@@ -14,20 +14,68 @@ class BaseController extends Controller
     //
     public function facilities(Request $request)
     {
+        $userid = $request->userid;
         $data = Facilities::select('*')->orderby('name')->get();
+        $res_data = [];
         foreach ($data as $key => $value) {
             $value->Manager;
             $value->Rating;
+
+            $ismatch = false;
+            $offices = $value->Offices;
+            if ($offices == null || count($offices) <= 0) $ismatch = true;
+            else {
+                foreach ($offices as $office) {
+                    $users = $office->UserDetails;
+                    if ($users == null || count($users) <= 0) $ismatch = true;
+                    else {
+                        foreach ($users as $key => $item) {
+                            if ($item->useridid == $userid) {
+                                $ismatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if ($ismatch) break;
+                }
+            }
+            if ($ismatch) {
+                array_push($res_data, $value);
+            }
         }
-        return response()->json(['success' => true, "data" => $data, 'message' => "login success"], 200);
+
+        return response()->json(['success' => true, "data" => $res_data], 200);
     }
-    public function questions()
+    public function questions(Request $request)
     {
+        $userid = $request->userid;
         $data = Categories::select('*')->orderby('order')->get();
+
+        $res_data = [];
+        foreach ($data as $key => $value) {
+            $value->Questions;
+
+            $ismatch = false;
+            $details = $value->UserDetails;
+            if ($details == null || count($details) <= 0) $ismatch = true;
+            else {
+                foreach ($details as $detail) {
+                    if ($detail->user != null && $detail->user->id == $userid) {
+                        $ismatch = true;
+                        break;
+                    }
+                }
+            }
+            if ($ismatch) {
+                array_push($res_data, $value);
+            }
+        }
+
         foreach ($data as $key => $value) {
             $value->Questions;
         }
-        return response()->json(['success' => true, "data" => $data, 'message' => "login success"], 200);
+        return response()->json(['success' => true, "data" => $res_data], 200);
     }
     public function upload(Request $request)
     {

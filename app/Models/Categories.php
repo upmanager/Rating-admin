@@ -13,4 +13,7 @@ class Categories extends Model
     {
         return $this->hasMany('App\Models\Questions', 'categoryid')->where('questions.deleted', '0');
     }
+    public function UserDetails(){
+        return $this->hasMany('App\Models\UserDetails', 'typeid')->where('user_details.type', '2');
+    }
 }

@@ -17,4 +17,7 @@ class Facilities extends Model
     public function Offices(){
         return $this->hasMany('App\Models\Offices', 'facilityid');
     }
+    public function UserDetails(){
+        return $this->hasMany('App\Models\UserDetails', 'typeid')->where('user_details.type', '1');
+    }
 }
