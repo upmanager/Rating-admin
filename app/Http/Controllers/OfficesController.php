@@ -28,7 +28,7 @@ class OfficesController extends Controller
             $offices = $offices->where('facilityid', $facility);
         }
         $offices = $offices->orderby('name')->get();
-        $users = User::where('role', '==', 2)->orderby('name')->get();
+        $users = User::where('role', 2)->orderby('name')->get();
 
         return view('offices.index', compact('facilities', 'offices', 'users'));
     }
