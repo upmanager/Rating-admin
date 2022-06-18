@@ -23,7 +23,6 @@ class BaseController extends Controller
 
             $ismatch = false;
             $offices = $value->Offices;
-            return $offices;
             if ($offices == null || count($offices) <= 0) $ismatch = false;
             else {
                 foreach ($offices as $office) {
