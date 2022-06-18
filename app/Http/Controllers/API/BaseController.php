@@ -62,7 +62,7 @@ class BaseController extends Controller
             else if (count($details) == 1 && $details[0]->userid == -1) $ismatch = true;
             else {
                 foreach ($details as $detail) {
-                    if ($detail->user != null && $detail->user->id == $userid) {
+                    if ($detail->userid == $userid) {
                         $ismatch = true;
                         break;
                     }
