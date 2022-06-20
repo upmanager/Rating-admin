@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <th style="width:50px">نتيجة</th>
-            <th style="width:50px">أقصى</th>
+            <th style="width:50px">المحقق</th>
         </tr>
         @foreach ($cats_data as $item)
         <tr>
