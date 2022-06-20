@@ -103,7 +103,6 @@ class NotificationsController extends Controller
     {
         try {
             $res = new SendMail($subject, $message, $attachs);
-            dd("Adsf");
             return Mail::to($email)->send($res);
         } catch (\Throwable $th) {
             dd($th);
