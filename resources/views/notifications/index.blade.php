@@ -31,6 +31,7 @@
 					<th>Content</th>
 					<th>Type</th>
 					<th>Sent date</th>
+					<th>Attachmenets</th>
 					@if (Auth::user()->role == 0)
 					<th>Action</th>
 					@endif
@@ -44,6 +45,15 @@
 					<td>{{$notification->content}}</td>
 					<td>{{$notification->type == 0 ? "Notification" : "SMS"}}</td>
 					<td>{{date('H:i d M Y', strtotime($notification->created_at))}}</td>
+					<td>
+						@if ($notification->attach)
+						@foreach (explode($notification->attach, ',') as $item)
+						<a href="{{$item}}" download="{{$item}}">
+							<i class="nav-icon fa fa-download" style="font-size: 30px"></i>
+						</a>
+						@endforeach
+						@endif
+					</td>
 					@if (Auth::user()->role == 0)
 					<td>
 						<form action="{{ route('notifications.destroy', $notification) }}" method="post">
