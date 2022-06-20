@@ -45,15 +45,15 @@
             @else
             <td>{{$item['index']}}</td>
             <td>{!! $item['title'] !!}</td>
-            <td>{{$item['score']}}</td>
             <td>{{$item['max']}}</td>
+            <td>{{$item['score']}}</td>
             @endif
         </tr>
         @endforeach
         <tr>
             <td colspan="2">المجموع النهائي</td>
-            <td>{{$res_total}}</td>
             <td>{{$total}}</td>
+            <td>{{$res_total}}</td>
         </tr>
         <tr>
             <td colspan="2">The Ratio</td>
