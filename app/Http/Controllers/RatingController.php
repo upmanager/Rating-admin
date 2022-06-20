@@ -88,7 +88,7 @@ class RatingController extends Controller
         $data = compact('facility', 'cats_data', 'total', 'res_total');
         // return view('pdf', $data);
         $pdf = PDF::loadView('pdf', $data);
-        return $pdf->stream();
+        // return $pdf->stream();
         return $pdf->download("reports_$name.pdf");
     }
 
