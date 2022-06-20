@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="ar" >
-    {{-- dir="rtl" --}}
+<html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
