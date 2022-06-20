@@ -179,7 +179,7 @@ return '';
 										@endif
 										@if ($detail->res_key == 'ratings')
 										<h5 style="margin-top: 40px">Question:</h5>
-										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->id : ''}}</h6>
+										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->question : ''}}</h6>
 										<br>
 										<div class="row">
 											@php
