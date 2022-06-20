@@ -64,6 +64,7 @@ class NotificationsController extends Controller
             $users = $request->sms_users;
             $type = 1;
         } else if ($notify_type == "email") {
+            $users = $request->email_users;
             $files = $request->file('file');
             if ($files) {
                 foreach ($files as $file) {
@@ -73,8 +74,7 @@ class NotificationsController extends Controller
                 }
             }
             $type = 2;
-            // $emails = User::whereIn('id', $request->email_users)->pluck('email')->toArray();
-            $emails = ['upmanager200@gmail.com', 'upmanager2021@gmail.com'];
+            $emails = User::whereIn('id', $users)->pluck('email')->toArray();
             $this->sendEmail($emails, $content, $filepaths);
         } else {
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
