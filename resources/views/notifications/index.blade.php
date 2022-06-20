@@ -47,7 +47,7 @@
 					<td>{{date('H:i d M Y', strtotime($notification->created_at))}}</td>
 					<td>
 						@if ($notification->attach)
-						@foreach (explode($notification->attach, ',') as $item)
+						@foreach (explode(',', $notification->attach) as $item)
 						<a href="{{$item}}" download="{{$item}}">
 							<i class="nav-icon fa fa-download" style="font-size: 30px"></i>
 						</a>
