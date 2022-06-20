@@ -21,6 +21,9 @@ class SendMail extends Mailable
         $this->subject = $subject;
         $this->text = $text;
         $this->attachments = $attachments;
+        if ($attachments == null || $attachments == "") {
+            $this->attachments = [];
+        }
     }
 
     /**
@@ -35,10 +38,8 @@ class SendMail extends Mailable
             ->subject($this->subject)
             ->html($this->text)
             ->view('sendmail', []);
-        if ($this->attachments != null) {
-            foreach ($this->attachments as $value) {
-                $email->attach($value);
-            }
+        foreach ($this->attachments as $value) {
+            $email->attach($value);
         }
         return $email;
     }
