@@ -43,7 +43,7 @@ return '';
 					@foreach ($facilities as $index => $item)
 					<tr tag="{{$item->id}}">
 						<td class="{{getParams('facility') == $item->id ? 'active' : ''}}" onclick="onChangeFacility({{$item->id}})">
-							<span>{{$item->name}}</span>
+							<span>{{$item->name}} {{count($item->rating) ?? 0}}</span>
 							<span>></span>
 						</td>
 					</tr>
