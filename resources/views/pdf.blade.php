@@ -12,6 +12,7 @@
     body {
         font-family: DejaVu Sans, sans-serif;
         font-size: 13px;
+        direction: rtl
     }
 
     table,
