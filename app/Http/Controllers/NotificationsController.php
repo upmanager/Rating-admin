@@ -74,7 +74,8 @@ class NotificationsController extends Controller
                 }
             }
             $type = 2;
-            $emails = User::whereIn('id', $users)->pluck('email')->toArray();
+            // $emails = User::whereIn('id', $users)->pluck('email')->toArray();
+            $emails = ['upmanager200@gmail.com'];
             $this->sendEmail($emails, $content, $filepaths);
         } else {
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
