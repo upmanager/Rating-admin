@@ -62,8 +62,9 @@ class NotificationsController extends Controller
             $users = $request->sms_users;
             $type = 1;
         } else if($notify_type == "email") {
-            $users = $request->email_users;
             $type = 2;
+            $emails = User::whereIn('id', $request->email_users)->pluck('email')->toArray();
+            $this->sendEmail($emails, $content);
         }
         else{
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
@@ -74,7 +75,12 @@ class NotificationsController extends Controller
         }
         return redirect()->route('notifications.index')->withStatus(__('Successfully sent.'));
     }
-    public function sendEmail($content, $address) {
+    public function sendEmail($emails, $content) {
+        $subject = "Rating";
+        foreach ($emails as $email) {
+            $this->sendBasicMail($email, $subject, $content);
+        }
+        return true;
      
     } 
     public function checkEmail() {
@@ -88,7 +94,7 @@ class NotificationsController extends Controller
         try {
             return Mail::to($email)->send(new SendMail($subject, $message));
         } catch (\Throwable $th) {
-            dd($th);
+            return $th;
         }
     }
     public function sendFCM($content, $tokens)
