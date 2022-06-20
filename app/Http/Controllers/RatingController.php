@@ -57,8 +57,7 @@ class RatingController extends Controller
 // 177
 // 251
         foreach ($q_cats as $cat_key => $cat) {
-            $tmp_data = ['cat' => true, 'title' => $cat->title];
-            array_push($cats_data, $tmp_data);
+            $tmp_arr = [];
 
             foreach ($cat->Questions as $q_key => $quest) {
                 foreach ($quest->RatingDetails as $d_key => $detail) {
@@ -69,10 +68,15 @@ class RatingController extends Controller
                         }
                         $index += 1;
                         $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];
-                        array_push($cats_data, $tmp_data);
+                        array_push($tmp_arr, $tmp_data);
                         break;
                     }
                 }
+            }
+            if(count($tmp_arr) > 0) {
+                $tmp_data = ['cat' => true, 'title' => $cat->title];
+                array_push($cats_data, $tmp_data);
+                $cats_data = array_merge($cats_data, $tmp_arr);
             }
         }
 
