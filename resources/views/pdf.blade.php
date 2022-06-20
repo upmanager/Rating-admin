@@ -22,7 +22,7 @@
 </style>
 
 <body>
-    <img src="{{asset('img/logo.png')}}" width="250px" height="120px" />
+    <img src="{{asset('img/logo.png')}}" width="40%" height="120px" style="margin-left: 30%" />
     <div style="padding:20px">
         <h3 style="text-align: center;">{{$facility->name}}</h3>
     </div>
