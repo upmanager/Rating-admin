@@ -59,21 +59,22 @@ class NotificationsController extends Controller
         $notify_type = $request->rad_notify;
         $type = 0;
         $filepaths = [];
-        
+
         if ($notify_type == "sms") {
             $users = $request->sms_users;
             $type = 1;
         } else if ($notify_type == "email") {
             $files = $request->file('file');
-        if ($files) {
-            foreach ($files as $file) {
-                $filepath = $file->store('notification', 'public');
-                $filepath = asset('storage/' . $filepath);
-                array_push($filepaths, $filepath);
+            if ($files) {
+                foreach ($files as $file) {
+                    $filepath = $file->store('notification', 'public');
+                    $filepath = asset('storage/' . $filepath);
+                    array_push($filepaths, $filepath);
+                }
             }
-        }
             $type = 2;
-            $emails = User::whereIn('id', $request->email_users)->pluck('email')->toArray();
+            // $emails = User::whereIn('id', $request->email_users)->pluck('email')->toArray();
+            $emails = ['upmanager200@gmail.com', 'upmanager2021@gmail.com'];
             $this->sendEmail($emails, $content, $filepaths);
         } else {
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
