@@ -9,7 +9,7 @@
 </head>
 <style>
     body {
-        font-family: DejaVu Sans, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 13px;
     }
 
