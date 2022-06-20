@@ -66,7 +66,7 @@ class RatingController extends Controller
                 foreach ($quest->RatingDetails as $d_key => $detail) {
                     if ($detail->Rating && $detail->Rating->facilityid == $facilityid) {
                         $score = 0;
-                        if ($detail->res_value === null || $detail->res_value === '' || $detail->res_value === 'true' || $detail->res_value === true) {
+                        if ($detail->res_value === 'true' || $detail->res_value === true) {
                             $score = $quest->score;
                         }
                         $index += 1;

@@ -185,7 +185,7 @@ return '';
 											@php
 											$data = [];
 											$ismatch = false;
-											if($detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1") {
+											if($detail->res_value == "true" || $detail->res_value == true) {
 												$ismatch = true;
 											} else if($detail->res_value != null) {
 												$data = explode(",", $detail->res_value);

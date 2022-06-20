@@ -103,7 +103,7 @@ class BaseController extends Controller
             'type' => 0
         ]);
         foreach ($ratings as $key => $value) {
-            $res_value = $value['match'] == true || $value['match'] == 'true' ? 'true' : implode(",", $value['images']);
+            $res_value = ($value['match'] == true || $value['match'] == 'true') ? 'true' : implode(",", $value['images']);
             RatingDetail::create([
                 'ratingid' => $ratingid,
                 'res_key' => 'ratings',
