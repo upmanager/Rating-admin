@@ -72,9 +72,9 @@ class RatingController extends Controller
         }
 
         $name =  date("Ymd");
-        // return view('pdf', compact('facility', 'cats_data'));
         $pdf = PDF::loadView('pdf', compact('facility', 'cats_data'));
-        return $pdf->stream();
+        // return view('pdf', compact('facility', 'cats_data'));
+        // return $pdf->stream();
         return $pdf->download("reports_$name.pdf");
     }
 
