@@ -9,8 +9,10 @@
 				<h1 class="m-0 text-dark">Manage Rating</h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
-				<ol class="breadcrumb float-sm-right">
-					{{-- <button type="button" class="btn btn-success add-user"> Add User</button> --}}
+				<ol class="breadcrumb float-sm-right" style="padding-right: 30px">
+					@if (getParams('facility') != 0)
+						<a href="{{route('ratings.create', 'facilityid='.getParams('facility'))}}" class="btn btn-success">Export PDF</a>
+					@endif
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -184,11 +186,10 @@ return '';
 											$data = explode(",", $detail->res_value);
 											@endphp
 											<div class="col-md-2">
-												@if (!$data || count($data) <= 0) 
-												<h4>Match</h4>
-												@else
-												<h4>Non Match</h4>
-												@endif
+												@if (!$data || count($data) <= 0) <h4>Match</h4>
+													@else
+													<h4>Non Match</h4>
+													@endif
 											</div>
 											<div class="col-md-10 row">
 												@foreach ($data as $item)

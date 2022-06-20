@@ -58,15 +58,24 @@ class NotificationsController extends Controller
         $content = $request->content;
         $notify_type = $request->rad_notify;
         $type = 0;
+        $filepaths = [];
+        
         if ($notify_type == "sms") {
             $users = $request->sms_users;
             $type = 1;
-        } else if($notify_type == "email") {
+        } else if ($notify_type == "email") {
+            $files = $request->file('file');
+        if ($files) {
+            foreach ($files as $file) {
+                $filepath = $file->store('notification', 'public');
+                $filepath = asset('storage/' . $filepath);
+                array_push($filepaths, $filepath);
+            }
+        }
             $type = 2;
             $emails = User::whereIn('id', $request->email_users)->pluck('email')->toArray();
-            $this->sendEmail($emails, $content);
-        }
-        else{
+            $this->sendEmail($emails, $content, $filepaths);
+        } else {
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
             $this->sendFCM($content, $tokens);
         }
@@ -75,24 +84,25 @@ class NotificationsController extends Controller
         }
         return redirect()->route('notifications.index')->withStatus(__('Successfully sent.'));
     }
-    public function sendEmail($emails, $content) {
+    public function sendEmail($emails, $content, $attachs)
+    {
         $subject = "Rating";
         foreach ($emails as $email) {
-            $this->sendBasicMail($email, $subject, $content);
+            $this->sendBasicMail($email, $subject, $content, $attachs);
         }
         return true;
-     
-    } 
-    public function checkEmail() {
+    }
+    public function checkEmail()
+    {
         $email = "upmanager200@gmail.com";
         $subject = "Check email";
         $content = "email content";
-        return $this->sendBasicMail($email, $subject, $content);
+        return $this->sendBasicMail($email, $subject, $content, null);
     }
-    private function sendBasicMail($email, $subject, $message)
+    private function sendBasicMail($email, $subject, $message, $attachs)
     {
         try {
-            return Mail::to($email)->send(new SendMail($subject, $message));
+            return Mail::to($email)->send(new SendMail($subject, $message, $attachs));
         } catch (\Throwable $th) {
             return $th;
         }

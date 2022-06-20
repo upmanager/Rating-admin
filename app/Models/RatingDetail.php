@@ -11,4 +11,7 @@ class RatingDetail extends Model
     public function Question(){
         return $this->hasOne('App\Models\Questions', 'id', 'type');
     }
+    public function Rating(){
+        return $this->hasOne('App\Models\Rating', 'id', 'ratingid');
+    }
 }

@@ -70,7 +70,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="{{route('notifications.store')}}" method="post" id="notification-form">
+			<form action="{{route('notifications.store')}}" method="post" id="notification-form" enctype="multipart/form-data">
 				@csrf
 				<input type="hidden" name="id" id="userid">
 				<div class="modal-body">
@@ -89,7 +89,7 @@
 								<label for="sms_notify" class="custom-control-label">Send SMS</label>
 							</div>
 						</div>
-						<div class="form-group hide" id="sms_container">
+						<div class="form-group hide sms_container">
 							<label for="sms_users">Select Users sms</label>
 							<select class="form-control" id="sms_users" name="sms_users[]" multiple="true" style="height: 140px">
 								@foreach ($sms_users as $user)
@@ -97,7 +97,7 @@
 								@endforeach
 							</select>
 						</div>
-						<div class="form-group" id="email_container">
+						<div class="form-group hide email_container">
 							<label for="email_users">Select Users fcm</label>
 							<select class="form-control" id="email_users" name="email_users[]" multiple="true" style="height: 140px">
 								@foreach ($email_users as $user)
@@ -105,7 +105,7 @@
 								@endforeach
 							</select>
 						</div>
-						<div class="form-group" id="fcm_container">
+						<div class="form-group fcm_container">
 							<label for="fcm_users">Select Users fcm</label>
 							<select class="form-control" id="fcm_users" name="fcm_users[]" multiple="true" style="height: 140px">
 								@foreach ($fcm_users as $user)
@@ -116,6 +116,12 @@
 						<div class="form-group">
 							<label for="content">Content</label>
 							<textarea name="content" class="form-control" id="content" rows="10" required></textarea>
+						</div>
+						<div class="form-group hide email_container">
+							<label for="attach_file">Attach file</label>
+							<div class="input-group">
+								<input type="file" name="file[]" multiple class="form-control" style="padding: 4px" id="attach_file">
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer justify-content-between">

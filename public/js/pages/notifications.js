@@ -8,10 +8,10 @@ $(function () {
         "responsive": true,
     });
     $("input[type=radio][name=rad_notify]").on('change', e => {
-        $("#fcm_container").addClass('hide');
-        $("#sms_container").addClass('hide');
-        $("#email_container").addClass('hide');
-        $(`#${e.target.value}_container`).removeClass('hide');
+        $(".fcm_container").addClass('hide');
+        $(".sms_container").addClass('hide');
+        $(".email_container").addClass('hide');
+        $(`.${e.target.value}_container`).removeClass('hide');
     })
     $("#notification-form").on('submit', event => {
         const notify_type = $('input[name=rad_notify]:checked').val()

@@ -16,10 +16,11 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($subject, $text)
+    public function __construct($subject, $text, $attachments)
     {
         $this->subject = $subject;
         $this->text = $text;
+        $this->attachments = $attachments;
     }
 
     /**
@@ -29,10 +30,16 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_USERNAME', ''))
+        $email = $this->from(env('MAIL_USERNAME', ''))
             ->replyTo(env('MAIL_USERNAME', ''))
             ->subject($this->subject)
             ->html($this->text)
             ->view('sendmail');
+        if ($this->attachments) {
+            foreach ($this->attachments as $value) {
+                $email->attach($value);
+            }
+        }
+        return $email;
     }
 }
