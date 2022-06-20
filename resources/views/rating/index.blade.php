@@ -68,13 +68,13 @@ return '';
 				</thead>
 				<tbody>
 					@foreach ($ratings as $index => $rating)
-					<tr data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">
-						<td>{{$index + 1}}</td>
-						<td>{{$rating->Worker ? $rating->Worker->name : ''}}</td>
-						<td>{{$rating->rating}}</td>
-						<td>{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
+					<tr>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$index + 1}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->Worker ? $rating->Worker->name : ''}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->rating}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
 						@if (Auth::user()->role == 0)
-						<td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">
 							@if($rating->status == 0)
 							Pending
 							@elseif($rating->status == 1)
@@ -177,7 +177,7 @@ return '';
 										@endif
 										@if ($detail->res_key == 'ratings')
 										<h5 style="margin-top: 40px">Question:</h5>
-										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->question : ''}}</h6>
+										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->id : ''}}</h6>
 										<br>
 										<div class="row">
 											@php

@@ -54,19 +54,24 @@ class RatingController extends Controller
         $q_cats = Categories::orderby('order')->orderby('id')->get();
         $cats_data = [];
         $index = 0;
-
+// 177
+// 251
         foreach ($q_cats as $cat_key => $cat) {
             $tmp_data = ['cat' => true, 'title' => $cat->title];
             array_push($cats_data, $tmp_data);
 
             foreach ($cat->Questions as $q_key => $quest) {
-                if ($quest->RatingDetail && $quest->RatingDetail->Rating && $quest->RatingDetail->Rating->facilityid == $facilityid) {
-                    if (!$quest->RatingDetail->res_value || $quest->RatingDetail->res_value == 'true' || $quest->RatingDetail->res_value == true) {
-                        $score = $quest->score;
+                foreach ($quest->RatingDetails as $d_key => $detail) {
+                    if($detail->Rating && $detail->Rating->facilityid == $facilityid) {
+                        $score = 0;
+                        if ($detail->res_value === null || $detail->res_value === '' || $detail->res_value === 'true' || $detail->res_value === true) {
+                            $score = $quest->score;
+                        }
+                        $index += 1;
+                        $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];
+                        array_push($cats_data, $tmp_data);
+                        break;
                     }
-                    $index += 1;
-                    $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];
-                    array_push($cats_data, $tmp_data);
                 }
             }
         }
