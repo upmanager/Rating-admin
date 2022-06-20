@@ -41,12 +41,14 @@ return '';
 						</td>
 					</tr>
 					@foreach ($facilities as $index => $item)
+					@if (count($item->rating) > 0)
 					<tr tag="{{$item->id}}">
 						<td class="{{getParams('facility') == $item->id ? 'active' : ''}}" onclick="onChangeFacility({{$item->id}})">
 							<span>{{$item->name}}</span>
 							<span>></span>
 						</td>
 					</tr>
+					@endif
 					@endforeach
 				</tbody>
 			</table>
