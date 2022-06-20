@@ -49,6 +49,8 @@ class RatingController extends Controller
     public function create(Request $request)
     {
         //
+        ini_set('memory_limit', '1G');
+
         $facilityid = $request->facilityid;
         $facility = Facilities::find($facilityid);
         $q_cats = Categories::orderby('order')->orderby('id')->get();
