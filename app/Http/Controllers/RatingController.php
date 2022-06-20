@@ -50,39 +50,44 @@ class RatingController extends Controller
     {
         //
         ini_set('memory_limit', '1G');
-
+        ini_set('max_execution_time', '3600');
+        
         $facilityid = $request->facilityid;
         $facility = Facilities::find($facilityid);
         $q_cats = Categories::orderby('order')->orderby('id')->get();
         $cats_data = [];
         $index = 0;
+        $total = 0;
+        $res_total = 0;
         foreach ($q_cats as $cat_key => $cat) {
             $tmp_arr = [];
 
             foreach ($cat->Questions as $q_key => $quest) {
                 foreach ($quest->RatingDetails as $d_key => $detail) {
-                    if($detail->Rating && $detail->Rating->facilityid == $facilityid) {
+                    if ($detail->Rating && $detail->Rating->facilityid == $facilityid) {
                         $score = 0;
                         if ($detail->res_value === null || $detail->res_value === '' || $detail->res_value === 'true' || $detail->res_value === true) {
                             $score = $quest->score;
                         }
                         $index += 1;
+                        $res_total += $score;
+                        $total += $quest->score;
                         $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];
                         array_push($tmp_arr, $tmp_data);
                         break;
                     }
                 }
             }
-            if(count($tmp_arr) > 0) {
+            if (count($tmp_arr) > 0) {
                 $tmp_data = ['cat' => true, 'title' => $cat->title];
                 array_push($cats_data, $tmp_data);
                 $cats_data = array_merge($cats_data, $tmp_arr);
             }
         }
-
         $name =  date("Ymd");
-        $pdf = PDF::loadView('pdf', compact('facility', 'cats_data'));
-        // return view('pdf', compact('facility', 'cats_data'));
+        $data = compact('facility', 'cats_data', 'total', 'res_total');
+        // return view('pdf', $data);
+        $pdf = PDF::loadView('pdf', $data);
         // return $pdf->stream();
         return $pdf->download("reports_$name.pdf");
     }
