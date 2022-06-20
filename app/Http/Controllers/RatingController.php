@@ -54,8 +54,6 @@ class RatingController extends Controller
         $q_cats = Categories::orderby('order')->orderby('id')->get();
         $cats_data = [];
         $index = 0;
-// 177
-// 251
         foreach ($q_cats as $cat_key => $cat) {
             $tmp_arr = [];
 
