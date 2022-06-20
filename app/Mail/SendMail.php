@@ -16,13 +16,13 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($subject, $text, $attachments)
+    public function __construct($subject, $text, $attaches)
     {
         $this->subject = $subject;
         $this->text = $text;
-        $this->attachments = $attachments;
-        if ($attachments == null || $attachments == "") {
-            $this->attachments = [];
+        $this->attaches = $attaches;
+        if ($attaches == null || $attaches == "") {
+            $this->attaches = [];
         }
     }
 
@@ -38,7 +38,7 @@ class SendMail extends Mailable
             ->subject($this->subject)
             ->html($this->text)
             ->view('sendmail', []);
-        foreach ($this->attachments as $value) {
+        foreach ($this->attaches as $value) {
             $email->attach($value);
         }
         return $email;
