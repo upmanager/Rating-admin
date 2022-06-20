@@ -81,7 +81,7 @@ class NotificationsController extends Controller
             $this->sendFCM($content, $tokens);
         }
         foreach ($users as $key => $value) {
-            Notifications::create(['userid' => $value, 'content' => $content, 'type' => $type]);
+            Notifications::create(['userid' => $value, 'content' => $content, 'type' => $type, 'attach' => implode(",", $filepaths)]);
         }
         return redirect()->route('notifications.index')->withStatus(__('Successfully sent.'));
     }

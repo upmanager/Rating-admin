@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->integer('userid');
             $table->text('content');
             $table->integer('type')->comment('0: notification, 1: sms')->default(0);
+            $table->text('attach');
             $table->timestamps();
         });
     }
