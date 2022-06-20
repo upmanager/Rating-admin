@@ -10,6 +10,8 @@ use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class NotificationsController extends Controller
@@ -22,14 +24,15 @@ class NotificationsController extends Controller
     public function index()
     {
         //
-        $sms_users = User::where('role', '!=', 0)->whereNotNull('phonenumber')->orderby('name')->get();
-        $fcm_users = User::where('role', '!=', 0)->whereNotNull('fcm_token')->orderby('name')->get();
+        $sms_users = User::where('role', 1)->whereNotNull('phonenumber')->orderby('name')->get();
+        $fcm_users = User::where('role', 1)->whereNotNull('fcm_token')->orderby('name')->get();
+        $email_users = User::where('role', 1)->whereNotNull('email')->orderby('name')->get();
         $notifications = Notifications::select("*");
         if (Auth::user()->role != 0) {
             $notifications = $notifications->where('userid', Auth::user()->id);
         }
         $notifications = $notifications->orderby('created_at')->get();
-        return view('notifications.index', compact('notifications', 'sms_users', 'fcm_users'));
+        return view('notifications.index', compact('notifications', 'sms_users', 'fcm_users', 'email_users'));
     }
 
     /**
@@ -58,7 +61,11 @@ class NotificationsController extends Controller
         if ($notify_type == "sms") {
             $users = $request->sms_users;
             $type = 1;
-        } else {
+        } else if($notify_type == "email") {
+            $users = $request->email_users;
+            $type = 2;
+        }
+        else{
             $tokens = User::whereIn('id', $users)->pluck('fcm_token')->toArray();
             $this->sendFCM($content, $tokens);
         }
@@ -66,6 +73,23 @@ class NotificationsController extends Controller
             Notifications::create(['userid' => $value, 'content' => $content, 'type' => $type]);
         }
         return redirect()->route('notifications.index')->withStatus(__('Successfully sent.'));
+    }
+    public function sendEmail($content, $address) {
+     
+    } 
+    public function checkEmail() {
+        $email = "upmanager200@gmail.com";
+        $subject = "Check email";
+        $content = "email content";
+        return $this->sendBasicMail($email, $subject, $content);
+    }
+    private function sendBasicMail($email, $subject, $message)
+    {
+        try {
+            return Mail::to($email)->send(new SendMail($subject, $message));
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
     public function sendFCM($content, $tokens)
     {

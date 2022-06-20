@@ -81,6 +81,10 @@
 								<label for="fcm_notify" class="custom-control-label">Send Push Notification</label>
 							</div>
 							<div class="custom-control custom-radio">
+								<input class="custom-control-input" type="radio" id="email_notify" value="email" name="rad_notify">
+								<label for="email_notify" class="custom-control-label">Send Email</label>
+							</div>
+							<div class="custom-control custom-radio">
 								<input class="custom-control-input" type="radio" id="sms_notify" value="sms" name="rad_notify">
 								<label for="sms_notify" class="custom-control-label">Send SMS</label>
 							</div>
@@ -89,6 +93,14 @@
 							<label for="sms_users">Select Users sms</label>
 							<select class="form-control" id="sms_users" name="sms_users[]" multiple="true" style="height: 140px">
 								@foreach ($sms_users as $user)
+								<option value="{{$user->id}}">{{$user->name}}</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="form-group" id="email_container">
+							<label for="email_users">Select Users fcm</label>
+							<select class="form-control" id="email_users" name="email_users[]" multiple="true" style="height: 140px">
+								@foreach ($email_users as $user)
 								<option value="{{$user->id}}">{{$user->name}}</option>
 								@endforeach
 							</select>
