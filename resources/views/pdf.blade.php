@@ -22,10 +22,10 @@
 </style>
 
 <body>
+    <img src="{{asset('img/logo.png')}}" width="180px" height="80px" />
     <div style="padding:20px">
         <h3 style="text-align: center;">{{$facility->name}}</h3>
     </div>
-    <img src="{{asset('img/logo.png')}}" width="180px" height="80px" />
     <table width="100%" cellspacing="0" cellpadding="8">
         <tr>
             <th rowspan="2" style="width: 30px;">No</th>
