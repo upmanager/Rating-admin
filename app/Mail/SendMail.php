@@ -34,8 +34,8 @@ class SendMail extends Mailable
             ->replyTo(env('MAIL_USERNAME', ''))
             ->subject($this->subject)
             ->html($this->text)
-            ->view('sendmail');
-        if ($this->attachments) {
+            ->view('sendmail', []);
+        if ($this->attachments != null) {
             foreach ($this->attachments as $value) {
                 $email->attach($value);
             }

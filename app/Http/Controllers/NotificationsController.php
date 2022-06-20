@@ -102,7 +102,9 @@ class NotificationsController extends Controller
     private function sendBasicMail($email, $subject, $message, $attachs)
     {
         try {
-            return Mail::to($email)->send(new SendMail($subject, $message, $attachs));
+            $res = new SendMail($subject, $message, $attachs);
+            dd("Adsf");
+            return Mail::to($email)->send($res);
         } catch (\Throwable $th) {
             dd($th);
         }
