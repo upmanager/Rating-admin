@@ -104,7 +104,7 @@ class NotificationsController extends Controller
         try {
             return Mail::to($email)->send(new SendMail($subject, $message, $attachs));
         } catch (\Throwable $th) {
-            return $th;
+            dd($th);
         }
     }
     public function sendFCM($content, $tokens)
