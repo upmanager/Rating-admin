@@ -184,11 +184,14 @@ return '';
 										<div class="row">
 											@php
 											$data = [];
-											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1"))
-											$data = explode(",", $detail->res_value);
+											$ismatch = true;
+											if(!($detail->res_value == "" || $detail->res_value == "true" || $detail->res_value == "0" || $detail->res_value == "1")){
+												$ismatch = false;
+												$data = explode(",", $detail->res_value);
+											}
 											@endphp
 											<div class="col-md-2">
-												@if (!$data || count($data) <= 0) <h4>Match</h4>
+												@if ($ismatch) <h4>Match</h4>
 													@else
 													<h4>Non Match</h4>
 													@endif
