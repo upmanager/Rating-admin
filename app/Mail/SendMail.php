@@ -33,7 +33,6 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        dd(env('MAIL_USERNAME', ''));
         $email = $this->from(env('MAIL_USERNAME', ''))
             ->replyTo(env('MAIL_USERNAME', ''))
             ->subject($this->subject)
