@@ -22,9 +22,9 @@
 </style>
 
 <body>
-    <img src="{{asset('img/logo.png')}}" width="40%" height="120px" style="margin-left: 30%" />
+    <img src="{{asset('img/logo.png')}}" width="40%" height="120px" style="margin-left: 30%;margin-right: 30%;" />
     <div style="padding:20px">
-        <h3 style="text-align: center;">{{$facility->name}}</h3>
+        <h2 style="text-align: center;">{{$facility->name}}</h2>
     </div>
     <table width="100%" cellspacing="0" cellpadding="8">
         <tr>
@@ -39,12 +39,12 @@
         @foreach ($cats_data as $item)
         <tr>
             @if ($item['cat'])
-            <td colspan="2" style="text-align: left"> {{$item['title']}}</td>
+            <td colspan="2" style="text-align:right; font-size:18px;"> {!! $item['title'] !!}</td>
             <td></td>
             <td></td>
             @else
             <td>{{$item['index']}}</td>
-            <td>{{$item['title']}}</td>
+            <td>{!! $item['title'] !!}</td>
             <td>{{$item['score']}}</td>
             <td>{{$item['max']}}</td>
             @endif
