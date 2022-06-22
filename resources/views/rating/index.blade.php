@@ -111,6 +111,115 @@ return '';
 						@endif
 					</tr>
 
+					<div class="modal fade" id="detail_{{$rating->id}}" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">Rating Detail</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="card-body">
+										@if ($rating->Worker && $rating->Worker != null)
+										<h3>Worker</h3>
+										<div class="row">
+											<div class="form-group col-md-4">
+												<label for="name">Name</label>
+												<label class="form-control">{{$rating->Worker->name}}</label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="name">Email</label>
+												<label class="form-control">{{$rating->Worker->email}}</label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="name">Phone</label>
+												<label class="form-control">{{$rating->Worker->phonenumber}}</label>
+											</div>
+										</div>
+										<hr>
+										@endif
+
+										@if ($rating->Facility && $rating->Facility != null)
+										<h3>Facility</h3>
+										<div class="row">
+											<div class="form-group col-md-4">
+												<label for="name">Name</label>
+												<label class="form-control">{{$rating->Facility->name}}</label>
+											</div>
+											@if ($rating->Facility->Manager)
+											<div class="form-group col-md-4">
+												<label for="name">Manger Name</label>
+												<label class="form-control">{{$rating->Facility->Manager->name}}</label>
+											</div>
+											@endif
+											<div class="form-group col-md-4">
+												<label for="name">Qty</label>
+												<label class="form-control">{{$rating->Facility->qty}}</label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="name">Record Number</label>
+												<label class="form-control">{{$rating->Facility->record_number}}</label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="name">License Number</label>
+												<label class="form-control">{{$rating->Facility->license_number}}</label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="name">Description</label>
+												<label class="form-control">{{$rating->Facility->content}}</label>
+											</div>
+										</div>
+										<hr>
+										@endif
+										<h3>Rating Detail</h3>
+										@foreach ($rating->Details as $detail)
+										@if ($detail->res_key == 'location')
+										<div class="form-group">
+											<label for="name">Location</label>
+											<p style="width: 100%">{{$detail->res_value}}</p>
+										</div>
+										@endif
+										@if ($detail->res_key == 'ratings')
+										<h5 style="margin-top: 40px">Question:</h5>
+										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->question : ''}}</h6>
+										<br>
+										<div class="row">
+											@php
+											$data = [];
+											$ismatch = false;
+											if($detail->res_value == "true" || $detail->res_value == true) {
+											$ismatch = true;
+											} else if($detail->res_value != null) {
+											$data = explode(",", $detail->res_value);
+											}
+											@endphp
+											<div class="col-md-2">
+												@if ($ismatch) <h4>Match</h4>
+												@else
+												<h4>Non Match</h4>
+												@endif
+											</div>
+											<div class="col-md-10 row">
+												@foreach ($data as $item)
+												<div class="col-md-3">
+													<img src="{{asset('storage/'.$item)}}" style="width:100%; height:100px; object-fit:contain" alt="" srcset="">
+												</div>
+												@endforeach
+											</div>
+											<hr>
+										</div>
+										@endif
+										@endforeach
+									</div>
+									<div class="modal-footer ">
+										<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					@endforeach
 				</tbody>
 			</table>
