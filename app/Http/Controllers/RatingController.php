@@ -51,9 +51,11 @@ class RatingController extends Controller
         //
         ini_set('memory_limit', '1G');
         ini_set('max_execution_time', '3600');
-        
+
         $id = $request->id;
-        $facilityid = Rating::find($id)->facilityid;
+
+        $rating = Rating::find($id);
+        $facilityid = $rating->facilityid;
         $facility = Facilities::find($facilityid);
         $q_cats = Categories::orderby('order')->orderby('id')->get();
         $cats_data = [];
@@ -86,7 +88,8 @@ class RatingController extends Controller
             }
         }
         $name =  date("Ymd");
-        $data = compact('facility', 'cats_data', 'total', 'res_total');
+        $created_date = $rating->created_at;
+        $data = compact('facility', 'cats_data', 'total', 'res_total', 'created_date');
         // return view('pdf', $data);
         $pdf = PDF::loadView('pdf', $data);
         // return $pdf->stream();
