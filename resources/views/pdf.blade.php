@@ -22,7 +22,7 @@
 </style>
 
 <body>
-    <h4 style="position: absolute; right:10px; top:10px">تاريخ التقييم: {{date('d/M/Y', strtotime($created_date))}}</h4>
+    <h4 style="position: absolute; right:10px; top:10px">تاريخ التقييم: {{date('d/Y/M', strtotime($created_date))}}</h4>
     <img src="{{asset('img/logo.png')}}" width="40%" height="120px" style="margin-left: 30%;margin-right: 30%;" />
     <div style="padding:20px">
         <h2 style="text-align: center;">{{$facility->name}}</h2>
