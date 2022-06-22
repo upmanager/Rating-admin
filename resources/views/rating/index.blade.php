@@ -10,9 +10,9 @@
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right" style="padding-right: 30px">
-					@if (getParams('facility') != 0)
-						<a href="{{route('ratings.create', 'facilityid='.getParams('facility'))}}" class="btn btn-success">Export PDF</a>
-					@endif
+					{{-- @if (getParams('facility') != 0)
+					<a href="{{route('ratings.create', 'facilityid='.getParams('facility'))}}" class="btn btn-success">Export PDF</a>
+					@endif --}}
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -64,6 +64,7 @@ return '';
 						@if (Auth::user()->role == 0)
 						<th style="width: 60px">Status</th>
 						<th style="width: 140px">Action</th>
+						<th style="width: 80px">Export</th>
 						<th style="width: 60px">Delete</th>
 						@endif
 					</tr>
@@ -94,6 +95,9 @@ return '';
 							@else
 							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
 							@endif
+						</td>
+						<td>
+							<a href="{{route('ratings.create', 'id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
 						</td>
 						<td>
 							<form action="{{ route('ratings.destroy', $rating) }}" method="post">
@@ -186,16 +190,16 @@ return '';
 											$data = [];
 											$ismatch = false;
 											if($detail->res_value == "true" || $detail->res_value == true) {
-												$ismatch = true;
+											$ismatch = true;
 											} else if($detail->res_value != null) {
-												$data = explode(",", $detail->res_value);
+											$data = explode(",", $detail->res_value);
 											}
 											@endphp
 											<div class="col-md-2">
 												@if ($ismatch) <h4>Match</h4>
-													@else
-													<h4>Non Match</h4>
-													@endif
+												@else
+												<h4>Non Match</h4>
+												@endif
 											</div>
 											<div class="col-md-10 row">
 												@foreach ($data as $item)

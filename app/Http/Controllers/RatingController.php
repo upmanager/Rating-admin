@@ -52,7 +52,8 @@ class RatingController extends Controller
         ini_set('memory_limit', '1G');
         ini_set('max_execution_time', '3600');
         
-        $facilityid = $request->facilityid;
+        $id = $request->id;
+        $facilityid = Rating::find($id)->facilityid;
         $facility = Facilities::find($facilityid);
         $q_cats = Categories::orderby('order')->orderby('id')->get();
         $cats_data = [];
@@ -64,7 +65,7 @@ class RatingController extends Controller
 
             foreach ($cat->Questions as $q_key => $quest) {
                 foreach ($quest->RatingDetails as $d_key => $detail) {
-                    if ($detail->Rating && $detail->Rating->facilityid == $facilityid) {
+                    if ($detail->ratingid == $id) {
                         $score = 0;
                         if ($detail->res_value === 'true' || $detail->res_value === true) {
                             $score = $quest->score;
