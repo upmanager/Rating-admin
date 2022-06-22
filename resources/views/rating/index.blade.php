@@ -53,7 +53,68 @@ return '';
 				</tbody>
 			</table>
 		</div>
-	
+		<div class="col-md-9">
+			<table class="table table-bordered table-hover dataTable dtr-inline">
+				<thead>
+					<tr>
+						<th style="width:30px">No</th>
+						<th>Worker</th>
+						<th>Rating</th>
+						<th>Create date</th>
+						@if (Auth::user()->role == 0)
+						<th style="width: 60px">Status</th>
+						<th style="width: 140px">Action</th>
+						<th style="width: 80px">Export</th>
+						<th style="width: 60px">Delete</th>
+						@endif
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($ratings as $index => $rating)
+					<tr>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$index + 1}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->Worker ? $rating->Worker->name : ''}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->rating}}</td>
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
+						@if (Auth::user()->role == 0)
+						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">
+							@if($rating->status == 0)
+							Pending
+							@elseif($rating->status == 1)
+							Approved
+							@else
+							Blocked
+							@endif
+						</td>
+						<td>
+							@if($rating->status == 0)
+							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
+							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
+							@elseif($rating->status == 1)
+							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
+							@else
+							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
+							@endif
+						</td>
+						<td>
+							<a href="{{route('ratings.create', 'id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
+						</td>
+						<td>
+							<form action="{{ route('ratings.destroy', $rating) }}" method="post">
+								@csrf
+								@method('delete')
+								{{-- <input type="button" class="btn btn-primary" onclick="editItem({{$rating}})" value="Edit"> --}}
+								<button rel="tooltip" type="button" class="btn btn-sm btn-danger" data-original-title="Delete comment" title="Delete comment"
+									onclick="deleteItem(this)">Delete</button>
+							</form>
+						</td>
+						@endif
+					</tr>
+
+					@endforeach
+				</tbody>
+			</table>
+		</div>
 	</div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
