@@ -82,15 +82,15 @@
     </table>
     <div style="width:100%; font-size:16px; font-weight:bold; margin-top:50px;">
         <div style="width:100%; margin-bottom:30px;">
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:65px;">
                 <p style="position: absolute;; ">Report preparer: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px;">
                 <img src="{{asset('img/reporter.png')}}" width="140px" height="100px" />
             </div>
-            <div style="width:10%; float:right;"></div>
+            <div style="width:10%; float:right; height:30px;"></div>
 
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:65px;">
                 <p style="position: absolute;; ">Kitchen name: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:100px; ">
@@ -98,15 +98,15 @@
         </div>
 
         <div style="width:100%; margin-bottom:100px;">
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:65px;">
                 <p style="position: absolute;; ">Signature: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px;">
                 <img src="{{asset('img/signature.png')}}" width="140px" height="100px" />
             </div>
-            <div style="width:10%; float:right;"></div>
+            <div style="width:10%; float:right; height:30px;"></div>
 
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:65px;">
                 <p style="position: absolute;">Signature: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:100px; ">
