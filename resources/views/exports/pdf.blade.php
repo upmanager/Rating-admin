@@ -82,7 +82,7 @@
     </table>
     <div style="width:100%; font-size:16px; font-weight:bold; margin-top:50px;">
         <div style="width:100%; margin-bottom:30px;">
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:100px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
                 <p style="position: absolute;; ">Report preparer: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px;">
@@ -90,15 +90,15 @@
             </div>
             <div style="width:10%; float:right;"></div>
 
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:100px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
                 <p style="position: absolute;; ">Kitchen name: </p>
             </div>
-            <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:140px; ">
+            <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:100px; ">
             </div>
         </div>
 
         <div style="width:100%; margin-bottom:100px;">
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:100px;">
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
                 <p style="position: absolute;; ">Signature: </p>
             </div>
             <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px;">
@@ -106,10 +106,10 @@
             </div>
             <div style="width:10%; float:right;"></div>
 
-            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:100px;">
-                <p style="position: absolute;; ">Signature: </p>
+            <div style="width: 20%; position: relative; float:right; font-size:14px; padding-top:80px;">
+                <p style="position: absolute;">Signature: </p>
             </div>
-            <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:140px; ">
+            <div style="width:20%; border-bottom: 3px dotted black; float:right; padding-right:30px; height:100px; ">
             </div>
         </div>
     </div>
