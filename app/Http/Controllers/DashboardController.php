@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Facilities;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App;
 
 class DashboardController extends Controller
 {
@@ -14,6 +16,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
+
         // $this->middleware('auth');
     }
 
@@ -29,5 +32,11 @@ class DashboardController extends Controller
         $worker = User::where('role', 2)->count();
         $facilities = Facilities::count();
         return view('dashboard', compact('admin', 'clients', 'worker', 'facilities'));
+    }
+    public function changeLang($langcode)
+    {
+        App::setLocale($langcode);
+        session()->put("lang_code", $langcode);
+        return redirect()->back();
     }
 }

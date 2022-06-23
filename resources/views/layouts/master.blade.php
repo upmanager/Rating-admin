@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="{{asset('css/adminlte.min.css')}}">
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('plugins/flag-icons/css/flag-icons.min.css')}}">
 	<link rel="stylesheet" href="{{asset('css/pages.css')}}">
 	@yield('addCss')
 </head>
@@ -53,8 +54,8 @@
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	{{-- Toast --}}
 	<script src="{{asset('js/toastr.min.js')}}"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
 
 	<script>
 		$(function () {

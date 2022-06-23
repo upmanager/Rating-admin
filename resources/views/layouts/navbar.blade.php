@@ -26,6 +26,24 @@
     <ul class="navbar-nav ml-auto">
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                @if (session()->get('lang_code')=='ar')
+                <i class="fi fi-sa"></i>
+                @else
+                <i class="fi fi-us"></i>
+                @endif
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0" style="left: inherit; right: 0px;">
+                <a href="{{route('change-language', 'en')}}" class="dropdown-item {{session()->get('lang_code')=='ar' ? '' : 'active'}}">
+                    <i class="fi fi-us mr-2"></i> English
+                </a>
+                <a href="{{route('change-language', 'ar')}}" class="dropdown-item {{session()->get('lang_code')=='ar' ? 'active' : ''}}">
+                    <i class="fi fi-sa mr-2"></i> Arabic
+                </a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="fa fa-cog"></i>
             </a>

@@ -6,11 +6,11 @@
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Dashboard</h1>
+				<h1 class="m-0 text-dark">{{__('commons.dashboard')}}</h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item active">Dashboard</li>
+					<li class="breadcrumb-item active">{{__('commons.dashboard')}}</li>
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -26,7 +26,7 @@
 				<div class="info-box">
 					<span class="info-box-icon bg-info elevation-1"><i class="fas users"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">Total Admin</span>
+						<span class="info-box-text">{{__('commons.total-admin')}}</span>
 						<span class="info-box-number">
 							{{$admin}}
 							{{-- <small>%</small> --}}
@@ -41,7 +41,7 @@
 				<div class="info-box mb-3">
 					<span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">Total Clients</span>
+						<span class="info-box-text">{{__('commons.total-clients')}}</span>
 						<span class="info-box-number">{{$clients}}</span>
 					</div>
 
@@ -55,7 +55,7 @@
 				<div class="info-box mb-3">
 					<span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">Total co-worker</span>
+						<span class="info-box-text">{{__('commons.total-worker')}}</span>
 						<span class="info-box-number">{{$worker}}</span>
 					</div>
 
@@ -67,7 +67,7 @@
 				<div class="info-box mb-3">
 					<span class="info-box-icon bg-warning elevation-1"><i class="fas fa-building"></i></span>
 					<div class="info-box-content">
-						<span class="info-box-text">Facilities</span>
+						<span class="info-box-text">{{__('commons.facilities')}}</span>
 						<span class="info-box-number">{{$facilities}}</span>
 					</div>
 
