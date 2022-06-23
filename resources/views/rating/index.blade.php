@@ -20,6 +20,10 @@
 </div>
 <!-- /.content-header -->
 @php
+
+ini_set('memory_limit', '1G');
+ini_set('max_execution_time', '3600');
+
 function getParams($key) {
 try {
 return $_GET[$key];
@@ -57,7 +61,10 @@ return '';
 			<table class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-					
+						<th style="width:30px">No</th>
+						<th>Worker</th>
+						<th>Rating</th>
+						<th>Create date</th>
 						@if (Auth::user()->role == 0)
 						<th style="width: 60px">Status</th>
 						<th style="width: 140px">Action</th>
@@ -69,7 +76,10 @@ return '';
 				<tbody>
 					@foreach ($ratings as $index => $rating)
 					<tr>
-					
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$index + 1}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$rating->Worker ? $rating->Worker->name : ''}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$rating->rating}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
 						@if (Auth::user()->role == 0)
 						<td style="cursor: pointer;">
 							@if($rating->status == 0)
