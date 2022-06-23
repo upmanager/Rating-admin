@@ -41,6 +41,11 @@ class RatingController extends Controller
             $ratings = $ratings->where('status', 1);
         }
         $ratings = $ratings->orderby('id')->get();
+        foreach ($ratings as $key => $rating) {
+            $rating->Worker;
+            if ($rating->Facility) $rating->Facility->Manager;
+            if ($rating->Details) foreach ($rating->Details as $dt) $dt->Question;
+        }
         return view('rating.index', compact('facilities', 'ratings', 'users'));
     }
 
