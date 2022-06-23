@@ -28,7 +28,7 @@ class RatingController extends Controller
         }
         if($facility == 0) {
             $facility = Facilities::select('id')->first();
-            return redirect()->route('facilities.index', $facility);
+            return redirect()->route('rating.index', 'facility='.$facility->id);
         }
         $users = User::where('role', 1)->orderby('name')->get();
         $facilities = Facilities::select("*");
