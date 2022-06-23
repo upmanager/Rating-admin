@@ -146,5 +146,5 @@
 <!-- /.content -->
 @endsection
 @section('addJavascript')
-<script src="{{asset('js/pages/notifications.js')}}"></script>
+<script src="{{asset('js/pages/notifys.js')}}"></script>
 @endsection
