@@ -101,7 +101,7 @@ return '';
 						</td>
 						@endif
 						<td>
-							<a href="{{route('ratings.create', 'type=0&id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
+							<a href="{{route('ratings.create', 'type=0&id='.$rating->id)}}" target="_blank" class="btn btn-sm btn-success">PDF</a>
 							<a href="{{route('ratings.create', 'type=1&id='.$rating->id)}}" class="btn btn-sm btn-success">EXCEL</a>
 						</td>
 						@if (Auth::user()->role == 0)
