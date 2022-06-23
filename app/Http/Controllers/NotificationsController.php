@@ -166,8 +166,10 @@ class NotificationsController extends Controller
      * @param  \App\Models\Notifications  $notifications
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notifications $notifications)
+    public function destroy($id)
     {
         //
+        Notifications::find($id)->delete();
+        return redirect()->route('notifications.index')->withStatus(__('Successfully deleted.'));
     }
 }
