@@ -111,8 +111,8 @@ class RatingController extends Controller
         if ($type == 0) {
             // return view('exports.pdf', $data);
             $pdf = PDF::loadView('exports.pdf', $data);
-            // return $pdf->stream();
-            return $pdf->download("reports_$name.pdf");
+            return $pdf->stream();
+            // return $pdf->download("reports_$name.pdf");
         } else {
             // return view('exports.excel', $data);
             return Excel::download(new excelExport($data), "reports_$name.xlsx");
