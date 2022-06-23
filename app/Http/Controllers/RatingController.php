@@ -38,13 +38,14 @@ class RatingController extends Controller
         $facilityids = $facilities->pluck('id')->toArray();
         $facilities = $facilities->orderby('name')->get();
         $ratings = Rating::select("*")->whereIn('facilityid', $facilityids);
-        if ($facility == 0) {
-            $ratings = $ratings->take(15);
-        } else {
+        if ($facility > 0) {
             $ratings = $ratings->where('facilityid', $facility);
         }
         if (Auth::user()->role != 0) {
             $ratings = $ratings->where('status', 1);
+        }
+        if($facility == 0) {
+            $ratings = $ratings->take(10);
         }
         $ratings = $ratings->orderby('id')->get();
         foreach ($ratings as $key => $rating) {
