@@ -68,7 +68,9 @@ return '';
 						@if (Auth::user()->role == 0)
 						<th style="width: 60px">Status</th>
 						<th style="width: 140px">Action</th>
+						@endif
 						<th style="width: 100px">Export</th>
+						@if (Auth::user()->role == 0)
 						<th style="width: 60px">Delete</th>
 						@endif
 					</tr>
@@ -100,10 +102,12 @@ return '';
 							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
 							@endif
 						</td>
+						@endif
 						<td>
 							<a href="{{route('ratings.create', 'type=0&id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
 							<a href="{{route('ratings.create', 'type=1&id='.$rating->id)}}" class="btn btn-sm btn-success">EXCEL</a>
 						</td>
+						@if (Auth::user()->role == 0)
 						<td>
 							<form action="{{ route('ratings.destroy', $rating) }}" method="post">
 								@csrf
