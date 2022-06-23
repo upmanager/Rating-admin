@@ -26,6 +26,9 @@ class RatingController extends Controller
         if ($request->has('facility')) {
             $facility = intval($request->facility);
         }
+        if($facility == 0) {
+            $facility = Facilities::select('id')->first();
+        }
         $users = User::where('role', 1)->orderby('name')->get();
         $facilities = Facilities::select("*");
         if (Auth::user()->role == 1) {

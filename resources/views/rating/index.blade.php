@@ -38,12 +38,12 @@ return '';
 		<div class="col-md-3 form-group" style="margin-top:50px; max-height: 80vh; overflow-y:scroll">
 			<table class="table table-bordered table-hover facilities">
 				<tbody>
-					<tr tag="0">
+					{{-- <tr tag="0">
 						<td class="{{getParams('facility') == 0 ? 'active' : ''}}" onclick="onChangeFacility(0)">
 							<span>Show All</span>
 							<span>></span>
 						</td>
-					</tr>
+					</tr> --}}
 					@foreach ($facilities as $index => $item)
 					@if (count($item->rating) > 0)
 					<tr tag="{{$item->id}}">
