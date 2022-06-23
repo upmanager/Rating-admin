@@ -9,6 +9,8 @@ use App\Models\Categories;
 use Illuminate\Http\Request;
 use Auth;
 use PDF;
+use Excel;
+use App\Exports\excelExport;
 
 class RatingController extends Controller
 {
@@ -29,8 +31,9 @@ class RatingController extends Controller
         if (Auth::user()->role == 1) {
             $facilities = $facilities->where('managerid', Auth::user()->id);
         }
+        $facilityids = $facilities->pluck('id')->toArray();
         $facilities = $facilities->orderby('name')->get();
-        $ratings = Rating::select("*");
+        $ratings = Rating::select("*")->whereIn('facilityid', $facilityids);
         if ($facility > 0) {
             $ratings = $ratings->where('facilityid', $facility);
         }
@@ -53,6 +56,7 @@ class RatingController extends Controller
         ini_set('max_execution_time', '3600');
 
         $id = $request->id;
+        $type = $request->type;
 
         $rating = Rating::find($id);
         $facilityid = $rating->facilityid;
@@ -89,11 +93,18 @@ class RatingController extends Controller
         }
         $name =  date("Ymd");
         $created_date = $rating->created_at;
+
         $data = compact('facility', 'cats_data', 'total', 'res_total', 'created_date');
-        // return view('pdf', $data);
-        $pdf = PDF::loadView('pdf', $data);
-        // return $pdf->stream();
-        return $pdf->download("reports_$name.pdf");
+
+        if ($type == 0) {
+            // return view('exports.pdf', $data);
+            $pdf = PDF::loadView('exports.pdf', $data);
+            // return $pdf->stream();
+            return $pdf->download("reports_$name.pdf");
+        } else {
+            // return view('exports.excel', $data);
+            return Excel::download(new excelExport($data), "reports_$name.xlsx");
+        }
     }
 
     /**

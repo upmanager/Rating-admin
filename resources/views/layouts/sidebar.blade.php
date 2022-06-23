@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->role != 2)
+                @if(Auth::user()->role == 0)
                 <li class="nav-item">
                     <a href="{{route('facilities.index')}}" class="nav-link {{  request()->routeIs('facilities.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-building"></i>

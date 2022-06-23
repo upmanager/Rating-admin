@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{{-- <html lang="en"> --}}
 <html lang="ar" dir="rtl">
 
 <head>
@@ -79,15 +80,44 @@
             </td>
         </tr>
     </table>
-    <div style="width:100%; font-size:16px; font-weight:bold; margin-top:50px">
-        <div style="width:50%; float:left;">Report preparer: .........................</div>
-        <div style="width:50%; float:left;">Kitchen name: .............................</div>
-        <br>
-        <br>
-        <div style="width:50%; float:left;">Signature: ..................................</div>
-        <div style="width:50%; float:left;">Signature: ..................................</div>
-        <br><br>
-        <br><br>
+    <div style="width:100%; font-size:16px; font-weight:bold; margin-top:50px;">
+        <div style="width:100%; margin-bottom:30px; display:inline-flex">
+            <div style="width:2%"></div>
+            <div style="width: 15%; position: relative;height:104px;">
+                <p style="position: absolute; bottom:-5px; ">Report preparer: </p>
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:25%; border-bottom: 3px dotted black;">
+                <img src="{{asset('img/reporter.png')}}" width="140px" height="100px" />
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:15%; position: relative;height:104px; ">
+                <p style="position: absolute; bottom:-5px; ">Kitchen name:</p>
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:25%;  border-bottom: 3px dotted black;">
+            </div>
+            <div style="width:3%"></div>
+        </div>
+
+        <div style="width:100%; margin-bottom:100px; display:inline-flex">
+            <div style="width:2%"></div>
+            <div style="width:15%; position: relative;height:104px; ">
+                <p style="position: absolute; bottom:-5px; ">Signature: </p>
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:25%; border-bottom: 3px dotted black;">
+                <img src="{{asset('img/signature.png')}}" width="140px" height="100px" />
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:15%; position: relative;height:104px; ">
+                <p style="position: absolute; bottom:-5px;">Signature: </p>
+            </div>
+            <div style="width:5%"></div>
+            <div style="width:25%; border-bottom: 3px dotted black;">
+            </div>
+            <div style="width:3%"></div>
+        </div>
     </div>
 </body>
 

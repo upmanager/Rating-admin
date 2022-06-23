@@ -64,20 +64,31 @@ return '';
 						@if (Auth::user()->role == 0)
 						<th style="width: 60px">Status</th>
 						<th style="width: 140px">Action</th>
-						<th style="width: 80px">Export</th>
+						<th style="width: 100px">Export</th>
 						<th style="width: 60px">Delete</th>
 						@endif
 					</tr>
 				</thead>
 				<tbody>
 					@foreach ($ratings as $index => $rating)
+					@php
+					$rating->Worker;
+					if($rating->Facility) {
+					$rating->Facility->Manager;
+					}
+					if($rating->Details) {
+					foreach ($rating->Details as $dt) {
+					$dt->Question;
+					}
+					}
+					@endphp
 					<tr>
-						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$index + 1}}</td>
-						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->Worker ? $rating->Worker->name : ''}}</td>
-						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{$rating->rating}}</td>
-						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$index + 1}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$rating->Worker ? $rating->Worker->name : ''}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$rating->rating}}</td>
+						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
 						@if (Auth::user()->role == 0)
-						<td data-toggle="modal" data-target="#detail_{{$rating->id}}" style="cursor: pointer;">
+						<td style="cursor: pointer;">
 							@if($rating->status == 0)
 							Pending
 							@elseif($rating->status == 1)
@@ -97,7 +108,8 @@ return '';
 							@endif
 						</td>
 						<td>
-							<a href="{{route('ratings.create', 'id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
+							<a href="{{route('ratings.create', 'type=0&id='.$rating->id)}}" class="btn btn-sm btn-success">PDF</a>
+							<a href="{{route('ratings.create', 'type=1&id='.$rating->id)}}" class="btn btn-sm btn-success">EXCEL</a>
 						</td>
 						<td>
 							<form action="{{ route('ratings.destroy', $rating) }}" method="post">
@@ -110,127 +122,44 @@ return '';
 						</td>
 						@endif
 					</tr>
-
-					<div class="modal fade" id="detail_{{$rating->id}}" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title">Rating Detail</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">×</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<div class="card-body">
-										@if ($rating->Worker && $rating->Worker != null)
-										<h3>Worker</h3>
-										<div class="row">
-											<div class="form-group col-md-4">
-												<label for="name">Name</label>
-												<label class="form-control">{{$rating->Worker->name}}</label>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="name">Email</label>
-												<label class="form-control">{{$rating->Worker->email}}</label>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="name">Phone</label>
-												<label class="form-control">{{$rating->Worker->phonenumber}}</label>
-											</div>
-										</div>
-										<hr>
-										@endif
-
-										@if ($rating->Facility && $rating->Facility != null)
-										<h3>Facility</h3>
-										<div class="row">
-											<div class="form-group col-md-4">
-												<label for="name">Name</label>
-												<label class="form-control">{{$rating->Facility->name}}</label>
-											</div>
-											@if ($rating->Facility->Manager)
-											<div class="form-group col-md-4">
-												<label for="name">Manger Name</label>
-												<label class="form-control">{{$rating->Facility->Manager->name}}</label>
-											</div>
-											@endif
-											<div class="form-group col-md-4">
-												<label for="name">Qty</label>
-												<label class="form-control">{{$rating->Facility->qty}}</label>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="name">Record Number</label>
-												<label class="form-control">{{$rating->Facility->record_number}}</label>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="name">License Number</label>
-												<label class="form-control">{{$rating->Facility->license_number}}</label>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="name">Description</label>
-												<label class="form-control">{{$rating->Facility->content}}</label>
-											</div>
-										</div>
-										<hr>
-										@endif
-										<h3>Rating Detail</h3>
-										@foreach ($rating->Details as $detail)
-										@if ($detail->res_key == 'location')
-										<div class="form-group">
-											<label for="name">Location</label>
-											<p style="width: 100%">{{$detail->res_value}}</p>
-										</div>
-										@endif
-										@if ($detail->res_key == 'ratings')
-										<h5 style="margin-top: 40px">Question:</h5>
-										<h6 style="margin-top: 40px">{{$detail->Question ? $detail->Question->question : ''}}</h6>
-										<br>
-										<div class="row">
-											@php
-											$data = [];
-											$ismatch = false;
-											if($detail->res_value == "true" || $detail->res_value == true) {
-											$ismatch = true;
-											} else if($detail->res_value != null) {
-											$data = explode(",", $detail->res_value);
-											}
-											@endphp
-											<div class="col-md-2">
-												@if ($ismatch) <h4>Match</h4>
-												@else
-												<h4>Non Match</h4>
-												@endif
-											</div>
-											<div class="col-md-10 row">
-												@foreach ($data as $item)
-												<div class="col-md-3">
-													<img src="{{asset('storage/'.$item)}}" style="width:100%; height:100px; object-fit:contain" alt="" srcset="">
-												</div>
-												@endforeach
-											</div>
-											<hr>
-										</div>
-										@endif
-										@endforeach
-									</div>
-									<div class="modal-footer ">
-										<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 					@endforeach
 				</tbody>
 			</table>
 		</div>
 	</div><!-- /.container-fluid -->
 </div>
+
+
+
+<div class="modal fade" id="detail_modal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Rating Detail</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="card-body" id="detail-container">
+
+				</div>
+				<div class="modal-footer ">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <!-- /.content -->
 @endsection
 @section('addJavascript')
 <script>
 	const UPDATEPATH = "{!! route('ratings.update', 0) !!}";
+	const ASSETSURL = "{{asset('storage/')}}";
 </script>
 <script src="{{asset('js/pages/ratings.js')}}"></script>
 @endsection
