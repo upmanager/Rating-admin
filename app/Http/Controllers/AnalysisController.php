@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rating;
+use App\Models\Facilities;
 use Illuminate\Http\Request;
 
 class AnalysisController extends Controller
@@ -12,11 +13,19 @@ class AnalysisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
         $rates = [];
-        $ratings = Rating::where('status', 1)->get();
+        $ratings = Rating::where('status', 1);
+
+        if ($request->has('facilities')) $ratings = $ratings->whereIn('facilityid', explode(',', $request->facilities));
+        if ($request->has('start_date')) $ratings = $ratings->where('created_at', ">", $request->start_date." 00:00:00");
+        if ($request->has('end_date')) $ratings = $ratings->where('created_at', "<", $request->end_date." 23:59:59");
+
+
+        $ratings = $ratings->get();
+        $facilities = Facilities::orderby('name')->get();
+
         foreach ($ratings as $rkey => $rating) {
             $facility = "";
             if ($rating->Facility) $facility = $rating->Facility->name;
@@ -69,7 +78,7 @@ class AnalysisController extends Controller
 
         $rate_by_facility = collect($rate_by_facility)->sortByDesc('rate')->toArray();
         $rate_by_date = collect($rate_by_date)->sortByDesc('timestamps')->toArray();
-        return view('analysis.index', compact('rates', 'rate_by_facility', 'rate_by_date'));
+        return view('analysis.index', compact('facilities', 'rates', 'rate_by_facility', 'rate_by_date'));
     }
 
     /**

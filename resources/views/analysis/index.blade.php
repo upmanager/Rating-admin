@@ -2,6 +2,7 @@
 
 @section('addCss')
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -19,19 +20,38 @@
 	</div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
+@php
+function getParams($key) {
+try {
+return $_GET[$key];
+} catch (\Throwable $th) {
+}
+return '';
+}
+$start_date = getParams('start_date');
+$end_date = getParams('end_date');
+$facilityids = getParams('facilities');
+if($facilityids != '') $facilityids = explode(',', $facilityids);
+else $facilityids = [];
+@endphp
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid row">
-		{{-- <div class="col-md-12">
-			<input type="text" class="daterange" />
-		</div> --}}
+		<div class="col-md-5">
+			<input type="text" class="daterange form-control" value="{{($start_date || $end_date) ? $start_date." - ".$end_date : ''}}" />
+		</div>
+		<div class="col-md-5">
+			<select class="facilities-picker forn-control" multiple>
+				@foreach ($facilities as $item)
+				<option value="{{$item->id}}" {{ in_array($item->id, $facilityids) ? 'selected' : '' }}>{{$item->name}}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="col-md-2">
+			<input type="button" value="Filter" class="btn btn-primary btn-filter">
+		</div>
+		<br><br><br>
 		<div class="col-md-8 col-lg-8 row">
-			<div class="col-md-6">
-				<canvas id="polarChart"></canvas>
-			</div>
-			<div class="col-md-6">
-				<canvas id="pieChart"></canvas>
-			</div>
 			<div class="col-md-12">
 				<canvas id="mixedChart"> </canvas>
 			</div>
@@ -79,12 +99,13 @@
 @section('addJavascript')
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 	const rates = Object.values(@json($rates));
 	const rate_by_facility = Object.values(@json($rate_by_facility));
 	const rate_by_date = Object.values(@json($rate_by_date));
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{asset('js/pages/analysis.js')}}"></script>
 @endsection

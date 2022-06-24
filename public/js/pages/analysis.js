@@ -18,15 +18,18 @@ function shuffle(array) {
 }
 
 var _COLORS = shuffle(['#FF1493', '#FF00FF', '#DC143C', '#FF7F50', '#FFFF00', '#7FFF00', '#00FFFF', '#1E90FF']);
-
+var start_time = null
+var end_time = null
 $(function () {
-    $('.daterange').daterangepicker({
+    const _dRange = $('.daterange');
+    const _picker = $(".facilities-picker");
+    _dRange.daterangepicker({
         showDropdowns: true,
         locale: {
             format: "MM/DD/YYYY",
             separator: " - ",
             applyLabel: "Apply",
-            cancelLabel: "Cancel",
+            cancelLabel: 'Clear',
             fromLabel: "From",
             toLabel: "To",
             customRangeLabel: "Custom",
@@ -58,9 +61,15 @@ $(function () {
         },
         maxDate: "06/04/2022",
         opens: "center",
-        buttonClasses: "btn btn-sm "
-    }, function (start, end, label) {
-        console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        buttonClasses: "btn btn-sm",
+        autoUpdateInput: false,
+    });
+
+    _dRange.on('apply.daterangepicker', function (ev, picker) {
+        _dRange.val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+    _dRange.on('cancel.daterangepicker', (ev, picker) => {
+        _dRange.val('')
     });
 
     $(".dataTable").DataTable({
@@ -71,56 +80,23 @@ $(function () {
         responsive: true,
         searching: false
     });
-    const labels = rates.map(item => item.name);
-    const values = rates.map(item => item.ratio);
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: { position: 'top', },
-            title: { display: false, }
-        }
-    };
-    const dtSet2 = {
-        // backgroundColor: _COLORS,
-        // borderColor: '#fff',
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(255, 159, 64, 0.5)',
-            'rgba(255, 205, 86, 0.5)',
-            'rgba(75, 192, 192, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(153, 102, 255, 0.5)',
-            'rgba(201, 203, 207, 0.5)'
-        ],
-        borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-        ],
-        data: values,
-    };
+    _picker.selectpicker({
+        actionsBox: true,
+        deselectAllText: 'Deselect All',
+        dropdownAlignRight: 'auto',
+        liveSearch: true,
+        selectAllText: 'Select All',
+        width: '100%'
+    });
 
-    const pieConfig = {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [dtSet2]
-        },
-        options: options
-    };
+    $(".btn-filter").on('click', e => {
+        const facilities = (_picker.selectpicker('val') || []).join(',');
+        const start_date = _dRange.val() ? _dRange.data('daterangepicker').startDate.format('MM/DD/YYYY') : null;
+        const end_date = _dRange.val() ? _dRange.data('daterangepicker').endDate.format('MM/DD/YYYY') : null;
 
-    const polarConfig = {
-        type: 'polarArea',
-        data: {
-            labels: labels,
-            datasets: [dtSet2]
-        },
-        options: options,
-    };
+        const url = updateUrlParams({ facilities, start_date, end_date });
+        if (url != window.location.href) window.location.href = url;
+    });
 
     const mixedConfig = {
         data: {
@@ -141,7 +117,7 @@ $(function () {
                 }
 
             ],
-            labels: labels
+            labels: rates.map(item => item.name)
         },
         options: {
             plugins: {
@@ -151,8 +127,6 @@ $(function () {
         }
     };
 
-    new Chart(document.getElementById('polarChart'), polarConfig);
-    new Chart(document.getElementById('pieChart'), pieConfig);
     new Chart(document.getElementById('mixedChart'), mixedConfig);
 
     const dateChartConfig = {
@@ -185,3 +159,16 @@ $(function () {
     };
     new Chart(document.getElementById('chartbydate'), dateChartConfig);
 });
+
+function updateUrlParams(obj) {
+    let curParams = new URLSearchParams(window.location.search);
+
+    Object.entries(obj).map(([key, value]) => {
+        if (value == null || value == '') curParams.delete(key);
+        else curParams.set(key, value);
+    })
+
+    const { protocol, host, pathname } = window.location;
+    const url = `${protocol}//${host}${pathname}?${curParams.toString()}`;
+    return url;
+}
