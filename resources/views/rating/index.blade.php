@@ -55,7 +55,19 @@ return '';
 			</table>
 		</div>
 		<div class="col-md-9">
-			<table class="table table-bordered table-hover dataTable dtr-inline">
+			<div class="row">
+				<div class="col-md-2">
+					<select id="count" name="count" class="form-control">
+						<option value="5" {{getParams('count')==5 ? 'selected' : '' }}>5</option>
+						<option value="10" {{getParams('count')==10 ? 'selected' : '' }}>10</option>
+						<option value="15" {{getParams('count')==15 ? 'selected' : '' }}>15</option>
+						<option value="20" {{getParams('count')==20 ? 'selected' : '' }}>20</option>
+						<option value="100" {{getParams('count')==100 ? 'selected' : '' }}>100</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<table class="table table-bordered table-hover  dtr-inline">
 				<thead>
 					<tr>
 						<th style="width:30px">No</th>
@@ -118,6 +130,10 @@ return '';
 					@endforeach
 				</tbody>
 			</table>
+			<div class="d-flex justify-content-center">
+				{{ $ratings->appends($_GET)->links() }}
+			</div>
+
 		</div>
 	</div><!-- /.container-fluid -->
 </div>

@@ -11,6 +11,13 @@ $(function () {
     $(".add-facility").on('click', e => {
         editItem({ id: 0, name: '', managerid: 0 });
     })
+    $("#count").on('change', (e) => {
+        const count = e.target.value || 5;
+        const url = updateUrlParams({ count });
+        if (url != window.location.href) {
+            window.location.href = url;
+        }
+    })
 });
 const ratingAction = (id, approve) => {
     $.ajax({

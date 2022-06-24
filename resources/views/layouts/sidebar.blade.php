@@ -62,6 +62,14 @@
                         <p>Manage Ratings</p>
                     </a>
                 </li>
+                {{-- @if(Auth::user()->role == 0)
+                <li class="nav-item">
+                    <a href="{{route('analysis.index')}}" class="nav-link {{  request()->routeIs('analysis.*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-book"></i>
+                        <p>Analysis</p>
+                    </a>
+                </li>
+                @endif --}}
                 <li class="nav-item">
                     <a href="{{route('notifications.index')}}" class="nav-link {{  request()->routeIs('notifications.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-bell"></i>

@@ -23,6 +23,13 @@ class RatingController extends Controller
     {
         //
         $facility = 0;
+        $req_url = $request->getRequestUri();
+        $count = 5;
+        $page = 1;
+        if ($request->has('count')) $count = $request->count;
+        if ($request->has('page')) $page = $request->page;
+
+
         if ($request->has('facility')) {
             $facility = intval($request->facility);
         }
@@ -44,10 +51,18 @@ class RatingController extends Controller
         if (Auth::user()->role != 0) {
             $ratings = $ratings->where('status', 1);
         }
-        if($facility == 0) {
-            $ratings = $ratings->take(10);
+
+        $ratings = $ratings->orderby('created_at', 'desc')->paginate($count);
+        $lastPage = $ratings->lastPage();
+
+        if ($page <= 0) {
+            $red_url = str_replace("page=$page", "page=1", $req_url);
+            return redirect($red_url);
+        } else if ($lastPage < $page) {
+            $red_url = str_replace("page=$page", "page=$lastPage", $req_url);
+            return redirect($red_url);
         }
-        $ratings = $ratings->orderby('id')->get();
+
         foreach ($ratings as $key => $rating) {
             $rating->Worker;
             if ($rating->Facility) $rating->Facility->Manager;

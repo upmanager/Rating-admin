@@ -35,6 +35,7 @@ Route::middleware(['Language'])->group(function () {
         Route::middleware(['roleChecker:admin'])->resource('roles', RolesController::class);
         Route::middleware(['roleChecker:admin'])->resource('questions', QuestionsController::class);
         Route::middleware(['roleChecker:admin'])->resource('offices', OfficesController::class);
+        Route::middleware(['roleChecker:admin'])->resource('analysis', AnalysisController::class);
         Route::middleware(['roleChecker:admin,client'])->resource('facilities', FacilitiesController::class);
         Route::middleware(['roleChecker:admin,client,worker'])->resource('ratings', RatingController::class);
         Route::middleware(['roleChecker:admin,client,worker'])->resource('notifications', NotificationsController::class);
