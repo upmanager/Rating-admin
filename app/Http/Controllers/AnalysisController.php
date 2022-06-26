@@ -17,10 +17,15 @@ class AnalysisController extends Controller
     {
         $rates = [];
         $ratings = Rating::where('status', 1);
-
         if ($request->has('facilities')) $ratings = $ratings->whereIn('facilityid', explode(',', $request->facilities));
-        if ($request->has('start_date')) $ratings = $ratings->where('created_at', ">", $request->start_date." 00:00:00");
-        if ($request->has('end_date')) $ratings = $ratings->where('created_at', "<", $request->end_date." 23:59:59");
+        if ($request->has('start_date')) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . " 00:00:00"));
+            $ratings = $ratings->where('created_at', ">=", $start_date);
+        }
+        if ($request->has('end_date')) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . " 23:59:59"));
+            $ratings = $ratings->where('created_at', "<=", $end_date);
+        }
 
 
         $ratings = $ratings->get();
@@ -38,9 +43,10 @@ class AnalysisController extends Controller
                 foreach ($details as $detail) {
                     if ($detail->res_key != 'ratings') continue;
                     if ($detail->Question == null) continue;
+                    if ($detail->res_value == 'none') continue;
                     $total_rate += $detail->Question->score;
-                    if ($detail->res_value !== 'true' && $detail->res_value !== true) continue;
-                    $rate += $detail->Question->score;
+                    if ($detail->res_value == 'match') $rate += $detail->Question->score;
+                    else if ($detail->res_value == 'average') $rate += ($detail->Question->score / 2);
                 }
             }
             $time = strtotime($rating->created_at);

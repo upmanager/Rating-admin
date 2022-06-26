@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', App::getLocale()) }}">
 
 <head>
 	<meta charset="utf-8">
@@ -24,9 +24,8 @@
 	@yield('addCss')
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-open">
+<body class="hold-transition sidebar-mini sidebar-open" dir='{{App::getLocale() == 'en' ? 'ltr' : 'rtl' }}'>
 	<div class="wrapper">
-
 		@include('layouts.navbar')
 		@include('layouts.sidebar')
 
@@ -56,7 +55,6 @@
 	<script src="{{asset('js/toastr.min.js')}}"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
-
 	<script>
 		$(function () {
 			$.ajaxSetup({
@@ -71,6 +69,8 @@
 				definitions: { '#': { validator: "[0-9]", cardinality: 1}}
 		});
 	})
+	const _JSLANGS = @json(__('javascripts'));
+
 	</script>
 	@yield('addJavascript')
 </body>

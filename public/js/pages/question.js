@@ -9,8 +9,12 @@ $(function () {
     });
 
     $(".add-question").on('click', e => {
-        editItem({ id: 0, name: '', score:0, managerid: 0 });
+        editItem({ id: 0, name: '', score: 0, managerid: 0 });
     })
+    $(".add-category").on('click', e => {
+        editCategoryItem({ id: 0, title: '' });
+    })
+
     $(".checkbox-users").on('change', e => {
         const checked = e.target.checked;
         const id = e.target.getAttribute('data-id');
@@ -49,13 +53,13 @@ const onChangeFacility = (id) => {
 }
 const deleteItem = (ele) => {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: _JSLANGS.del_confirm,
+        text: _JSLANGS.del_msg,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: _JSLANGS.del_button
     }).then((result) => {
         if (result.isConfirmed) {
             ele.parentElement.submit()
@@ -68,4 +72,10 @@ const editItem = (data) => {
     $("#question").val(data.question);
     $("#score").val(data.score);
     $("#update-form").modal('show');
+}
+const editCategoryItem = (data) => {
+    $("#categoryid").val(data.id);
+    $("#title").val(data.title);
+    $("#require_all").prop('checked', data.all_check == 1);
+    $("#add-category").modal('show');
 }

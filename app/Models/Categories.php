@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categories extends Model
 {
     //
-    protected $fillable = ['title', 'order'];
+    protected $fillable = ['title', 'order', 'all_check'];
 
     public function Questions()
     {

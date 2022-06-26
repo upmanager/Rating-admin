@@ -55,13 +55,13 @@ const editItem = (data) => {
 }
 const deleteItem = (ele) => {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: _JSLANGS.del_confirm,
+        text: _JSLANGS.del_msg,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: _JSLANGS.del_button
     }).then((result) => {
         if (result.isConfirmed) {
             ele.parentElement.submit()

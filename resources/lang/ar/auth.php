@@ -12,7 +12,26 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'Login' => "تسجيل الدخول",
+    'Email' => 'تسجيل الدخول',
+    'Password' => 'تسجيل الدخول',
+    'confirm-password' => 'تسجيل الدخول',
+    'forgot-password' => 'تسجيل الدخول?',
+    'create-account' => 'تسجيل الدخول >',
+    'Register' => 'تسجيل الدخول',
 
-    'failed' => 'أوراق الاعتماد هذه لا تتطابق مع سجلاتنا.',
-    'throttle' => 'محاولات تسجيل دخول كثيرة جدًا. يرجى المحاولة مرة أخرى خلال: ثواني.',
+    'go-login' => '< تسجيل الدخول',
+    'full-name' => 'تسجيل الدخول',
+    'phone' => 'تسجيل الدخول',
+    'email-verify' => 'تسجيل الدخول',
+    'email-verify-sent' => 'تسجيل الدخول',
+    'email-verify-comments' => 'تسجيل الدخول',
+    'no-received-email' => 'تسجيل الدخول',
+    'request-another' => 'تسجيل الدخول',
+
+    'reset-password' => 'تسجيل الدخول',
+    'send-action' => 'تسجيل الدخول',
+
+    'failed' => 'تسجيل الدخول',
+    'throttle' => 'تسجيل الدخول',
 ];

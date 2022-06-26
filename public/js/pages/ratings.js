@@ -25,7 +25,7 @@ const ratingAction = (id, approve) => {
         data: { id, approve },
         method: 'put',
         success: function (result) {
-            toastr.success('update success')
+            toastr.success(_JSLANGS.update_success)
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -54,13 +54,13 @@ const onChangeFacility = (id) => {
 }
 const deleteItem = (ele) => {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: _JSLANGS.del_confirm,
+        text: _JSLANGS.del_msg,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: _JSLANGS.del_button
     }).then((result) => {
         if (result.isConfirmed) {
             ele.parentElement.submit()
@@ -73,18 +73,18 @@ const renderModal = (rating) => {
     var html = '';
     if (rating.worker) {
         html += `
-            <h3>Worker</h3>
+            <h3>${_LANLABELS.Worker}</h3>
             <div class="row">
                 <div class="form-group col-md-4">
-                    <label for="name">Name</label>
+                    <label for="name">${_LANLABELS.Name}</label>
                     <label class="form-control">${rating.worker.name || ''}</label>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">Email</label>
+                    <label for="name">${_LANLABELS.Email}</label>
                     <label class="form-control">${rating.worker.email || ''}</label>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">Phone</label>
+                    <label for="name">${_LANLABELS.Phone}</label>
                     <label class="form-control">${rating.worker.phonenumber || ''}</label>
                 </div>
             </div>
@@ -93,46 +93,41 @@ const renderModal = (rating) => {
     }
     if (rating.facility) {
         html += `
-            <h3>Facility</h3>
+            <h3>${_LANLABELS.Facility}</h3>
             <div class="row">
                 <div class="form-group col-md-4">
-                    <label for="name">Name</label>
+                    <label for="name">${_LANLABELS.Name}</label>
                     <label class="form-control">${rating.facility.name || ''}</label>
                 </div>
-                ${rating.facility?.Manager ? `<div class="form-group col-md-4"><label for="name">Manger Name</label><label class="form-control">${rating.facility?.Manager?.name || ''}</label></div>` : ``}
+                ${rating.facility?.Manager ? `<div class="form-group col-md-4"><label for="name">${_LANLABELS.manager_name}</label><label class="form-control">${rating.facility?.Manager?.name || ''}</label></div>` : ``}
                 <div class="form-group col-md-4">
-                    <label for="name">Qty</label>
-                    <label class="form-control">${(rating.facility.qty || 0)}</label>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="name">Record Number</label>
+                    <label for="name">${_LANLABELS.record_number}</label>
                     <label class="form-control">${rating.facility.record_number || ''}</label>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">License Number</label>
+                    <label for="name">${_LANLABELS.license_number}License Number</label>
                     <label class="form-control">${rating.facility.license_number || ''}</label>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="name">Description</label>
+                    <label for="name">${_LANLABELS.description}</label>
                     <label class="form-control">${rating.facility.content || ''}</label>
                 </div>
             </div>
             <hr>
         `
     }
-    html += `<h3>Rating Detail</h3>`;
+    html += `<h3>${_LANLABELS.rating_detail}</h3>`;
     (rating.details || []).forEach(detail => {
         var data = [];
-        var ismatch = false;
-        if (detail.res_value == "true" || detail.res_value == true) {
-            ismatch = true;
-        } else if (detail.res_value != null) {
+        if (data.res_value != 'none') return;
+
+        if (detail.res_value != "match" && detail.res_value != 'average' && detail.res_value != null && detail.res_value != '')
             data = (detail.res_value.split(",") || []);
-        }
+
         html += `
         ${detail.res_key == 'location' ? (
                 `<div class="form-group">
-                    <label for="name">Location</label>
+                    <label for="name">${__LANLABELS.Location}</label>
                     <p style="width: 100%">${detail.res_value}</p>
                 </div>`
             ) : ''}
@@ -142,7 +137,7 @@ const renderModal = (rating) => {
                     <br>
                     <div class="row">
                         <div class="col-md-2">
-                            <h4>${ismatch ? 'Match' : 'Non Match'}</h4>
+                            <h4>${detail.res_value == "match" ? __LANLABELS.match : detail.res_value == "average" ? __LANLABELS.average : __LANLABELS.no_match}</h4>
                         </div>
                         <div class="col-md-10 row">
                         ${data.map(item => `<div class="col-md-3"><img src="${ASSETSURL}${item}" style="width:100%; height:100px; object-fit:contain" alt="" srcset=""></div>`)}

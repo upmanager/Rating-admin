@@ -28,38 +28,15 @@ $(function () {
         locale: {
             format: "MM/DD/YYYY",
             separator: " - ",
-            applyLabel: "Apply",
-            cancelLabel: 'Clear',
-            fromLabel: "From",
-            toLabel: "To",
-            customRangeLabel: "Custom",
-            weekLabel: "W",
-            daysOfWeek: [
-                "Su",
-                "Mo",
-                "Tu",
-                "We",
-                "Th",
-                "Fr",
-                "Sa"
-            ],
-            monthNames: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ],
+            applyLabel: _JSLANGS.apply,
+            cancelLabel: _JSLANGS.clear,
+            fromLabel: _JSLANGS.from,
+            toLabel: _JSLANGS.to,
+            daysOfWeek: _JSLANGS.daysOfWeek,
+            monthNames: _JSLANGS.monthNames,
             firstDay: 1
         },
-        maxDate: "06/04/2022",
+        maxDate: new Date(),
         opens: "center",
         buttonClasses: "btn btn-sm",
         autoUpdateInput: false,
@@ -82,11 +59,13 @@ $(function () {
     });
     _picker.selectpicker({
         actionsBox: true,
-        deselectAllText: 'Deselect All',
+        deselectAllText: _JSLANGS.deselect_all,
         dropdownAlignRight: 'auto',
         liveSearch: true,
-        selectAllText: 'Select All',
-        width: '100%'
+        selectAllText: _JSLANGS.select_all,
+        width: '100%',
+        noneSelectedText: _JSLANGS.nothing_selected,
+        noneResultsText: _JSLANGS.mo_matched
     });
 
     $(".btn-filter").on('click', e => {
@@ -103,14 +82,14 @@ $(function () {
             datasets: [
                 {
                     type: 'line',
-                    label: 'Max Rate',
+                    label: _JSLANGS.max_rate,
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: rates.map(item => item.total_rate)
                 },
                 {
                     type: 'line',
-                    label: 'Current Rate',
+                    label: _JSLANGS.cur_rate,
                     backgroundColor: 'rgb(153, 102, 255)',
                     borderColor: 'rgb(153, 102, 255)',
                     data: rates.map(item => item.rate)
@@ -134,14 +113,14 @@ $(function () {
             datasets: [
                 {
                     type: 'line',
-                    label: 'Max Rate',
+                    label: _JSLANGS.max_rate,
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: rate_by_date.map(item => item.total_rate)
                 },
                 {
                     type: 'line',
-                    label: 'Current Rate',
+                    label: _JSLANGS.cur_rate,
                     backgroundColor: 'rgb(153, 102, 255)',
                     borderColor: 'rgb(153, 102, 255)',
                     data: rate_by_date.map(item => item.rate)

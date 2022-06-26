@@ -6,7 +6,7 @@
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Manage Rating</h1>
+				<h1 class="m-0 text-dark">{{__('commons.manage-rating')}}</h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right" style="padding-right: 30px">
@@ -37,7 +37,7 @@ return '';
 				<tbody>
 					<tr tag="0">
 						<td class="{{getParams('facility') == 0 ? 'active' : ''}}" onclick="onChangeFacility(0)">
-							<span>Show All</span>
+							<span>{{__('commons.show-all')}}</span>
 							<span>></span>
 						</td>
 					</tr>
@@ -70,17 +70,17 @@ return '';
 			<table class="table table-bordered table-hover  dtr-inline">
 				<thead>
 					<tr>
-						<th style="width:30px">No</th>
-						<th>Worker</th>
-						<th>Rating</th>
-						<th>Create date</th>
+						<th style="width:30px">{{__('commons.No')}}</th>
+						<th>{{__('commons.worker')}}</th>
+						<th>{{__('commons.Rating')}}</th>
+						<th>{{__('commons.created-at')}}</th>
 						@if (Auth::user()->role == 0)
-						<th style="width: 60px">Status</th>
-						<th style="width: 140px">Action</th>
+						<th style="width: 60px">{{__('commons.Status')}}</th>
+						<th style="width: 140px">{{__('commons.Action')}}</th>
 						@endif
-						<th style="width: 100px">Export</th>
+						<th style="width: 100px">{{__('commons.Export')}}</th>
 						@if (Auth::user()->role == 0)
-						<th style="width: 60px">Delete</th>
+						<th style="width: 60px">{{__('commons.Delete')}}</th>
 						@endif
 					</tr>
 				</thead>
@@ -94,21 +94,21 @@ return '';
 						@if (Auth::user()->role == 0)
 						<td style="cursor: pointer;">
 							@if($rating->status == 0)
-							Pending
+							{{__('commons.Pending')}}
 							@elseif($rating->status == 1)
-							Approved
+							{{__('commons.Approved')}}
 							@else
-							Blocked
+							{{__('commons.Blocked')}}
 							@endif
 						</td>
 						<td>
 							@if($rating->status == 0)
-							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
-							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
+							<input type="button" value="{{__('commons.Approve')}}" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
+							<input type="button" value="{{__('commons.Block')}}" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
 							@elseif($rating->status == 1)
-							<input type="button" value="Block" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
+							<input type="button" value="{{__('commons.Block')}}" class="btn btn-sm btn-danger block-rating" onclick="ratingAction({{$rating->id}}, false)">
 							@else
-							<input type="button" value="Approve" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
+							<input type="button" value="{{__('commons.Approve')}}" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
 							@endif
 						</td>
 						@endif
@@ -122,7 +122,7 @@ return '';
 								@csrf
 								@method('delete')
 								<button rel="tooltip" type="button" class="btn btn-sm btn-danger" data-original-title="Delete comment" title="Delete comment"
-									onclick="deleteItem(this)">Delete</button>
+									onclick="deleteItem(this)">{{__('commons.Delete')}}</button>
 							</form>
 						</td>
 						@endif
@@ -139,36 +139,28 @@ return '';
 </div>
 
 
-
-<div class="modal fade" id="detail_modal" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Rating Detail</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="card-body" id="detail-container">
-
-				</div>
-				<div class="modal-footer ">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
 <!-- /.content -->
 @endsection
 @section('addJavascript')
 <script>
 	const UPDATEPATH = "{!! route('ratings.update', 0) !!}";
 	const ASSETSURL = "{{asset('storage/')}}";
+
+	const _LANLABELS = {
+		Worker:`{{__('commons.worker')}}`,
+		Facility:`{{__('commons.Facility')}}`,
+		Name:`{{__('commons.Name')}}`,
+		Email:`{{__('commons.Email')}}`,
+		Phone:`{{__('commons.Phone')}}`,
+		manager_name:`{{__('commons.manager-name')}}`,
+		record_number:`{{__('commons.record-number')}}`,
+		description:`{{__('commons.Description')}}`,
+		license_number:`{{__('commons.license-number')}}`,
+		rating_detail: `{{__('commons.rating-detail')}}`,
+		Location:`{{__('commons.Location')}}`,
+		no_match:`{{__('commons.no-match')}}`,
+		match:`{{__('commons.match')}}`,
+	}
 </script>
 <script src="{{asset('js/pages/ratings.js')}}"></script>
 @endsection

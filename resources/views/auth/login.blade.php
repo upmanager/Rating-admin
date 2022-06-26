@@ -9,7 +9,7 @@
 </style>
 <div class="card">
     <div class="card-body login-card-body">
-        <p class="login-box-msg">{{ __('Login') }}</p>
+        <p class="login-box-msg">{{ __('auth.Login') }}</p>
         @if (session('errors'))
         <span class="invalid-feedback" role="alert">
             <strong> {{session('errors')->first('error')}} </strong>
@@ -18,8 +18,8 @@
         <form action="{{route('login')}}" method="post">
             @csrf
             <div class="input-group mb-3">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" placeholder="Email" required
-                    autocomplete="email" autofocus>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" placeholder="{{__('auth.Email')}}"
+                    required autocomplete="email" autofocus>
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-envelope"></span>
                 </div>
@@ -31,7 +31,7 @@
             @enderror
 
             <div class="input-group mb-3">
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{__('auth.Password')}}" name="password" required
                     autocomplete="current-password">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-lock"></span>
@@ -54,7 +54,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Login') }}</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('auth.Login') }}</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -64,12 +64,12 @@
 
         @if (Route::has('password.request'))
         <p class="mb-0">
-            <a href="{{ route('password.request') }}">{{ __('Forgot Password?') }}</a>
+            <a href="{{ route('password.request') }}">{{ __('auth.forgot-password') }}</a>
         </p>
         @endif
         @if (Route::has('register'))
         <p class="mb-0">
-            <a href="{{ route('register') }}" class="text-center">{{ __('Create a new account >') }}</a>
+            <a href="{{ route('register') }}" class="text-center">{{ __('auth.create-account') }}</a>
         </p>
         @endif
     </div>

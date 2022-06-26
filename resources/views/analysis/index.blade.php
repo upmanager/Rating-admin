@@ -10,7 +10,7 @@
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Analysis</h1>
+				<h1 class="m-0 text-dark">{{__('commons.Analysis')}}</h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right" style="padding-right: 30px">
@@ -38,7 +38,7 @@ else $facilityids = [];
 <div class="content">
 	<div class="container-fluid row">
 		<div class="col-md-5">
-			<input type="text" class="daterange form-control" value="{{($start_date || $end_date) ? $start_date." - ".$end_date : ''}}" />
+			<input type="text" class="daterange form-control" value="{{($start_date && $end_date) ? $start_date." - ".$end_date : ''}}" />
 		</div>
 		<div class="col-md-5">
 			<select class="facilities-picker forn-control" multiple>
@@ -48,7 +48,7 @@ else $facilityids = [];
 			</select>
 		</div>
 		<div class="col-md-2">
-			<input type="button" value="Filter" class="btn btn-primary btn-filter">
+			<input type="button" value="{{__('commons.filter')}}" class="btn btn-primary btn-filter">
 		</div>
 		<br><br><br>
 		<div class="col-md-8 col-lg-8 row">
@@ -63,10 +63,10 @@ else $facilityids = [];
 			<table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%">
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Facility</th>
-						<th>Rating</th>
-						<th>Max Rate</th>
+						<th>{{__('commons.No')}}</th>
+						<th>{{__('commons.Facility')}}</th>
+						<th>{{__('commons.Rating')}}</th>
+						<th>{{__('commons.total-rate')}}</th>
 						<th>%</th>
 					</tr>
 				</thead>

@@ -6,11 +6,11 @@
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Manage Offices</h1>
+				<h1 class="m-0 text-dark">{{__('commons.manage-offices')}}</h1>
 			</div><!-- /.col -->
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					<button type="button" class="btn btn-success add-office" style="margin:10px"> Add Office</button>
+					<button type="button" class="btn btn-success add-office" style="margin:10px"> {{__('commons.add-offices')}}</button>
 				</ol>
 			</div><!-- /.col -->
 		</div><!-- /.row -->
@@ -34,7 +34,7 @@ return '';
 				<tbody>
 					<tr tag="0">
 						<td class="{{getParams('facility') == 0 ? 'active' : ''}}" onclick="onChangeFacility(0)">
-							<span>Show All</span>
+							<span>{{__('commons.show-all')}}</span>
 						</td>
 					</tr>
 					@foreach ($facilities as $index => $item)
@@ -51,10 +51,10 @@ return '';
 			<table class="table table-bordered table-hover dataTable dtr-inline">
 				<thead>
 					<tr>
-						<th style="width:30px">No</th>
-						<th>Office</th>
-						<th>Members</th>
-						<th style="width: 180px">Action</th>
+						<th style="width:30px">{{__('commons.No')}}</th>
+						<th>{{__('commons.Office')}}</th>
+						<th>{{__('commons.Members')}}</th>
+						<th style="width: 180px">{{__('commons.Action')}}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,19 +72,20 @@ return '';
 							<td>{{$item->name}}</td>
 							<td>
 								@if ($all_checked)
-								All users
+								{{__('commons.all-users')}}
 								@else
-								{{$count == 0 ? "No users" : $count}}
+								{{$count == 0 ? __("commons.no-users") : $count}}
 								@endif
 							</td>
 							<td>
 								<form action="{{ route('offices.destroy', $item) }}" method="post">
 									@csrf
 									@method('delete')
-									<input type="button" class="btn btn-success btn-sm" value="Members" data-toggle="modal" data-target="#members_form_{{$index}}">
-									<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$item}})" value="Edit">
-									<button rel="tooltip" type="button" class="btn  btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
-										onclick="deleteItem(this)">Delete</button>
+									<input type="button" class="btn btn-success btn-sm" value="{{__('commons.Members')}}" data-toggle="modal"
+										data-target="#members_form_{{$index}}">
+									<input type="button" class="btn btn-primary btn-sm" onclick="editItem({{$item}})" value="{{__('commons.Edit')}}">
+									<button rel="tooltip" type="button" class="btn btn-danger btn-sm" data-original-title="Delete comment" title="Delete comment"
+										onclick="deleteItem(this)">{{__('commons.Delete')}}</button>
 								</form>
 							</td>
 						</tr>
@@ -92,7 +93,7 @@ return '';
 							<div class="modal-dialog modal-lg">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h4 class="modal-title">Users</h4>
+										<h4 class="modal-title">{{__('commons.User')}}</h4>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">×</span>
 										</button>
@@ -105,7 +106,7 @@ return '';
 
 												<input class="form-check-input checkbox-lg checkbox-users" data-facilityid="{{$item->id}}" data-id="0" type="checkbox"
 													name="all_users" id="all_users_{{$item->id}}" value="-1" {{$all_checked ? "checked" : "" }}>
-												<label for="all_users" style="margin-left: 20px; font-size:24px;">All Users</label>
+												<label for="all_users" style="margin-left: 20px; font-size:24px;">{{__('commons.all-users')}}</label>
 											</div>
 											<div class="card-body row">
 												@foreach($users as $userIdx => $user)
@@ -135,8 +136,7 @@ return '';
 												@endforeach
 											</div>
 											<div class="modal-footer justify-content-between">
-												<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
-												<input type="submit" class="btn btn-primary" value="Save" />
+												<input type="submit" class="btn btn-primary" value="{{__('commons.Save')}}" />
 											</div>
 										</div>
 									</form>
@@ -154,7 +154,7 @@ return '';
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">User</h4>
+				<h4 class="modal-title">{{__('commons.Office')}}</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
@@ -165,7 +165,7 @@ return '';
 				<div class="modal-body">
 					<div class="card-body">
 						<div class="form-group">
-							<label for="categoryid">Facility</label>
+							<label for="categoryid">{{__('commons.Facility')}}</label>
 							<select class="form-control" id="facilityid" name="facilityid" required>
 								@foreach ($facilities as $facility)
 								<option value="{{$facility->id}}">{{$facility->name}}</option>
@@ -173,13 +173,12 @@ return '';
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="office">Office</label>
+							<label for="office">{{__('commons.Office')}}</label>
 							<input type="text" name="name" id="office" class="form-control">
 						</div>
 					</div>
 					<div class="modal-footer justify-content-between">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
-						<input type="submit" class="btn btn-primary" value="Save" />
+						<input type="submit" class="btn btn-primary" value="{{__('commons.Save')}}" />
 					</div>
 				</div>
 			</form>

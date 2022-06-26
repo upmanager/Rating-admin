@@ -29,6 +29,15 @@
 
 input[type=checkbox],
 input[type=radio] {
-    margin-top: 10px;
+    margin-top  : 10px;
     margin-right: 10px;
+}
+
+.lines-3 {
+    overflow          : hidden;
+    font-size         : 12px;
+    text-overflow     : ellipsis;
+    display           : -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }

@@ -3,14 +3,14 @@
 @section('content')
 <div class="card">
     <div class="card-body login-card-body">
-        <p class="login-box-msg">{{ __('Register') }}</p>
+        <p class="login-box-msg">{{ __('auth.Register') }}</p>
 
         <form action="{{route('register')}}" method="post">
             @csrf
 
             <div class="input-group mb-3">
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Full name" name="name" value="{{ old('name') }}" required
-                    autocomplete="name" autofocus>
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="{{__('auth.full-name')}}" name="name" value="{{ old('name') }}"
+                    required autocomplete="name" autofocus>
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-user"></span>
                 </div>
@@ -22,8 +22,8 @@
             @enderror
 
             <div class="input-group mb-3">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" placeholder="Email" required
-                    autocomplete="email">
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{old('email')}}" placeholder="{{__('Email')}}"
+                    required autocomplete="email">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-envelope"></span>
                 </div>
@@ -40,7 +40,7 @@
                     +966
                 </div>
                 <input id="phonenumber" type="phone" class="form-control phonenumber @error('phonenumber') is-invalid @enderror" name="phonenumber" value="{{old('phonenumber')}}"
-                    placeholder="Phone Number" required autocomplete="phonenumber">
+                    placeholder="{{__('auth.phone')}}" required autocomplete="phonenumber">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-phone"></span>
                 </div>
@@ -54,8 +54,8 @@
 
             <div class="input-group mb-3">
                 <select class='form-control' value="{{old('role')}}" required name="role" id="role">
-                    <option value="1">Client</option>
-                    <option value="2">Worker</option>
+                    <option value="1">{{__('commons.client')}}</option>
+                    <option value="2">{{__('commons.worker')}}</option>
                 </select>
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-user"></span>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="input-group mb-3">
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{__('auth.Password')}}" name="password" required
                     autocomplete="new-password">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-lock"></span>
@@ -76,7 +76,7 @@
             @enderror
 
             <div class="input-group mb-3">
-                <input id="password-confirm" type="password" class="form-control" placeholder="Retype password" name="password_confirmation" required autocomplete="new-password">
+                <input id="password-confirm" type="password" class="form-control" placeholder="{{__('auth.Password')}}" name="password_confirmation" required autocomplete="new-password">
                 <div class="input-group-append input-group-text">
                     <span class="fa fa-lock"></span>
                 </div>
@@ -84,7 +84,7 @@
 
             <div class="row">
                 <div class="col-4 offset-8">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Register') }}</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('auth.Register') }}</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -93,7 +93,7 @@
         @if (Route::has('login'))
         <hr>
         <p class="mb-0 text-center">
-            <a href="{{ route('login') }}" class="text-center">{{ __('< Already have account? Login') }}</a>
+            <a href="{{ route('login') }}" class="text-center">{{ __('auth.go-login') }}</a>
         </p>
         @endif
     </div>

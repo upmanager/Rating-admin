@@ -98,14 +98,17 @@ class RatingController extends Controller
 
             foreach ($cat->Questions as $q_key => $quest) {
                 foreach ($quest->RatingDetails as $d_key => $detail) {
+                    if ($detail->res_value === 'none') continue;
+
                     if ($detail->ratingid == $id) {
                         $score = 0;
-                        if ($detail->res_value === 'true' || $detail->res_value === true) {
-                            $score = $quest->score;
-                        }
                         $index += 1;
-                        $res_total += $score;
                         $total += $quest->score;
+                        if ($detail->res_value === 'match') $score = $quest->score;
+                        else if ($detail->res_value === 'average') $score = $quest->score / 2;
+                        else continue;
+
+                        $res_total += $score;
                         $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];
                         array_push($tmp_arr, $tmp_data);
                         break;

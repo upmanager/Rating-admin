@@ -52,7 +52,9 @@ class QuestionsController extends Controller
     public function store(Request $request)
     {
         //
-        Categories::create($request->all());
+        $all_check = false;
+        if ($request->has('require_all') && $request->require_all == 'on') $all_check = true;
+        Categories::updateOrCreate(['id' => $request->categoryid], $request->merge(['all_check' => $all_check])->all());
         return redirect()->route('questions.index')->withStatus(__('Successfully created.'));
     }
 
