@@ -35,7 +35,7 @@ if($categoryids != '') $categoryids = explode(',', $categoryids);
 else $categoryids = [];
 @endphp
 <!-- Main content -->
-<div class="content" dir="rtl">
+<div class="content">
 	<div class="container-fluid row">
 		<div class="col-md-5">
 			<select class="facilities-picker forn-control" multiple>

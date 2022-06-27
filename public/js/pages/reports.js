@@ -20,6 +20,9 @@ $(function () {
                 title: '',
                 orientation: 'landscape',
                 pageSize: 'TABLOID',
+                customize: function (doc) {
+                    doc.defaultStyle.font = "DejaVu Sans, sans-serif";
+                }
             }]
     });
     table.buttons().container().appendTo('#action-buttons');
