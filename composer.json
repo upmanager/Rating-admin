@@ -24,7 +24,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "sbamtr/laravel-source-encrypter": "*"
     },
     "config": {
         "optimize-autoloader": true,
