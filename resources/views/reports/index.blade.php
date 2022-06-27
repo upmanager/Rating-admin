@@ -56,8 +56,10 @@ else $categoryids = [];
 			<br><br>
 		</div>
 		<div class="col-md-12" style="margin-top: 30px; overflow-x:scroll">
-			<div id="action-buttons" style="text-align: right; margin-bottom:20px;"></div>
-			<table id="report_table" class="table table-bordered table-hover dtr-inline" style="width:100%;">
+			<div id="action-buttons" style="text-align: right; margin-bottom:20px;">
+				<input type="button" value="{{__('commons.PDF')}}" class="btn btn-primary btn-export-pdf">
+			</div>
+			<table id="report_table" class="table table-bordered table-hover dtr-inline" style="width:100%;   font-family: DejaVu Sans, sans-serif;">
 				<thead>
 					<tr>
 						<td>Facility Name</td>
@@ -66,7 +68,7 @@ else $categoryids = [];
 						<td>{{$item->title}}</td>
 						@endif
 						@endforeach
-						<td>Total</td>
+						<td>Facility Name اشتراطات العاملين9 اشتراطات عامة 10 الثلاجات3</td>
 						<td>Percent</td>
 					</tr>
 				</thead>
@@ -109,5 +111,8 @@ else $categoryids = [];
 @endsection
 @section('addJavascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+	const EXPORTPATH = "{!! route('reports.store') !!}";
+</script>
 <script src="{{asset('js/pages/reports.js')}}"></script>
 @endsection

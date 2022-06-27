@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Facilities;
 use App\Models\Categories;
+use PDF;
 
 class ReportsController extends Controller
 {
@@ -55,6 +56,12 @@ class ReportsController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->table_data;
+        $name =  date("Ymd");
+        // return view('exports.report', compact('data'));
+        $pdf = PDF::loadView('exports.report', compact('data'));
+        // $stram = $pdf->stream();
+        return $pdf->download("reports_$name.pdf");
     }
 
     /**
