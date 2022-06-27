@@ -13,13 +13,27 @@ class ReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $facilityids = [];
+        $categoryids = [];
+        if ($request->has('facilities')) $facilityids = explode(",", $request->facilities);
+        if ($request->has('categories')) $categoryids = explode(",", $request->categories);
+
         $facilities = Facilities::orderby('name')->get();
         $categories = Categories::orderby('title')->get();
 
-        return view('reports.index', compact('facilities', 'categories'));
+        $reports = Facilities::from('facilities as t1')->selectRaw("t1.id as facilityid, t5.id as categoryid,  SUM(CASE WHEN t3.res_value = 'none' THEN 0 ELSE t4.score END) AS total_score, SUM(CASE WHEN t3.res_value = 'match' THEN t4.score WHEN t3.res_value = 'average' THEN (t4.score DIV 2) ELSE 0 END) AS cur_score")
+            ->leftjoin('ratings as t2', 't1.id', 't2.facilityid')
+            ->leftjoin('rating_details as t3', 't2.id', 't3.ratingid')
+            ->leftjoin('questions as t4', 't3.type', 't4.id')
+            ->leftjoin('categories as t5', 't4.categoryid', 't5.id')
+            ->whereIn('t1.id', $facilityids)
+            ->whereIn('t5.id', $categoryids)
+            ->groupby('t1.id', 't5.id')->get()->toArray();
+
+        return view('reports.index', compact('facilities', 'categories', 'reports'));
     }
 
     /**
