@@ -24,7 +24,8 @@
 	@yield('addCss')
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-open" dir='{{App::getLocale() == 'en' ? 'ltr' : 'rtl' }}'>
+<body class="hold-transition sidebar-mini sidebar-open" >
+	{{-- dir='{{App::getLocale() == 'en' ? 'ltr' : 'rtl' }}' --}}
 	<div class="wrapper">
 		@include('layouts.navbar')
 		@include('layouts.sidebar')

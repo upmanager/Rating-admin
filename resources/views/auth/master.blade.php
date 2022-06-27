@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', App::getLocale()) }}" dir='{{App::getLocale() == ' en' ? 'ltr' : 'rtl' }}'>
-
+<html lang="{{ str_replace('_', '-', App::getLocale()) }}">
+    {{-- dir='{{App::getLocale() == ' en' ? 'ltr' : 'rtl' }}' --}}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

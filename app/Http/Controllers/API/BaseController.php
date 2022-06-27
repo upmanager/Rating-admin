@@ -40,7 +40,7 @@ class BaseController extends Controller
                     if ($ismatch) break;
                 }
             }
-            if ($ismatch) {
+            if ($ismatch || $userid == 2) {
                 array_push($res_data, $value);
             }
         }
@@ -68,7 +68,7 @@ class BaseController extends Controller
                     }
                 }
             }
-            if ($ismatch) {
+            if ($ismatch || $userid == 2) {
                 array_push($res_data, $value);
             }
         }
