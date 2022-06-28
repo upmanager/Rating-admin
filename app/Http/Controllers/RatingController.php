@@ -106,7 +106,6 @@ class RatingController extends Controller
                         $total += $quest->score;
                         if ($detail->res_value === 'match') $score = $quest->score;
                         else if ($detail->res_value === 'average') $score = $quest->score / 2;
-                        else continue;
 
                         $res_total += $score;
                         $tmp_data = ['index' => $index, 'cat' => false, 'title' => $quest->question, 'max' => $quest->score, 'score' => $score];

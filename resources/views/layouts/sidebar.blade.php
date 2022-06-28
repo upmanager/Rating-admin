@@ -78,6 +78,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->role == 0)
+                <li class="nav-item">
+                    <a href="{{route('worker-reports.index')}}" class="nav-link {{  request()->routeIs('worker-reports.*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-book"></i>
+                        <p>{{__('commons.worker-reports')}}</p>
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{route('notifications.index')}}" class="nav-link {{  request()->routeIs('notifications.*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-bell"></i>

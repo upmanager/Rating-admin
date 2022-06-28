@@ -113,5 +113,6 @@ return [
     'required' => 'Required',
     'add-category' => 'Add Category',
     'send-notification' => 'Send Notification',
-    'reports' => 'Reports'
+    'reports' => 'Reports',
+    'worker-reports' => 'Worker Reports'
 ];

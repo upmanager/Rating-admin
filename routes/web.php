@@ -39,4 +39,5 @@ Route::middleware(['auth', 'StatusCheck'])->group(function () {
     Route::middleware(['roleChecker:admin,client,worker'])->resource('ratings', RatingController::class);
     Route::middleware(['roleChecker:admin,client,worker'])->resource('notifications', NotificationsController::class);
     Route::middleware(['roleChecker:admin'])->resource('reports', ReportsController::class);
+    Route::middleware(['roleChecker:admin'])->resource('worker-reports', WorkerReportsController::class);
 });

@@ -30,9 +30,9 @@ $facilityids = getParams('facilities');
 if($facilityids != '') $facilityids = explode(',', $facilityids);
 else $facilityids = [];
 
-$categoryids = getParams('categories');
-if($categoryids != '') $categoryids = explode(',', $categoryids);
-else $categoryids = [];
+$workerids = getParams('workers');
+if($workerids != '') $workerids = explode(',', $workerids);
+else $workerids = [];
 @endphp
 <!-- Main content -->
 <div class="content">
@@ -45,9 +45,9 @@ else $categoryids = [];
 			</select>
 		</div>
 		<div class="col-md-5">
-			<select class="categories-picker forn-control" multiple>
-				@foreach ($categories as $item)
-				<option value="{{$item->id}}" {{ in_array($item->id, $categoryids) ? 'selected' : '' }}>{{$item->title}}</option>
+			<select class="workers-picker forn-control" multiple>
+				@foreach ($workers as $item)
+				<option value="{{$item->id}}" {{ in_array($item->id, $workerids) ? 'selected' : '' }}>{{$item->name}}</option>
 				@endforeach
 			</select>
 		</div>
@@ -63,13 +63,12 @@ else $categoryids = [];
 				<thead>
 					<tr>
 						<td>Facility Name</td>
-						@foreach ($categories as $item)
-						@if (in_array($item->id, $categoryids))
-						<td>{{$item->title}}</td>
+						@foreach ($workers as $item)
+						@if (in_array($item->id, $workerids))
+						<td>{{$item->name}}</td>
 						@endif
 						@endforeach
 						<td>Total</td>
-						<td>Percent</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -79,24 +78,21 @@ else $categoryids = [];
 					@if (in_array($facility->id, $facilityids))
 					@php
 					$tmpQuery = collect($reports)->where('facilityid', $facility->id);
-					$total = 0;
 					$cur_sum = 0;
 					@endphp
 					<tr>
 						<td>{{$facility->name}}</td>
-						@foreach ($categories as $category)
-						@if (in_array($category->id, $categoryids))
+						@foreach ($workers as $worker)
+						@if (in_array($worker->id, $workerids))
 						@php
-						$qItem = $tmpQuery->where('categoryid', $category->id)->first();
-						$cur = $qItem['cur_score'] ?? 0;
-						$total += $qItem['total_score'] ?? 0;
+						$qItem = $tmpQuery->where('workerid', $worker->id)->first();
+						$cur = $qItem['visit'] ?? 0;
 						$cur_sum += $cur;
 						@endphp
 						<td>{{$cur}}</td>
 						@endif
 						@endforeach
-						<td>{{$total}}</td>
-						<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}</td>
+						<td>{{$cur_sum}}</td>
 					</tr>
 					@endif
 					@endforeach
@@ -112,7 +108,7 @@ else $categoryids = [];
 @section('addJavascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script>
-	const EXPORTPATH = "{!! route('reports.store') !!}";
+	const EXPORTPATH = "{!! route('worker-reports.store') !!}";
 </script>
-<script src="{{asset('js/pages/reports.js')}}"></script>
+<script src="{{asset('js/pages/worker-reports.js')}}"></script>
 @endsection
