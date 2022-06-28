@@ -104,6 +104,7 @@ class BaseController extends Controller
         ]);
         foreach ($ratings as $key => $value) {
             $res_key = 'none';
+            $res_value = '';
             if ($value['match'] === 0) $res_key = 'match';
             else if ($value['match'] === 1) $res_key = 'average';
             else if ($value['match'] === 2) {
