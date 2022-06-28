@@ -58,7 +58,11 @@
         <tr>
             <td colspan="2">The Ratio</td>
             @php
-            $ratio = number_format(($res_total/$total * 100 ), 1, '.', '');
+            if($total <= 0) {
+                $ratio = 0;
+            } else {
+                $ratio = number_format(($res_total/$total * 100 ), 1, '.', '');
+            }
             @endphp
             <td colspan="2">{{ $ratio }}%</td>
         </tr>

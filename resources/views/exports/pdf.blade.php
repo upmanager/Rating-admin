@@ -61,7 +61,7 @@
             <td colspan="2">The Ratio</td>
             @php
             if($total <= 0) {
-                $ratio = 100;
+                $ratio = 0;
             } else {
                 $ratio = number_format(($res_total/$total * 100 ), 1, '.', '');
             }
