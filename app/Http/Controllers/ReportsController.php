@@ -25,7 +25,7 @@ class ReportsController extends Controller
         $facilities = Facilities::orderby('name')->get();
         $categories = Categories::orderby('title')->get();
 
-        $reports = Facilities::from('facilities as t1')->selectRaw("t1.id as facilityid, t5.id as categoryid,  SUM(CASE WHEN t3.res_value = 'none' THEN 0 ELSE t4.score END) AS total_score, SUM(CASE WHEN t3.res_value = 'match' THEN t4.score WHEN t3.res_value = 'average' THEN (t4.score DIV 2) ELSE 0 END) AS cur_score")
+        $reports = Facilities::from('facilities as t1')->selectRaw("t1.id as facilityid, t5.id as categoryid,  SUM(CASE WHEN t3.res_key = 'none' THEN 0 ELSE t4.score END) AS total_score, SUM(CASE WHEN t3.res_key = 'match' THEN t4.score WHEN t3.res_key = 'average' THEN (t4.score DIV 2) ELSE 0 END) AS cur_score")
             ->leftjoin('ratings as t2', 't1.id', 't2.facilityid')
             ->leftjoin('rating_details as t3', 't2.id', 't3.ratingid')
             ->leftjoin('questions as t4', 't3.type', 't4.id')

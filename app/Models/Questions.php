@@ -16,6 +16,6 @@ class Questions extends Model
         return $this->hasMany('App\Models\UserDetails', 'typeid')->where('user_details.type', '2');
     }
     public function RatingDetails(){
-        return $this->hasMany('App\Models\RatingDetail', 'type')->where('rating_details.res_key', 'ratings');
+        return $this->hasMany('App\Models\RatingDetail', 'type')->where('rating_details.res_key', '!=', 'location');
     }
 }

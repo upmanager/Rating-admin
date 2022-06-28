@@ -138,6 +138,27 @@ return '';
 	</div><!-- /.container-fluid -->
 </div>
 
+<div class="modal fade" id="detail_modal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Rating Detail</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="card-body" id="detail-container">
+
+				</div>
+				<div class="modal-footer ">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Close" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <!-- /.content -->
 @endsection
@@ -158,6 +179,7 @@ return '';
 		license_number:`{{__('commons.license-number')}}`,
 		rating_detail: `{{__('commons.rating-detail')}}`,
 		Location:`{{__('commons.Location')}}`,
+		average:`{{__('commons.average')}}`,
 		no_match:`{{__('commons.no-match')}}`,
 		match:`{{__('commons.match')}}`,
 	}

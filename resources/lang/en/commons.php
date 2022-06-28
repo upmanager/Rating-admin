@@ -107,6 +107,7 @@ return [
     'Location' => 'Location',
     'no-match' => 'Non Match',
     'match' => 'Match',
+    'average' => 'Average',
     'Approved' => 'Approved',
     'Blocked' => 'Blocked',
     'require-all' => 'Require all',

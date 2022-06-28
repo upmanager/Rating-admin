@@ -119,33 +119,27 @@ const renderModal = (rating) => {
     html += `<h3>${_LANLABELS.rating_detail}</h3>`;
     (rating.details || []).forEach(detail => {
         var data = [];
-        if (data.res_value != 'none') return;
+        if (data.res_key == 'none') return;
 
-        if (detail.res_value != "match" && detail.res_value != 'average' && detail.res_value != null && detail.res_value != '')
-            data = (detail.res_value.split(",") || []);
+        if (detail.res_key == "nonmatch" && detail.res_value) data = (detail.res_value.split(",") || []);
 
-        html += `
-        ${detail.res_key == 'location' ? (
-                `<div class="form-group">
-                    <label for="name">${__LANLABELS.Location}</label>
-                    <p style="width: 100%">${detail.res_value}</p>
-                </div>`
-            ) : ''}
-        ${detail.res_key == 'ratings' ? (
+        html += detail.res_key == 'location' ?
+            `<div class="form-group"><label for="name">${_LANLABELS.Location}</label><p style="width: 100%">${detail.res_value}</p></div>`
+            :
+            (
                 `<h5 style="margin-top: 40px">Question:</h5>
                     <h6 style="margin-top: 40px">${detail.question?.question || ''}</h6>
                     <br>
                     <div class="row">
                         <div class="col-md-2">
-                            <h4>${detail.res_value == "match" ? __LANLABELS.match : detail.res_value == "average" ? __LANLABELS.average : __LANLABELS.no_match}</h4>
+                            <h4>${detail.res_key == "match" ? _LANLABELS.match : detail.res_key == "average" ? _LANLABELS.average : _LANLABELS.no_match}</h4>
                         </div>
                         <div class="col-md-10 row">
                         ${data.map(item => `<div class="col-md-3"><img src="${ASSETSURL}${item}" style="width:100%; height:100px; object-fit:contain" alt="" srcset=""></div>`)}
                         </div>
                         <hr>
                     </div>`
-            ) : ''}
-        `;
+            );
     });
     $("#detail-container").empty();
     $("#detail-container").append(html);

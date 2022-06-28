@@ -41,12 +41,12 @@ class AnalysisController extends Controller
             $details = $rating->Details;
             if ($details) {
                 foreach ($details as $detail) {
-                    if ($detail->res_key != 'ratings') continue;
+                    if ($detail->res_key == 'location') continue;
                     if ($detail->Question == null) continue;
-                    if ($detail->res_value == 'none') continue;
+                    if ($detail->res_key == 'none') continue;
                     $total_rate += $detail->Question->score;
-                    if ($detail->res_value == 'match') $rate += $detail->Question->score;
-                    else if ($detail->res_value == 'average') $rate += ($detail->Question->score / 2);
+                    if ($detail->res_key == 'match') $rate += $detail->Question->score;
+                    else if ($detail->res_key == 'average') $rate += ($detail->Question->score / 2);
                 }
             }
             $time = strtotime($rating->created_at);

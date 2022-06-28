@@ -103,15 +103,17 @@ class BaseController extends Controller
             'type' => 0
         ]);
         foreach ($ratings as $key => $value) {
-            if($value['match'] === null) $res_value = '';
-            else if ($value['match'] === 0) $res_value = 'match';
-            else if ($value['match'] === 1) $res_value = 'average';
-            else if ($value['match'] === 2) $res_value = 'none';
-            else $res_value = implode(",", $value['images']);
-            
+            $res_key = 'none';
+            if ($value['match'] === 0) $res_key = 'match';
+            else if ($value['match'] === 1) $res_key = 'average';
+            else if ($value['match'] === 2) {
+                $res_value = implode(",", $value['images']);
+                $res_key = 'nonmatch';
+            }
+
             RatingDetail::create([
                 'ratingid' => $ratingid,
-                'res_key' => 'ratings',
+                'res_key' => $res_key,
                 'res_value' => $res_value,
                 'type' => $value['questionid']
             ]);
