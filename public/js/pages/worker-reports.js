@@ -77,7 +77,6 @@ function updateUrlParams(obj) {
 }
 
 const exportPDF = (table_data) => {
-    alert(table_data.length);
     $.ajax({
         url: EXPORTPATH,
         data: { table_data },
