@@ -96,7 +96,7 @@ else $categoryids = [];
 						@endif
 						@endforeach
 						<td>{{$total}}</td>
-						<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}</td>
+						<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}%</td>
 					</tr>
 					@endif
 					@endforeach

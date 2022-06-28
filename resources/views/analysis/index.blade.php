@@ -67,7 +67,6 @@ else $facilityids = [];
 						<th>{{__('commons.Facility')}}</th>
 						<th>{{__('commons.Rating')}}</th>
 						<th>{{__('commons.total-rate')}}</th>
-						<th>%</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -83,7 +82,6 @@ else $facilityids = [];
 						<td>{{$rate['name']}}</td>
 						<td>{{$rate['rate']}}</td>
 						<td>{{$rate['total_rate']}}</td>
-						<td>{{$rate['ratio']}}</td>
 					</tr>
 					@endforeach
 				</tbody>
