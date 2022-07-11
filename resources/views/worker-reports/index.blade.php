@@ -114,8 +114,12 @@ else $workerids = [];
 							@foreach ($facilities as $facility)
 								@php
 									$tmpFacilityQuery = $tmpWorkerQuery->where('facilityid', $facility->id);
+									$workerQuery = collect($facility_users)
+									->whereIn('userid', [$worker->id, -1])
+									->where('id', $facility->id)
+									->count();
 								@endphp
-								@if (in_array($facility->id, $facilityids) && (getParams('empty') == '0' || $tmpFacilityQuery->count() > 0))
+								@if (in_array($facility->id, $facilityids) && $workerQuery > 0 && (getParams('empty') == '0' || $tmpFacilityQuery->count() > 0))
 									@php
 										$total = 0;
 										$cur_sum = 0;
@@ -132,7 +136,7 @@ else $workerids = [];
 										@else
 										<td></td>
 										@endif
-										<td>{{$facility->name}}</td>
+										<td>{{$facility->name}} {{$workerQuery}}</td>
 										@foreach ($categories as $category)
 										@if (in_array($category->id, $categoryids))
 										@php

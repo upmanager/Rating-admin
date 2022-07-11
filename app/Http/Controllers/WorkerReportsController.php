@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Facilities;
 use App\Models\Categories;
 use App\Models\User;
+use DB;
 use PDF;
 
 class WorkerReportsController extends Controller
@@ -55,7 +56,7 @@ class WorkerReportsController extends Controller
             }
             if ($ismatch) array_push($facilities, $value);
         }
-
+        $facility_users = DB::select(DB::raw("SELECT t1.id, t1.name, t3.userid FROM facilities AS t1 LEFT JOIN office AS t2 ON t1.id = t2.facilityid LEFT JOIN user_details AS t3 ON t2.id = t3.typeid WHERE t3.type = 0"));
         $reports = Facilities::from('users as t0')
             ->selectRaw("t1.id as facilityid, t5.id as categoryid, t2.workerid as workerid,
             SUM(CASE WHEN t3.res_key = 'none' THEN 0 ELSE 1 END) AS total_score, 
@@ -69,21 +70,21 @@ class WorkerReportsController extends Controller
             ->whereIn('t1.id', $facilityids)
             ->whereIn('t5.id', $categoryids);
 
-            if ($request->has('start_date')) {
-                $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . " 00:00:00"));
-                $reports = $reports->where('t2.created_at', ">=", $start_date);
-            }
-            if ($request->has('end_date')) {
-                $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . " 23:59:59"));
-                $reports = $reports->where('t2.created_at', "<=", $end_date);
-            }
+        if ($request->has('start_date')) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . " 00:00:00"));
+            $reports = $reports->where('t2.created_at', ">=", $start_date);
+        }
+        if ($request->has('end_date')) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . " 23:59:59"));
+            $reports = $reports->where('t2.created_at', "<=", $end_date);
+        }
 
-            $reports = $reports->groupby('t2.workerid', 't1.id', 't5.id')
+        $reports = $reports->groupby('t2.workerid', 't1.id', 't5.id')
             ->orderby('t2.workerid')
             ->orderby('t1.id')
             ->orderby('t5.id')
             ->get()->toArray();
-        return view('worker-reports.index', compact('facilities', 'categories', 'reports', 'workers'));
+        return view('worker-reports.index', compact('facilities', 'categories', 'reports', 'workers', 'facility_users'));
     }
 
     /**

@@ -102,7 +102,8 @@ function updateUrlParams(obj) {
     let curParams = new URLSearchParams(window.location.search);
 
     Object.entries(obj).map(([key, value]) => {
-        curParams.set(key, value);
+        if (value == null || value == '') curParams.delete(key);
+        else curParams.set(key, value);
     })
 
     const { protocol, host, pathname } = window.location;
