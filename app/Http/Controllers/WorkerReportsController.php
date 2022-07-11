@@ -26,7 +26,7 @@ class WorkerReportsController extends Controller
         if ($request->has('workers')) $workerids = explode(",", $request->workers);
 
         $categories = Categories::orderby('title')->get();
-        $workers = User::where('role', 2)->orderby('name')->get();
+        $workers = User::where('role', 2)->where('email', '!=', 'worker@rating.com')->orderby('name')->get();
         $facilities = [];
         $data = Facilities::orderby('name')->get();
         foreach ($data as $key => $value) {

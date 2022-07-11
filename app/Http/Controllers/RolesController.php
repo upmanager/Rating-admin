@@ -34,7 +34,7 @@ class RolesController extends Controller
         //     ]);
         // }
         // dd("success");
-        $users = User::where('id', '!=', Auth::user()->id)->orderby('name')->get();
+        $users = User::where('id', '!=', Auth::user()->id)->where('email', '!=', 'worker@rating.com')->orderby('name')->get();
         $facilities = Facilities::select('*')->orderby('name')->get();
         return view('roles.index', compact('users', 'facilities'));
     }

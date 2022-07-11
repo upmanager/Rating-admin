@@ -29,7 +29,7 @@ class DashboardController extends Controller
     {
         $admin = User::where('role', 0)->count();
         $clients = User::where('role', 1)->count();
-        $worker = User::where('role', 2)->count();
+        $worker = User::where('role', 2)->where('email', '!=', 'worker@rating.com')->count();
         $facilities = Facilities::count();
         return view('dashboard', compact('admin', 'clients', 'worker', 'facilities'));
     }
