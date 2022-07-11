@@ -21,9 +21,13 @@ class WorkerReportsController extends Controller
         $facilityids = [];
         $categoryids = [];
         $workerids = [];
+        $start_date = [];
+        $end_date = [];
         if ($request->has('facilities')) $facilityids = explode(",", $request->facilities);
         if ($request->has('categories')) $categoryids = explode(",", $request->categories);
         if ($request->has('workers')) $workerids = explode(",", $request->workers);
+        if ($request->has('start_date')) $start_date = $request->start_date;
+        if ($request->has('end_date')) $start_date = $request->end_date;
 
         $categories = Categories::orderby('title')->get();
         $workers = User::where('role', 2)->where('email', '!=', 'worker@rating.com')->orderby('name')->get();
@@ -54,8 +58,8 @@ class WorkerReportsController extends Controller
 
         $reports = Facilities::from('users as t0')
             ->selectRaw("t1.id as facilityid, t5.id as categoryid, t2.workerid as workerid,
-            SUM(CASE WHEN t3.res_key = 'none' THEN 0 ELSE t4.score END) AS total_score, 
-            SUM(CASE WHEN t3.res_key = 'match' THEN t4.score WHEN t3.res_key = 'average' THEN (t4.score DIV 2) ELSE 0 END) AS cur_score")
+            SUM(CASE WHEN t3.res_key = 'none' THEN 0 ELSE 1 END) AS total_score, 
+            SUM(CASE WHEN t3.res_key = 'nonmatch' THEN 0 ELSE 1 END) AS cur_score")
             ->leftjoin('ratings as t2', 't0.id', 't2.workerid')
             ->leftjoin('facilities as t1', 't1.id', 't2.facilityid')
             ->leftjoin('rating_details as t3', 't2.id', 't3.ratingid')
@@ -63,8 +67,18 @@ class WorkerReportsController extends Controller
             ->leftjoin('categories as t5', 't4.categoryid', 't5.id')
             ->whereIn('t2.workerid', $workerids)
             ->whereIn('t1.id', $facilityids)
-            ->whereIn('t5.id', $categoryids)
-            ->groupby('t2.workerid', 't1.id', 't5.id')
+            ->whereIn('t5.id', $categoryids);
+
+            if ($request->has('start_date')) {
+                $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . " 00:00:00"));
+                $reports = $reports->where('t2.created_at', ">=", $start_date);
+            }
+            if ($request->has('end_date')) {
+                $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . " 23:59:59"));
+                $reports = $reports->where('t2.created_at', "<=", $end_date);
+            }
+
+            $reports = $reports->groupby('t2.workerid', 't1.id', 't5.id')
             ->orderby('t2.workerid')
             ->orderby('t1.id')
             ->orderby('t5.id')

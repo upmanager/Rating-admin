@@ -32,6 +32,7 @@ $(function () {
     const _facilities_picker = $(".facilities-picker");
     const _categories_picker = $(".categories-picker");
     const _workers_picker = $(".workers-picker");
+    const _dRange = $('.daterange');
     const config = {
         actionsBox: true,
         deselectAllText: _JSLANGS.deselect_all,
@@ -45,14 +46,45 @@ $(function () {
     _facilities_picker.selectpicker(config);
     _categories_picker.selectpicker(config);
     _workers_picker.selectpicker(config);
+    console.log(_dRange);
+    _dRange.daterangepicker({
+        showDropdowns: true,
+        locale: {
+            format: "MM/DD/YYYY",
+            separator: " - ",
+            applyLabel: _JSLANGS.apply,
+            cancelLabel: _JSLANGS.clear,
+            fromLabel: _JSLANGS.from,
+            toLabel: _JSLANGS.to,
+            daysOfWeek: _JSLANGS.daysOfWeek,
+            monthNames: _JSLANGS.monthNames,
+            firstDay: 1
+        },
+        maxDate: new Date(),
+        opens: "center",
+        buttonClasses: "btn btn-sm",
+        autoUpdateInput: false,
+    });
+    _dRange.on('apply.daterangepicker', function (ev, picker) {
+        _dRange.val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+    _dRange.on('cancel.daterangepicker', (ev, picker) => {
+        _dRange.val('')
+    });
 
+    $(".btn-select").on('click', e => {
+        const workers = (_workers_picker.selectpicker('val') || []).join(',');
+        const url = updateUrlParams({ workers });
+        if (url != window.location.href) window.location.href = url;
+    });
 
     $(".btn-filter").on('click', e => {
         const facilities = (_facilities_picker.selectpicker('val') || []).join(',');
         const categories = (_categories_picker.selectpicker('val') || []).join(',');
-        const workers = (_workers_picker.selectpicker('val') || []).join(',');
+        const start_date = _dRange.val() ? _dRange.data('daterangepicker').startDate.format('MM/DD/YYYY') : null;
+        const end_date = _dRange.val() ? _dRange.data('daterangepicker').endDate.format('MM/DD/YYYY') : null;
 
-        const url = updateUrlParams({ facilities, categories, workers });
+        const url = updateUrlParams({ facilities, categories, start_date, end_date });
         if (url != window.location.href) window.location.href = url;
     });
     $(".btn-export-pdf").on('click', e => {

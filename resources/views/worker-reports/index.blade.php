@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('addCss')
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 @endsection
 @section('content')
@@ -26,6 +27,9 @@ return $_GET[$key];
 }
 return '';
 }
+$start_date = getParams('start_date');
+$end_date = getParams('end_date');
+
 $facilityids = getParams('facilities');
 if($facilityids != '') $facilityids = explode(',', $facilityids);
 else $facilityids = [];
@@ -41,12 +45,18 @@ else $workerids = [];
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid row">
-		<div class="col-md-3">
+		<div class="col-md-8 mb-3">
 			<select class="workers-picker forn-control" multiple>
 				@foreach ($workers as $item)
 				<option value="{{$item->id}}" {{ in_array($item->id, $workerids) ? 'selected' : '' }}>{{$item->name}}</option>
 				@endforeach
 			</select>
+		</div>
+		<div class="col-md-4 mb-3">
+			<input type="button" value="Select" class="btn btn-primary btn-select">
+		</div>
+		<div class="col-md-3">
+			<input type="text" class="daterange form-control" value="{{($start_date && $end_date) ? $start_date." - ".$end_date : ''}}" />
 		</div>
 		<div class="col-md-3">
 			<select class="facilities-picker forn-control" multiple>
@@ -83,9 +93,7 @@ else $workerids = [];
 						<td>{{$item->title}}</td>
 						@endif
 						@endforeach
-						<td>Cur</td>
-						<td>Total</td>
-						<td>Percent</td>
+						<td>Match/Total</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -139,9 +147,7 @@ else $workerids = [];
 										<td>{{$cur}}</td>
 										@endif
 										@endforeach
-										<td>{{$cur_sum}}</td>
-										<td>{{$total}}</td>
-										<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}%</td>
+										<td>{{$cur_sum}}/{{$total}}</td>
 										@php
 											$worker_total += $total;
 											$worker_sum += $cur_sum;
@@ -157,9 +163,7 @@ else $workerids = [];
 									@foreach ($facs as $fac)
 										<td>{{$fac}}</td>
 									@endforeach
-									<td>{{$worker_sum}}</td>
-									<td>{{$worker_total}}</td>
-									<td>{{number_format((float)($worker_sum / ($worker_total < 1 ? 1 : $worker_total) * 100), 2, '.' , '' )}}%</td>
+									<td>{{$worker_sum}} / {{$worker_total}}</td>
 								</tr>
 							@endif
 						@endif
@@ -175,6 +179,8 @@ else $workerids = [];
 @endsection
 @section('addJavascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script>
 	const EXPORTPATH = "{!! route('worker-reports.store') !!}";
 </script>
