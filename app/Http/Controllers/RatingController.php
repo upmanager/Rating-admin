@@ -26,8 +26,10 @@ class RatingController extends Controller
         $req_url = $request->getRequestUri();
         $count = 5;
         $page = 1;
+        $status = 0;
         if ($request->has('count')) $count = $request->count;
         if ($request->has('page')) $page = $request->page;
+        if ($request->has('status')) $status = $request->status;
 
 
         if ($request->has('facility')) {
@@ -50,6 +52,9 @@ class RatingController extends Controller
         }
         if (Auth::user()->role != 0) {
             $ratings = $ratings->where('status', 1);
+        }
+        if($status > 0) {
+            $ratings = $ratings->where('status', ($status - 1));
         }
 
         $ratings = $ratings->orderby('created_at', 'desc')->paginate($count);

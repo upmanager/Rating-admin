@@ -18,6 +18,14 @@ $(function () {
             window.location.href = url;
         }
     })
+    $("#status").on('change', (e) => {
+        const status = e.target.value || 0;
+        const url = updateUrlParams({ status });
+        if (url != window.location.href) {
+            window.location.href = url;
+        }
+    })
+    
 });
 const ratingAction = (id, approve) => {
     $.ajax({

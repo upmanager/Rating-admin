@@ -25,9 +25,8 @@ $(function () {
     table.buttons().container().appendTo('#action-buttons');
 
     const _facilities_picker = $(".facilities-picker");
-    const _categories_picker = $(".categories-picker");
     const _workers_picker = $(".workers-picker");
-    const config = {
+    _facilities_picker.selectpicker({
         actionsBox: true,
         deselectAllText: _JSLANGS.deselect_all,
         dropdownAlignRight: 'auto',
@@ -36,18 +35,24 @@ $(function () {
         width: '100%',
         noneSelectedText: _JSLANGS.nothing_selected,
         noneResultsText: _JSLANGS.mo_matched
-    };
-    _facilities_picker.selectpicker(config);
-    _categories_picker.selectpicker(config);
-    _workers_picker.selectpicker(config);
+    });
+    _workers_picker.selectpicker({
+        actionsBox: true,
+        deselectAllText: _JSLANGS.deselect_all,
+        dropdownAlignRight: 'auto',
+        liveSearch: true,
+        selectAllText: _JSLANGS.select_all,
+        width: '100%',
+        noneSelectedText: _JSLANGS.nothing_selected,
+        noneResultsText: _JSLANGS.mo_matched
+    });
 
 
     $(".btn-filter").on('click', e => {
         const facilities = (_facilities_picker.selectpicker('val') || []).join(',');
-        const categories = (_categories_picker.selectpicker('val') || []).join(',');
         const workers = (_workers_picker.selectpicker('val') || []).join(',');
 
-        const url = updateUrlParams({ facilities, categories, workers });
+        const url = updateUrlParams({ facilities, workers });
         if (url != window.location.href) window.location.href = url;
     });
     $(".btn-export-pdf").on('click', e => {
@@ -55,11 +60,9 @@ $(function () {
         var header = table.columns().header().map(d => d.textContent).toArray();
         exportPDF([header, ...list]);
     });
-    $(".fiter-empty").on('click', e => {
-        const empty = e.target.getAttribute('data-isempty') == '0' ? '1' : '0';
-        const url = updateUrlParams({ empty });
-        if (url != window.location.href) window.location.href = url;
-    })
+    $(".btn-export-excel").on('click', e => {
+        console.log(table.rows().data());
+    });
 });
 function updateUrlParams(obj) {
     let curParams = new URLSearchParams(window.location.search);
@@ -96,7 +99,7 @@ const exportPDF = (table_data) => {
         },
         success: function (data) {
             var blob = new Blob([data], { type: "application/octetstream" });
-            var fileName = "result.pdf"
+            var fileName="result.pdf"
             //Check the Browser type and download the File.
             var isIE = false || !!document.documentMode;
             if (isIE) {

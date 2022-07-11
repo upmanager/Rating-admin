@@ -65,6 +65,17 @@ return '';
 						<option value="100" {{getParams('count')==100 ? 'selected' : '' }}>100</option>
 					</select>
 				</div>
+				<div class="col-md-7"></div>
+				@if (Auth::user()->role == 0)
+				<div class="col-md-3">
+					<select id="status" name="status" class="form-control">
+						<option value="0" {{getParams('status')==0 ? 'selected' : '' }}>Show all</option>
+						<option value="1" {{getParams('status')==1 ? 'selected' : '' }}>Pending</option>
+						<option value="2" {{getParams('status')==2 ? 'selected' : '' }}>Approved</option>
+						<option value="3" {{getParams('status')==3 ? 'selected' : '' }}>Blocked</option>
+					</select>
+				</div>
+				@endif
 			</div>
 			<br>
 			<table class="table table-bordered table-hover  dtr-inline">
@@ -75,7 +86,9 @@ return '';
 						<th>{{__('commons.Rating')}}</th>
 						<th>{{__('commons.created-at')}}</th>
 						@if (Auth::user()->role == 0)
+						@if(getParams('status')==0)
 						<th style="width: 60px">{{__('commons.Status')}}</th>
+						@endif
 						<th style="width: 140px">{{__('commons.Action')}}</th>
 						@endif
 						<th style="width: 100px">{{__('commons.Export')}}</th>
@@ -92,6 +105,7 @@ return '';
 						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{$rating->rating}}</td>
 						<td onclick="renderModal({{$rating}})" style="cursor: pointer;">{{date('H:i d M Y', strtotime($rating->created_at))}}</td>
 						@if (Auth::user()->role == 0)
+						@if(getParams('status')==0)
 						<td style="cursor: pointer;">
 							@if($rating->status == 0)
 							{{__('commons.Pending')}}
@@ -101,6 +115,7 @@ return '';
 							{{__('commons.Blocked')}}
 							@endif
 						</td>
+						@endif
 						<td>
 							@if($rating->status == 0)
 							<input type="button" value="{{__('commons.Approve')}}" class="btn btn-sm btn-success approve-rating" onclick="ratingAction({{$rating->id}}, true)">
