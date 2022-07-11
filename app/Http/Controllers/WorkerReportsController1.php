@@ -23,7 +23,7 @@ class WorkerReportsController1 extends Controller
         if ($request->has('workers')) $workerids = explode(",", $request->workers);
 
         $facilities = Facilities::orderby('name')->get();
-        $workers = User::orderby('name')->where('role', 2)->get();
+        $workers = User::orderby('name')->where('role', 2)->where('email', '!=', 'worker@rating.com')->get();
 
         $reports = Facilities::from('facilities as t1')->selectRaw("t1.id as facilityid, t3.id as workerid, count(*) as visit")
             ->leftjoin('ratings as t2', 't1.id', 't2.facilityid')
