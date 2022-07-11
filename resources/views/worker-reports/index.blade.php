@@ -75,6 +75,7 @@ else $workerids = [];
 			<table id="report_table" class="table table-bordered table-hover dtr-inline" style="width:100%;   font-family: DejaVu Sans, sans-serif;">
 				<thead>
 					<tr>
+						<td>No</td>
 						<td>Worker</td>
 						<td>Facility</td>
 						@foreach ($categories as $item)
@@ -82,72 +83,87 @@ else $workerids = [];
 						<td>{{$item->title}}</td>
 						@endif
 						@endforeach
+						<td>Cur</td>
 						<td>Total</td>
 						<td>Percent</td>
 					</tr>
 				</thead>
 				<tbody>
+					@php
+					$index = 1;
+					@endphp
 					@foreach ($workers as $worker)
-					@if (in_array($worker->id, $workerids))
-					@php
-					$tmpWorkerQuery = collect($reports)->where('workerid', $worker->id);
-					@endphp
-					
-					@foreach ($facilities as $facility)
-					@php
-					$tmpFacilityQuery = $tmpWorkerQuery->where('facilityid', $facility->id);
-					$total = 0;
-					$cur_sum = 0;
-					@endphp
-					@if (in_array($facility->id, $facilityids) && (getParams('empty') == '0' || $tmpFacilityQuery->count() > 0))
-					<tr>
-						<td >{{$worker->name}}</td>
-						<td>{{$facility->name}}</td>
-						@foreach ($categories as $category)
-						@if (in_array($category->id, $categoryids))
-						@php
-						$qItem = $tmpFacilityQuery->where('categoryid', $category->id)->first();
-						$cur = $qItem['cur_score'] ?? 0;
-						$total += $qItem['total_score'] ?? 0;
-						$cur_sum += $cur;
-						@endphp
-						<td>{{$cur}}</td>
-						@endif
-						@endforeach
-						<td>{{$total}}</td>
-						<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}%</td>
-					</tr>
-					@endif
-					@endforeach
+						@if (in_array($worker->id, $workerids))
+							@php
+								$befWorker = null;
+								$tmpWorkerQuery = collect($reports)->where('workerid', $worker->id);
+								$facs = [];
+								$worker_total = 0;
+								$worker_sum = 0;
+								$isExists = false;
+							@endphp
 
-
-					@endif
-					@endforeach
-					{{-- @foreach ($facilities as $facility)
-					@if (in_array($facility->id, $facilityids))
-					@php
-					$tmpQuery = collect($reports)->where('facilityid', $facility->id);
-					$total = 0;
-					$cur_sum = 0;
-					@endphp
-					<tr>
-						<td>{{$facility->name}}</td>
-						@foreach ($categories as $category)
-						@if (in_array($category->id, $categoryids))
-						@php
-						$qItem = $tmpQuery->where('categoryid', $category->id)->first();
-						$cur = $qItem['cur_score'] ?? 0;
-						$total += $qItem['total_score'] ?? 0;
-						$cur_sum += $cur;
-						@endphp
-						<td>{{$cur}}</td>
+							@foreach ($facilities as $facility)
+								@php
+									$tmpFacilityQuery = $tmpWorkerQuery->where('facilityid', $facility->id);
+								@endphp
+								@if (in_array($facility->id, $facilityids) && (getParams('empty') == '0' || $tmpFacilityQuery->count() > 0))
+									@php
+										$total = 0;
+										$cur_sum = 0;
+										$cat_index = 0;
+										$isExists = true;
+									@endphp
+									<tr>
+										<td>{{$index++}}</td>
+										@if ($befWorker != $worker->name)
+										@php
+										$befWorker = $worker->name;
+										@endphp
+										<td>{{$worker->name}}</td>
+										@else
+										<td></td>
+										@endif
+										<td>{{$facility->name}}</td>
+										@foreach ($categories as $category)
+										@if (in_array($category->id, $categoryids))
+										@php
+										$qItem = $tmpFacilityQuery->where('categoryid', $category->id)->first();
+										$cur = $qItem['cur_score'] ?? 0;
+										$total += $qItem['total_score'] ?? 0;
+										$cur_sum += $cur;
+										if(count($facs) <= $cat_index) $facs[] = $cur;
+										else $facs[$cat_index] += $cur;
+										$cat_index ++;
+										@endphp
+										<td>{{$cur}}</td>
+										@endif
+										@endforeach
+										<td>{{$cur_sum}}</td>
+										<td>{{$total}}</td>
+										<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}%</td>
+										@php
+											$worker_total += $total;
+											$worker_sum += $cur_sum;
+										@endphp
+									</tr>
+								@endif
+							@endforeach
+							@if ($isExists)
+								<tr style="background-color: aqua">
+									<td style="color: transparent">{{$index}}</td>
+									<td style="text-align:center" >{{$worker->name}}</td>
+									<td></td>
+									@foreach ($facs as $fac)
+										<td>{{$fac}}</td>
+									@endforeach
+									<td>{{$worker_sum}}</td>
+									<td>{{$worker_total}}</td>
+									<td>{{number_format((float)($worker_sum / ($worker_total < 1 ? 1 : $worker_total) * 100), 2, '.' , '' )}}%</td>
+								</tr>
+							@endif
 						@endif
-						@endforeach
-						<td>{{$total}}</td>
-						<td>{{number_format((float)($cur_sum / ($total < 1 ? 1 : $total) * 100), 2, '.' , '' )}}%</td>
-					</tr>
-					@endif
-					@endforeach --}}
+					@endforeach
 				</tbody>
 			</table>
 		</div>

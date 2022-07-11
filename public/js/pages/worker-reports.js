@@ -6,7 +6,12 @@ $(function () {
         info: true,
         autoWidth: true,
         responsive: true,
-        dom: 'Bfrtip', lengthChange: false,
+        dom: 'Bfrtip',
+        lengthChange: true,
+        columnDefs: [{
+            targets: 1,
+            orderable: false
+        }],
         buttons: [
             {
                 extend: 'excel',

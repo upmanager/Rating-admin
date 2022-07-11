@@ -25,9 +25,32 @@ class WorkerReportsController extends Controller
         if ($request->has('categories')) $categoryids = explode(",", $request->categories);
         if ($request->has('workers')) $workerids = explode(",", $request->workers);
 
-        $facilities = Facilities::orderby('name')->get();
         $categories = Categories::orderby('title')->get();
         $workers = User::where('role', 2)->orderby('name')->get();
+        $facilities = [];
+        $data = Facilities::orderby('name')->get();
+        foreach ($data as $key => $value) {
+            $ismatch = false;
+            $offices = $value->Offices;
+            if ($offices == null || count($offices) <= 0) $ismatch = false;
+            else {
+                foreach ($offices as $office) {
+                    $users = $office->UserDetails;
+                    if ($users == null || count($users) <= 0) $ismatch = false;
+                    else if (count($users) == 1 && $users[0]->userid == -1) $ismatch = true;
+                    else {
+                        foreach ($users as $key => $item) {
+                            if (in_array($item->userid, $workerids)) {
+                                $ismatch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if ($ismatch) break;
+                }
+            }
+            if ($ismatch) array_push($facilities, $value);
+        }
 
         $reports = Facilities::from('users as t0')
             ->selectRaw("t1.id as facilityid, t5.id as categoryid, t2.workerid as workerid,
