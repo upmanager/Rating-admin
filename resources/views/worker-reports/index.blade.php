@@ -136,7 +136,7 @@ else $workerids = [];
 										@else
 										<td></td>
 										@endif
-										<td>{{$facility->name}} {{$workerQuery}}</td>
+										<td>{{$facility->name}}</td>
 										@foreach ($categories as $category)
 										@if (in_array($category->id, $categoryids))
 										@php
