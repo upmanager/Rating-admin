@@ -42,6 +42,19 @@
 				definitions: { '#': { validator: "[0-9]", cardinality: 1}}
 		});
 	})
+    
+    function updateUrlParams(obj) {
+        let curParams = new URLSearchParams(window.location.search);
+
+        Object.entries(obj).map(([key, value]) => {
+            if (value == null || value == '') curParams.delete(key);
+            else curParams.set(key, value);
+        })
+
+        const { protocol, host, pathname } = window.location;
+        const url = `${protocol}//${host}${pathname}?${curParams.toString()}`;
+        return url;
+    }
     </script>
 </body>
 

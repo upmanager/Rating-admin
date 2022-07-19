@@ -93,7 +93,7 @@ else $workerids = [];
 						<td>{{$item->title}}</td>
 						@endif
 						@endforeach
-						<td>Match/Total</td>
+						<td>Visit</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -140,9 +140,7 @@ else $workerids = [];
 										@foreach ($categories as $category)
 										@if (in_array($category->id, $categoryids))
 										@php
-										$qItem = $tmpFacilityQuery->where('categoryid', $category->id)->first();
-										$cur = $qItem['cur_score'] ?? 0;
-										$total += $qItem['total_score'] ?? 0;
+										$cur = $tmpFacilityQuery->where('categoryid', $category->id)->sum('score');
 										$cur_sum += $cur;
 										if(count($facs) <= $cat_index) $facs[] = $cur;
 										else $facs[$cat_index] += $cur;
@@ -151,9 +149,8 @@ else $workerids = [];
 										<td>{{$cur}}</td>
 										@endif
 										@endforeach
-										<td>{{$cur_sum}}/{{$total}}</td>
+										<td>{{$cur_sum}}</td>
 										@php
-											$worker_total += $total;
 											$worker_sum += $cur_sum;
 										@endphp
 									</tr>
@@ -167,7 +164,7 @@ else $workerids = [];
 									@foreach ($facs as $fac)
 										<td>{{$fac}}</td>
 									@endforeach
-									<td>{{$worker_sum}} / {{$worker_total}}</td>
+									<td>{{$worker_sum}}</td>
 								</tr>
 							@endif
 						@endif

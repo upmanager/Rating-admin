@@ -43,17 +43,6 @@ const ratingAction = (id, approve) => {
         }
     });
 }
-function updateUrlParams(obj) {
-    let curParams = new URLSearchParams(window.location.search);
-
-    Object.entries(obj).map(([key, value]) => {
-        curParams.set(key, value);
-    })
-
-    const { protocol, host, pathname } = window.location;
-    const url = `${protocol}//${host}${pathname}?${curParams.toString()}`;
-    return url;
-}
 const onChangeFacility = (id) => {
     const url = updateUrlParams({ facility: id });
     if (url != window.location.href) {

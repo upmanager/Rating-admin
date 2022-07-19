@@ -26,6 +26,7 @@ $(function () {
 
     const _facilities_picker = $(".facilities-picker");
     const _categories_picker = $(".categories-picker");
+    const _dRange = $('.daterange');
     _facilities_picker.selectpicker({
         actionsBox: true,
         deselectAllText: _JSLANGS.deselect_all,
@@ -46,13 +47,38 @@ $(function () {
         noneSelectedText: _JSLANGS.nothing_selected,
         noneResultsText: _JSLANGS.mo_matched
     });
+    _dRange.daterangepicker({
+        showDropdowns: true,
+        locale: {
+            format: "MM/DD/YYYY",
+            separator: " - ",
+            applyLabel: _JSLANGS.apply,
+            cancelLabel: _JSLANGS.clear,
+            fromLabel: _JSLANGS.from,
+            toLabel: _JSLANGS.to,
+            daysOfWeek: _JSLANGS.daysOfWeek,
+            monthNames: _JSLANGS.monthNames,
+            firstDay: 1
+        },
+        maxDate: new Date(),
+        opens: "center",
+        buttonClasses: "btn btn-sm",
+        autoUpdateInput: false,
+    });
+    _dRange.on('apply.daterangepicker', function (ev, picker) {
+        _dRange.val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+    _dRange.on('cancel.daterangepicker', (ev, picker) => {
+        _dRange.val('')
+    });
 
 
     $(".btn-filter").on('click', e => {
         const facilities = (_facilities_picker.selectpicker('val') || []).join(',');
         const categories = (_categories_picker.selectpicker('val') || []).join(',');
-
-        const url = updateUrlParams({ facilities, categories });
+        const start_date = _dRange.val() ? _dRange.data('daterangepicker').startDate.format('MM/DD/YYYY') : null;
+        const end_date = _dRange.val() ? _dRange.data('daterangepicker').endDate.format('MM/DD/YYYY') : null;
+        const url = updateUrlParams({ facilities, categories, start_date, end_date });
         if (url != window.location.href) window.location.href = url;
     });
     $(".btn-export-pdf").on('click', e => {
@@ -64,17 +90,6 @@ $(function () {
         console.log(table.rows().data());
     });
 });
-function updateUrlParams(obj) {
-    let curParams = new URLSearchParams(window.location.search);
-
-    Object.entries(obj).map(([key, value]) => {
-        curParams.set(key, value);
-    })
-
-    const { protocol, host, pathname } = window.location;
-    const url = `${protocol}//${host}${pathname}?${curParams.toString()}`;
-    return url;
-}
 
 const exportPDF = (table_data) => {
     $.ajax({

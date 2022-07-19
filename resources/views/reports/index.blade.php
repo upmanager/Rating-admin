@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('addCss')
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 @endsection
 @section('content')
@@ -26,6 +27,9 @@ return $_GET[$key];
 }
 return '';
 }
+$start_date = getParams('start_date');
+$end_date = getParams('end_date');
+
 $facilityids = getParams('facilities');
 if($facilityids != '') $facilityids = explode(',', $facilityids);
 else $facilityids = [];
@@ -37,14 +41,17 @@ else $categoryids = [];
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid row">
-		<div class="col-md-5">
+		<div class="col-md-3">
+			<input type="text" class="daterange form-control" value="{{($start_date && $end_date) ? $start_date." - ".$end_date : ''}}" />
+		</div>
+		<div class="col-md-3">
 			<select class="facilities-picker forn-control" multiple>
 				@foreach ($facilities as $item)
 				<option value="{{$item->id}}" {{ in_array($item->id, $facilityids) ? 'selected' : '' }}>{{$item->name}}</option>
 				@endforeach
 			</select>
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-3">
 			<select class="categories-picker forn-control" multiple>
 				@foreach ($categories as $item)
 				<option value="{{$item->id}}" {{ in_array($item->id, $categoryids) ? 'selected' : '' }}>{{$item->title}}</option>
@@ -111,6 +118,8 @@ else $categoryids = [];
 @endsection
 @section('addJavascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script>
 	const EXPORTPATH = "{!! route('reports.store') !!}";
 </script>

@@ -64,17 +64,6 @@ $(function () {
         console.log(table.rows().data());
     });
 });
-function updateUrlParams(obj) {
-    let curParams = new URLSearchParams(window.location.search);
-
-    Object.entries(obj).map(([key, value]) => {
-        curParams.set(key, value);
-    })
-
-    const { protocol, host, pathname } = window.location;
-    const url = `${protocol}//${host}${pathname}?${curParams.toString()}`;
-    return url;
-}
 
 const exportPDF = (table_data) => {
     $.ajax({

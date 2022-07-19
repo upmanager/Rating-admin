@@ -19,8 +19,12 @@ class ReportsController extends Controller
         //
         $facilityids = [];
         $categoryids = [];
+        $start_date = null;
+        $end_date = null;
         if ($request->has('facilities')) $facilityids = explode(",", $request->facilities);
         if ($request->has('categories')) $categoryids = explode(",", $request->categories);
+        if ($request->has('start_date')) $start_date = $request->start_date;
+        if ($request->has('end_date')) $start_date = $request->end_date;
 
         $facilities = Facilities::orderby('name')->get();
         $categories = Categories::orderby('title')->get();
@@ -31,8 +35,18 @@ class ReportsController extends Controller
             ->leftjoin('questions as t4', 't3.type', 't4.id')
             ->leftjoin('categories as t5', 't4.categoryid', 't5.id')
             ->whereIn('t1.id', $facilityids)
-            ->whereIn('t5.id', $categoryids)
-            ->groupby('t1.id', 't5.id')->get()->toArray();
+            ->whereIn('t5.id', $categoryids);
+        
+        if ($request->has('start_date')) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date . " 00:00:00"));
+            $reports = $reports->where('t2.created_at', ">=", $start_date);
+        }
+        if ($request->has('end_date')) {
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date . " 23:59:59"));
+            $reports = $reports->where('t2.created_at', "<=", $end_date);
+        }
+        $reports = $reports->groupby('t1.id', 't5.id')->get()->toArray();
+    
 
         return view('reports.index', compact('facilities', 'categories', 'reports'));
     }
