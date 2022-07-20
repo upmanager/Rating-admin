@@ -54,8 +54,7 @@ class WorkerReportsController extends Controller
         }
         $facility_users = DB::select(DB::raw("SELECT t1.id, t1.name, t3.userid FROM facilities AS t1 LEFT JOIN office AS t2 ON t1.id = t2.facilityid LEFT JOIN user_details AS t3 ON t2.id = t3.typeid WHERE t3.type = 0"));
         $reports = Facilities::from('users as t0')
-            ->selectRaw("t1.id as facilityid, t5.id as categoryid, t2.workerid as workerid, t3.res_key,
-            CASE WHEN ISNULL(t3.res_key) THEN 0 ELSE 1 END AS score")
+            ->selectRaw("t1.id as facilityid, t5.id as categoryid, t2.workerid as workerid")
             ->leftjoin('ratings as t2', 't0.id', 't2.workerid')
             ->leftjoin('facilities as t1', 't1.id', 't2.facilityid')
             ->leftjoin('rating_details as t3', 't2.id', 't3.ratingid')
@@ -74,7 +73,7 @@ class WorkerReportsController extends Controller
             $reports = $reports->where('t2.created_at', "<=", $end_date);
         }
         $reports = $reports
-            ->groupby('t2.workerid', 't1.id', 't5.id', 't3.res_key')
+            ->groupby('t2.id', 't2.workerid', 't1.id', 't5.id')
             ->orderby('t2.workerid')
             ->orderby('t1.id')
             ->orderby('t5.id')

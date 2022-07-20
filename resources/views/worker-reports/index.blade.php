@@ -140,7 +140,7 @@ else $workerids = [];
 										@foreach ($categories as $category)
 										@if (in_array($category->id, $categoryids))
 										@php
-										$cur = $tmpFacilityQuery->where('categoryid', $category->id)->sum('score');
+										$cur = $tmpFacilityQuery->where('categoryid', $category->id)->count();
 										$cur_sum += $cur;
 										if(count($facs) <= $cat_index) $facs[] = $cur;
 										else $facs[$cat_index] += $cur;
